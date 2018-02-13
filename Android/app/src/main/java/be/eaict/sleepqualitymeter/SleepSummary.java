@@ -3,6 +3,8 @@ package be.eaict.sleepqualitymeter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -38,6 +40,17 @@ public class SleepSummary extends AppCompatActivity {
 
         Log.d("AverageCalc", "Average= "+ calculateAverage(dummyRepo));
         Log.d("TimeCalc", "Time= "+ calcutateSleepLength(dummyRepo.length)[0] +", "+calcutateSleepLength(dummyRepo.length)[1] +", "+calcutateSleepLength(dummyRepo.length)[2]);
+
+        TextView averageMovement = new TextView(this);
+        averageMovement.setText("Your average movement this night was " + calculateAverage(dummyRepo) + ".");
+
+        TextView sleepTime = new TextView(this);
+        int[] sleep = calcutateSleepLength(dummyRepo.length);
+        sleepTime.setText("You slept " + sleep[0] + " hrs and " + sleep[1] + " mins.");
+
+        LinearLayout layout = findViewById(R.id.layout);
+        layout.addView(averageMovement);
+        layout.addView(sleepTime);
     }
 
     public float calculateAverage(float[] data){
