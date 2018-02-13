@@ -15,32 +15,28 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 public class login extends AppCompatActivity {
-    Button goToSleepSummary;
-    ImageView ImageHeader;
-    TextView txtusername;
-    TextView txtpassword;
-    EditText editusername;
-    EditText editpassword;
-    Button btnLogin;
-    Button btnRegister;
-    CheckBox chbRemember;
-    Boolean rememberMe;
+   //DECLARATIONS
+   Boolean rememberMe;
+   CheckBox chbRemember;
+   EditText editusername;
+   EditText editpassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        goToSleepSummary = findViewById(R.id.sleepSummary);
-        ImageHeader = findViewById(R.id.lgnImg);
-        txtusername = findViewById(R.id.lgnTxtUsername);
-        txtpassword = findViewById(R.id.lgnTxtPassw);
-        editusername = findViewById(R.id.lgnEditUsername);
-        editpassword = findViewById(R.id.lgnEditPassword);
-        btnLogin = findViewById(R.id.lgnBtnLogin);
-        btnRegister = findViewById(R.id.lgnBtnRegister);
-        chbRemember = findViewById(R.id.lgnChbRemember);
+        //BINDINGS
+        Button goToSleepSummary = findViewById(R.id.sleepSummary);
+       ImageView ImageHeader = findViewById(R.id.lgnImg);
+       TextView txtusername = findViewById(R.id.lgnTxtUsername);
+       TextView txtpassword = findViewById(R.id.lgnTxtPassw);
+       editusername = findViewById(R.id.lgnEditUsername);
+       editpassword = findViewById(R.id.lgnEditPassword);
+       Button btnLogin = findViewById(R.id.lgnBtnLogin);
+       Button btnRegister = findViewById(R.id.lgnBtnRegister);
+       chbRemember = findViewById(R.id.lgnChbRemember);
         Load();
         txtpassword.setText("Password: ");
-        txtusername.setText("Username: ");
+        txtusername.setText("Email: ");
         chbRemember.setText("Remember me");
         btnLogin.setText("Login");
         btnRegister.setText("Register");
@@ -55,7 +51,20 @@ public class login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Save();
+                /*If successful
+                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT);
                 Intent intent = new Intent(getBaseContext(), SleepSummary.class);
+                startActivity(intent);
+                */
+                /*
+                Toast.makeText(this, "Incorrect login", Toast.LENGTH_SHORT);
+                */
+            }
+        });
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), register.class);
                 startActivity(intent);
             }
         });
@@ -74,7 +83,7 @@ public class login extends AppCompatActivity {
     public void Save() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("user", editusername.getText().toString());
+        editor.putString("email", editusername.getText().toString());
         editor.putString("pass", editusername.getText().toString());
         editor.putBoolean("checkbox", rememberMe);
         editor.apply();
@@ -82,7 +91,7 @@ public class login extends AppCompatActivity {
     }
     public void Load() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
-        String txtuser = sp.getString("user", null);
+        String txtuser = sp.getString("email", null);
         String txtpass = sp.getString("pass", null);
         Boolean remembered = sp.getBoolean("checkbox", false);
         editusername.setText(txtuser);

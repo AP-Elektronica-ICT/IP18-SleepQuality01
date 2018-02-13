@@ -17,6 +17,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".SleepSummary"></activity>
+        <activity android:name=".register">
+            <intent-filter>
+
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="geo" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
