@@ -21,9 +21,7 @@ public class SleepSummary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_summary);
-
         movement = findViewById(R.id.movement);
-
         List<Entry> movementEntries = new ArrayList<>();
         for(int i = 0; i < dummyRepo.length; i++){
             movementEntries.add(new Entry(i * 2, dummyRepo[i]));
