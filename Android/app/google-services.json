@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "161383902225",
+    "firebase_url": "https://sleep-quality-monitor.firebaseio.com",
+    "project_id": "sleep-quality-monitor",
+    "storage_bucket": "sleep-quality-monitor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161383902225:android:8545d1111ff3b437",
+        "android_client_info": {
+          "package_name": "be.eaict.sleepqualitymeter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161383902225-kuc8q691hsvq5mkplp4e7kjh2eq52mli.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "be.eaict.sleepqualitymeter",
+            "certificate_hash": "f640c4843ccdd62c3a756b47df5a93abf2a5633a"
+          }
+        },
+        {
+          "client_id": "161383902225-if8jil2r0ffdm14o9cfe47tt8io53qkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiBSKPg1dGbK9odjChLbla3qOW_DqKya4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161383902225-if8jil2r0ffdm14o9cfe47tt8io53qkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
