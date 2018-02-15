@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    android:datePickerMode="spinner"
+    android:calendarViewShown="false"
     <LinearLayout
         android:layout_width="368dp"
         android:layout_height="551dp"
@@ -22,12 +23,12 @@
             <TextView
                 android:id="@+id/regTxtTitle"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="90dp"
                 android:text="TextView" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -41,7 +42,7 @@
                 <EditText
                     android:id="@+id/regEditEmail"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textEmailAddress" />
@@ -49,7 +50,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -63,7 +64,7 @@
                 <EditText
                     android:id="@+id/regEditPass"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPassword"
@@ -72,14 +73,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/regTxtCountry"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="7"
+                    android:layout_weight="1"
                     android:text="TextView"
                     android:textAlignment="viewStart" />
 
@@ -87,17 +88,74 @@
                     android:id="@+id/regTxtSelectedCountry"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="50"
+                    android:layout_weight="4"
                     android:text="TextView"
                     android:textAlignment="center" />
 
-                <Button
-                    android:id="@+id/regBtnCountry"
-                    android:layout_width="50dp"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/regTxtAge"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:textAlignment="center"
-                    android:textSize="8sp" />
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/regTxtAgeSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:text="TextView" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/regTxtWeight"
+                    android:layout_width="82dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/regTxtWeightSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/regTxtinKG"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="kg" />
+
+                <Switch
+                    android:id="@+id/regSwitch"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/regTxtinLbs"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="lbs"
+                    android:textAlignment="center" />
             </LinearLayout>
 
         </LinearLayout>
