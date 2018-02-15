@@ -2,8 +2,10 @@ package be.eaict.sleepqualitymeter;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,34 +14,51 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.w3c.dom.Text;
 
 public class login extends AppCompatActivity {
-   //DECLARATIONS
-   Boolean rememberMe;
-   CheckBox chbRemember;
-   EditText editusername;
-   EditText editpassword;
+    //DECLARATIONS
+    Boolean rememberMe;
+    CheckBox chbRemember;
+    EditText editusername;
+    EditText editpassword;
+
+    //FireBase
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         //BINDINGS
         Button goToSleepSummary = findViewById(R.id.sleepSummary);
-       ImageView ImageHeader = findViewById(R.id.lgnImg);
-       TextView txtusername = findViewById(R.id.lgnTxtUsername);
-       TextView txtpassword = findViewById(R.id.lgnTxtPassw);
-       editusername = findViewById(R.id.lgnEditUsername);
-       editpassword = findViewById(R.id.lgnEditPassword);
-       Button btnLogin = findViewById(R.id.lgnBtnLogin);
-       Button btnRegister = findViewById(R.id.lgnBtnRegister);
-       chbRemember = findViewById(R.id.lgnChbRemember);
+        ImageView ImageHeader = findViewById(R.id.lgnImg);
+        TextView txtusername = findViewById(R.id.lgnTxtUsername);
+        TextView txtpassword = findViewById(R.id.lgnTxtPassw);
+        editusername = findViewById(R.id.lgnEditUsername);
+        editpassword = findViewById(R.id.lgnEditPassword);
+        Button btnLogin = findViewById(R.id.lgnBtnLogin);
+        Button btnRegister = findViewById(R.id.lgnBtnRegister);
+        chbRemember = findViewById(R.id.lgnChbRemember);
+
+        mAuth = FirebaseAuth.getInstance();
+
         Load();
+
         txtpassword.setText("Password: ");
         txtusername.setText("Email: ");
         chbRemember.setText("Remember me");
         btnLogin.setText("Login");
         btnRegister.setText("Register");
+
         goToSleepSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +99,17 @@ public class login extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        user = mAuth.getCurrentUser();
+
+        if(user != null){
+            //Open Main Activity
+        }
+    }
+
     public void Save() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -97,5 +127,47 @@ public class login extends AppCompatActivity {
         editusername.setText(txtuser);
         editpassword.setText(txtpass);
         chbRemember.setChecked(remembered);
+    }
+    public void userLogin(){
+        String username = editusername.getText().toString().trim();
+        String password = editpassword.getText().toString().trim();
+
+        if(username.isEmpty()){
+            editusername.setError("Email is required");
+            editusername.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(username).matches()){
+            editusername.setError("Please enter a valid email");
+            editusername.requestFocus();
+            return;
+        }
+
+
+        if(password.isEmpty()){
+            editpassword.setError("Password is required");
+            editpassword.requestFocus();
+            return;
+        }
+
+        //progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                //progressBar.setVisibility(View.GONE);
+
+                if(task.isSuccessful()){
+                    //Volgende intent code
+                    /*Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);*/
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
