@@ -127,12 +127,6 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
         final String email = editEmail.getText().toString().trim();
         String password = editPass.getText().toString().trim();
 
-        if(name.isEmpty()){
-            editName.setError("Please enter a name");
-            editName.requestFocus();
-            return;
-        }
-
         if(email.isEmpty()){
             editEmail.setError("Email is required");
             editEmail.requestFocus();
