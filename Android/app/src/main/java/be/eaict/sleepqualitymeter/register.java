@@ -79,6 +79,8 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
         txtCountry.setText("Country:");
         txtAge.setText("Birth Date:");
         txtWeight.setText("Weight:");
+
+        editWeight.setText("");
         selectedCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,12 +105,6 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegisterUser();
-            }
-        });
-        regswitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 String value = editWeight.getText().toString();
                 int finalvalue = Integer.parseInt(value);
                 if(regswitch.isChecked()) {
@@ -119,6 +115,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                 else {
                     weight = finalvalue;
                 }
+                RegisterUser();
             }
         });
     }
@@ -126,12 +123,6 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     private void RegisterUser(){
         final String email = editEmail.getText().toString().trim();
         String password = editPass.getText().toString().trim();
-
-        if(name.isEmpty()){
-            editName.setError("Please enter a name");
-            editName.requestFocus();
-            return;
-        }
 
         if(email.isEmpty()){
             editEmail.setError("Email is required");
