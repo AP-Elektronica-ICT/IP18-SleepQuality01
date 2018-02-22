@@ -200,4 +200,4 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             return new DatePickerDialog(getActivity(), R.style.DatePickerDialogTheme, (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
         }
     }
-    }
+}
