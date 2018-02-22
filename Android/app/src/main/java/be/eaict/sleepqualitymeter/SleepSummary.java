@@ -19,12 +19,18 @@ import java.util.List;
 public class SleepSummary extends AppCompatActivity {
 
     private LineChart movement;
+    private LogicandCalc calculator;
+    private SleepLength LastNight;
     float[] dummyRepo = {7, 0, 3, 0, 0, 0, 0, 0, 0, (float) 1.75, 1, 0, (float) 1.75, (float) 1.25, 0, 0, 0, 0, 0, 0, (float) 0.25, 0, 0, 0, 0, (float) 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (float) 0.25, 0, 0, 0, 0, 0, 0, 0, (float) 0.25, (float) 1.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (float) 0.75, (float) 2.75};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_summary);
+
+        calculator = new LogicandCalc();
+        LastNight = new SleepLength(dummyRepo.length);
+
         movement = findViewById(R.id.movement);
         List<Entry> movementEntries = new ArrayList<>();
         for(int i = 0; i < dummyRepo.length; i++){
@@ -36,34 +42,16 @@ public class SleepSummary extends AppCompatActivity {
         movement.setData(movementData);
         movement.invalidate();
 
-        Log.d("AverageCalc", "Average= "+ calculateAverage(dummyRepo));
-        Log.d("TimeCalc", "Time= "+ calcutateSleepLength(dummyRepo.length)[0] +", "+calcutateSleepLength(dummyRepo.length)[1] +", "+calcutateSleepLength(dummyRepo.length)[2]);
-
         TextView averageMovement = new TextView(this);
-        averageMovement.setText("Your average movement this night was " + calculateAverage(dummyRepo) + ".");
+        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo) + ".");
 
         TextView sleepTime = new TextView(this);
-        int[] sleep = calcutateSleepLength(dummyRepo.length);
-        sleepTime.setText("You slept " + sleep[0] + " hrs and " + sleep[1] + " mins.");
+        sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
 
         LinearLayout layout = findViewById(R.id.layout);
         layout.addView(averageMovement);
         layout.addView(sleepTime);
     }
 
-    public float calculateAverage(float[] data){
-        float sum = 0;
-        for (int i = 0; i < data.length; i++){
-            sum += data[i];
-        }
-        return sum/data.length;
-    }
 
-    public  int[] calcutateSleepLength(int length){
-        int total = length * 2;
-        int hours = total/60;
-        int minutes = total - (hours*60);
-        int[] val = {hours, minutes, total};
-        return val;
-    }
 }

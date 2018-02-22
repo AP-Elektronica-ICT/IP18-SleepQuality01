@@ -88,17 +88,6 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        chbRemember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (chbRemember.isChecked()) {
-                    rememberMe = true;
-                }
-                else {
-                    rememberMe = false;
-                }
-            }
-        });
     }
 
     @Override
@@ -114,8 +103,16 @@ public class login extends AppCompatActivity {
     public void Save() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("email", editemail.getText().toString());
-        editor.putString("pass", editpassword.getText().toString());
+        if (chbRemember.isChecked()) {
+            rememberMe = true;
+            editor.putString("email", editemail.getText().toString());
+            editor.putString("pass", editpassword.getText().toString());
+        }
+        else {
+            rememberMe = false;
+            editor.putString("email", "");
+            editor.putString("pass",  "");
+        }
         editor.putBoolean("checkbox", rememberMe);
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);
