@@ -21,7 +21,7 @@ public class SleepSummary extends AppCompatActivity {
     private LineChart movement;
     private LogicandCalc calculator;
     private SleepLength LastNight;
-    float[] dummyRepo = {7, 0, 3, 0, 0, 0, 0, 0, 0, (float) 1.75, 1, 0, (float) 1.75, (float) 1.25, 0, 0, 0, 0, 0, 0, (float) 0.25, 0, 0, 0, 0, (float) 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (float) 0.25, 0, 0, 0, 0, 0, 0, 0, (float) 0.25, (float) 1.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (float) 0.75, (float) 2.75};
+    private DummyRepo dummyRepo = new DummyRepo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,12 @@ public class SleepSummary extends AppCompatActivity {
         setContentView(R.layout.activity_sleep_summary);
 
         calculator = new LogicandCalc();
-        LastNight = new SleepLength(dummyRepo.length);
+        LastNight = new SleepLength(dummyRepo.length());
 
         movement = findViewById(R.id.movement);
         List<Entry> movementEntries = new ArrayList<>();
-        for(int i = 0; i < dummyRepo.length; i++){
-            movementEntries.add(new Entry(i * 2, dummyRepo[i]));
+        for(int i = 0; i < dummyRepo.length(); i++){
+            movementEntries.add(new Entry(i * 2, dummyRepo.dummyRepo[i]));
         }
 
         LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
@@ -43,7 +43,7 @@ public class SleepSummary extends AppCompatActivity {
         movement.invalidate();
 
         TextView averageMovement = new TextView(this);
-        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo) + ".");
+        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
 
         TextView sleepTime = new TextView(this);
         sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
