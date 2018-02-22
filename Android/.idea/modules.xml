@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Android.iml" filepath="$PROJECT_DIR$/Android.iml" />
+      <module fileurl="file://E:\Users\sande\Documents\GitHub\IP18-SleepQuality01\Android\Android.iml" filepath="E:\Users\sande\Documents\GitHub\IP18-SleepQuality01\Android\Android.iml" />
       <module fileurl="file://F:\Users\UberGhost1161\Documents\GitHub\IP18-SleepQuality01\Android\Android.iml" filepath="F:\Users\UberGhost1161\Documents\GitHub\IP18-SleepQuality01\Android\Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://F:\Users\UberGhost1161\Documents\GitHub\IP18-SleepQuality01\Android\app\app.iml" filepath="F:\Users\UberGhost1161\Documents\GitHub\IP18-SleepQuality01\Android\app\app.iml" />
+      <module fileurl="file://E:\Users\sande\Documents\GitHub\IP18-SleepQuality01\Android\app\app.iml" filepath="E:\Users\sande\Documents\GitHub\IP18-SleepQuality01\Android\app\app.iml" />
     </modules>
   </component>
 </project>

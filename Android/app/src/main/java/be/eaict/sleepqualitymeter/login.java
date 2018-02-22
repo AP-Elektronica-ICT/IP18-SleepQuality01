@@ -26,7 +26,7 @@ public class login extends AppCompatActivity {
     //DECLARATIONS
     Boolean rememberMe;
     CheckBox chbRemember;
-    EditText editusername;
+    EditText editemail;
     EditText editpassword;
 
     //FireBase
@@ -43,7 +43,7 @@ public class login extends AppCompatActivity {
         ImageView ImageHeader = findViewById(R.id.lgnImg);
         TextView txtusername = findViewById(R.id.lgnTxtUsername);
         TextView txtpassword = findViewById(R.id.lgnTxtPassw);
-        editusername = findViewById(R.id.lgnEditUsername);
+        editemail = findViewById(R.id.lgnEditUsername);
         editpassword = findViewById(R.id.lgnEditPassword);
         Button btnLogin = findViewById(R.id.lgnBtnLogin);
         Button btnRegister = findViewById(R.id.lgnBtnRegister);
@@ -70,6 +70,7 @@ public class login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Save();
+                userLogin();
                 /*If successful
                 Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT);
                 Intent intent = new Intent(getBaseContext(), SleepSummary.class);
@@ -87,17 +88,6 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        chbRemember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (chbRemember.isChecked()) {
-                    rememberMe = true;
-                }
-                else {
-                    rememberMe = false;
-                }
-            }
-        });
     }
 
     @Override
@@ -113,8 +103,16 @@ public class login extends AppCompatActivity {
     public void Save() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("email", editusername.getText().toString());
-        editor.putString("pass", editusername.getText().toString());
+        if (chbRemember.isChecked()) {
+            rememberMe = true;
+            editor.putString("email", editemail.getText().toString());
+            editor.putString("pass", editpassword.getText().toString());
+        }
+        else {
+            rememberMe = false;
+            editor.putString("email", "");
+            editor.putString("pass",  "");
+        }
         editor.putBoolean("checkbox", rememberMe);
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);
@@ -124,23 +122,23 @@ public class login extends AppCompatActivity {
         String txtuser = sp.getString("email", null);
         String txtpass = sp.getString("pass", null);
         Boolean remembered = sp.getBoolean("checkbox", false);
-        editusername.setText(txtuser);
+        editemail.setText(txtuser);
         editpassword.setText(txtpass);
         chbRemember.setChecked(remembered);
     }
     public void userLogin(){
-        String username = editusername.getText().toString().trim();
+        String email = editemail.getText().toString().trim();
         String password = editpassword.getText().toString().trim();
 
-        if(username.isEmpty()){
-            editusername.setError("Email is required");
-            editusername.requestFocus();
+        if(email.isEmpty()){
+            editemail.setError("Email is required");
+            editemail.requestFocus();
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(username).matches()){
-            editusername.setError("Please enter a valid email");
-            editusername.requestFocus();
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editemail.setError("Please enter a valid email");
+            editemail.requestFocus();
             return;
         }
 
@@ -153,16 +151,15 @@ public class login extends AppCompatActivity {
 
         //progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 //progressBar.setVisibility(View.GONE);
 
                 if(task.isSuccessful()){
-                    //Volgende intent code
-                    /*Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);*/
+                    Intent intent = new Intent(login.this, SleepSummary.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
