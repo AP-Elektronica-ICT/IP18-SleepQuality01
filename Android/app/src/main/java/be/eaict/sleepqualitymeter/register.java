@@ -28,6 +28,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
 import android.app.DatePickerDialog;
@@ -49,31 +51,43 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     EditText editEmail, editPass, editName, editWeight;
     TextView ageSelector;
     Integer weight;
+    Calendar cal;
     //FireBase
     FirebaseAuth mAuth;
-    //Database code??
+    DatabaseReference userDB;
+    String userid;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         TextView title = findViewById(R.id.regTxtTitle);
+        TextView txtname = findViewById(R.id.regTxtName);
         TextView txtemail = findViewById(R.id.regTxtEmail);
         TextView txtpass = findViewById(R.id.regTxtPass);
-        editEmail = findViewById(R.id.regEditEmail);
-        editPass = findViewById(R.id.regEditPass);
         TextView txtCountry = findViewById(R.id.regTxtCountry);
         TextView txtAge = findViewById(R.id.regTxtAge);
+        TextView txtWeight = findViewById(R.id.regTxtWeight);
+
+        editName = findViewById(R.id.regEditName);
+        editEmail = findViewById(R.id.regEditEmail);
+        editPass = findViewById(R.id.regEditPass);
         selectedCountry = findViewById(R.id.regTxtSelectedCountry);
         ageSelector = findViewById(R.id.regTxtAgeSelector);
-        TextView txtWeight = findViewById(R.id.regTxtWeight);
+        editWeight = findViewById(R.id.regEditWeight);
+
         Button register = findViewById(R.id.regBtnRegister);
         final Switch regswitch = findViewById(R.id.regSwitch);
-        editWeight = findViewById(R.id.regEditWeight);
         country = "Select country";
+
         mAuth = FirebaseAuth.getInstance();
+        userDB = FirebaseDatabase.getInstance().getReference("User");
+
         selectedCountry.setText(country);
         title.setText("Registration");
+        txtname.setText("Name: ");
         txtemail.setText("Email address:");
         txtpass.setText("Password:");
         txtCountry.setText("Country:");
@@ -162,6 +176,11 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     editor.putString("email", editEmail.getText().toString());
                     editor.putString("pass", editPass.getText().toString());
                     editor.apply();
+
+                    userid = userDB.push().getKey();
+                    User user = new User(userid, editName.getText().toString(), editEmail.getText().toString(), country, weight, cal);
+                    //user to database code..
+
                     Intent intent = new Intent(getBaseContext(), login.class);
                     startActivity(intent);
                 }
@@ -187,7 +206,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     }
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        Calendar cal = new GregorianCalendar(year,month,day);
+        cal = new GregorianCalendar(year,month,day);
         setDate(cal);
     }
     public static class DatePickerFragment extends DialogFragment {
