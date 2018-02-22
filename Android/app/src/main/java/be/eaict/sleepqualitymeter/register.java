@@ -124,8 +124,6 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     }
 
     private void RegisterUser(){
-        //Username ??
-        final String name = editName.getText().toString().trim();
         final String email = editEmail.getText().toString().trim();
         String password = editPass.getText().toString().trim();
 
