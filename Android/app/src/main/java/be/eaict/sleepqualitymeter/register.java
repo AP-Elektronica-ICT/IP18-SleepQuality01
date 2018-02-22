@@ -43,7 +43,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     String country;
     TextView selectedCountry;
     CountryPicker picker;
-    EditText editEmail, editPass, editName;
+    EditText editEmail, editPass;
     TextView ageSelector;
 
     //FireBase
@@ -99,16 +99,8 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     }
 
     private void RegisterUser(){
-        //Username ??
-        final String name = editName.getText().toString().trim();
         final String email = editEmail.getText().toString().trim();
         String password = editPass.getText().toString().trim();
-
-        if(name.isEmpty()){
-            editName.setError("Please enter a name");
-            editName.requestFocus();
-            return;
-        }
 
         if(email.isEmpty()){
             editEmail.setError("Email is required");
