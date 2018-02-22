@@ -56,7 +56,10 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        TextView txtFirstName = findViewById(R.id.regTxtFirstName);
+        TextView txtLastName = findViewById(R.id.regTxtLastName);
+        EditText editFirstName = findViewById(R.id.regEditFirstName);
+        EditText editLastName = findViewById(R.id.regEditLastName);
         TextView title = findViewById(R.id.regTxtTitle);
         TextView txtemail = findViewById(R.id.regTxtEmail);
         TextView txtpass = findViewById(R.id.regTxtPass);
@@ -79,7 +82,9 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
         txtCountry.setText("Country:");
         txtAge.setText("Birth Date:");
         txtWeight.setText("Weight:");
-
+        txtFirstName.setText("First Name:");
+        txtLastName.setText("Last Name");
+        ageSelector.setText("Select birth date");
         editWeight.setText("");
         selectedCountry.setOnClickListener(new View.OnClickListener() {
             @Override
