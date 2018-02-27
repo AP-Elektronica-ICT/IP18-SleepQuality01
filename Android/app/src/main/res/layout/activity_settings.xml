@@ -34,6 +34,7 @@
                 android:textAlignment="center" />
 
             <EditText
+                android:id="@+id/setEditFirstName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -55,6 +56,7 @@
                 android:text="Last Name" />
 
             <EditText
+                android:id="@+id/setEditLastName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -76,6 +78,7 @@
                 android:text="Password" />
 
             <EditText
+                android:id="@+id/setEditPassw"
                 android:layout_width="205dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -190,12 +193,29 @@
                 android:layout_weight="1"
                 android:gravity="center|start"
                 android:text="Imperial" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/setBtnSave"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Button" />
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/setBtnSave"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Save" />
+
+            <Button
+                android:id="@+id/setBtnDiscard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Discard" />
+        </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

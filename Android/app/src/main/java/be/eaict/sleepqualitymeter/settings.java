@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class settings extends AppCompatActivity {
     String firstName, lastName, password;
     Boolean switchTemperature = false, switchLight = false, switchMeasurement = false;
     Switch temperature, light, measurement;
+    EditText editFirstName, editLastName, editPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,9 @@ public class settings extends AppCompatActivity {
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
         measurement = findViewById(R.id.setSwitchMeasurement);
+        editFirstName = findViewById(R.id.setEditFirstName);
+        editLastName = findViewById(R.id.setEditLastName);
+        editPassword = findViewById(R.id.setEditPassw);
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +58,9 @@ public class settings extends AppCompatActivity {
     }
 
     public void Save() {
+        firstName = editFirstName.getText().toString();
+        lastName = editLastName.getText().toString();
+        password = editPassword.getText().toString();
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.apply();
