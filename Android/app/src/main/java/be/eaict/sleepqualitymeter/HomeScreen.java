@@ -13,6 +13,7 @@ public class HomeScreen extends AppCompatActivity {
     LogicandCalc calculator = new LogicandCalc();
     SleepLength sleepLength;
     DummyRepo dummyRepo = new DummyRepo();
+    DockNavigation dock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,32 +27,9 @@ public class HomeScreen extends AppCompatActivity {
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        dock = new DockNavigation(bottomNavigationView, getBaseContext());
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                break;
 
-                            case R.id.navigation_overall:
-
-                            case R.id.navigation_profile:
-
-                            case R.id.navigation_records:
-                                Intent intent = new Intent(getBaseContext(), SleepSummary.class);
-                                startActivity(intent);
-                                break;
-
-                            case R.id.navigation_settings:
-                                Intent intentSettings = new Intent(getBaseContext(), settings.class);
-                                startActivity(intentSettings);
-                                break;
-                        }
-                        return true;
-                    }
-                });
 
         sleepTime.setText(calculator.SleepLengthString(sleepLength));
     }

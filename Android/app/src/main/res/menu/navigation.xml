@@ -21,9 +21,4 @@
         android:icon="@drawable/common_google_signin_btn_icon_dark"
         android:title="Profile"/>
 
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/common_google_signin_btn_text_light"
-        android:title="Settings"/>
-
 </menu>

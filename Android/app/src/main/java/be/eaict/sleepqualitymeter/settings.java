@@ -77,11 +77,6 @@ public class settings extends AppCompatActivity {
                                 Intent intentSummary = new Intent(getBaseContext(), SleepSummary.class);
                                 startActivity(intentSummary);
                                 break;
-
-                            case R.id.navigation_settings:
-                                Intent intentSettings = new Intent(getBaseContext(), settings.class);
-                                startActivity(intentSettings);
-                                break;
                         }
                         return true;
                     }
