@@ -8,37 +8,37 @@ import java.util.Calendar;
 
 public class User {
     private String id;
-    private String name;
+    private String firstname;
+    private String lastname;
     private String email;
     private String country;
     private int weight;
-    private Calendar c;
+    private String bithdate;
 
-    public User(String id, String name, String email, String country, int weight, Calendar c){
+    public User(String id, String firstname, String lastname, String email, String country, int weight, String bithdate){
         this.id = id;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.country = country;
         this.weight = weight;
-        this.c = c;
+        this.bithdate = bithdate;
     }
 
     public String getId() { return id; }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getLastname() { return lastname; }
 
     public String getEmail() {
         return email;
     }
 
-    public Calendar getC() {
-        return c;
+    public String getC() {
+        return bithdate;
     }
 
     public String getCountry() {

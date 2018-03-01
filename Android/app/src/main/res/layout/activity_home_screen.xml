@@ -24,6 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last night you slept:"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
