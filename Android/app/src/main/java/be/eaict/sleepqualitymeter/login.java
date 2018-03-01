@@ -39,7 +39,6 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //BINDINGS
-        Button goToSleepSummary = findViewById(R.id.sleepSummary);
         ImageView ImageHeader = findViewById(R.id.lgnImg);
         TextView txtusername = findViewById(R.id.lgnTxtUsername);
         TextView txtpassword = findViewById(R.id.lgnTxtPassw);
@@ -58,14 +57,7 @@ public class login extends AppCompatActivity {
         chbRemember.setText("Remember me");
         btnLogin.setText("Login");
         btnRegister.setText("Register");
-
-        goToSleepSummary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), records.class);
-                startActivity(intent);
-            }
-        });
+        
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

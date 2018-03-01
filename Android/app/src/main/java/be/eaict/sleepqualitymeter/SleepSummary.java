@@ -1,8 +1,12 @@
 package be.eaict.sleepqualitymeter;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +26,7 @@ public class SleepSummary extends AppCompatActivity {
     private LogicandCalc calculator;
     private SleepLength LastNight;
     private DummyRepo dummyRepo = new DummyRepo();
+    private DockNavigation dock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,12 @@ public class SleepSummary extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.layout);
         layout.addView(averageMovement);
         layout.addView(sleepTime);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setSelectedItemId(R.id.navigation_overall);
+
+        dock = new DockNavigation(bottomNavigationView, getBaseContext());
     }
 
 
