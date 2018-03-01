@@ -3,12 +3,19 @@ package be.eaict.sleepqualitymeter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mukesh.countrypicker.CountryPicker;
+import com.mukesh.countrypicker.CountryPickerListener;
 
 /**
  * Created by CarlV on 2/22/2018.
@@ -18,12 +25,16 @@ public class settings extends AppCompatActivity {
     String firstName, lastName, password;
     Boolean switchTemperature = false, switchLight = false, switchMeasurement = false;
     Switch temperature, light, measurement;
-    EditText editFirstName, editLastName, editPassword;
+    EditText editFirstName, editLastName, editPassword, editWeight;
+    TextView selectCountry;
+    CountryPicker picker;
+    String country;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Load();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Load();
+        selectCountry = findViewById(R.id.setTxtSelectCountry);
         Button savebutton = findViewById(R.id.setBtnSave);
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
@@ -34,8 +45,7 @@ public class settings extends AppCompatActivity {
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), HomeScreen.class);
-                startActivity(intent);
+                Save();
                 if(temperature.isChecked()) {
                     switchTemperature = true;
                 }
@@ -54,9 +64,27 @@ public class settings extends AppCompatActivity {
                 else {
                     switchMeasurement = false;
                 }
-                Save();
+                Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+                startActivity(intent);
             }
         });
+
+        selectCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                picker = CountryPicker.newInstance("Select Country");  // dialog title
+                picker.setListener(new CountryPickerListener() {
+                    @Override
+                    public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
+                        country = name;
+                        selectCountry.setText(country);
+                        picker.dismiss();
+                    }
+                });
+                picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+            }
+        });
+
     }
 
     public void Save() {
@@ -73,8 +101,8 @@ public class settings extends AppCompatActivity {
         switchMeasurement  = sp.getBoolean("measurement", false);
         switchLight = sp.getBoolean("light", false);
         switchTemperature = sp.getBoolean("temp", false);
-        light.setChecked(switchLight);
+/*        light.setChecked(switchLight);
         temperature.setChecked(switchTemperature);
-        measurement.setChecked(switchMeasurement);
+        measurement.setChecked(switchMeasurement); */
     }
     }

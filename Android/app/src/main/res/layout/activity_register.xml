@@ -114,8 +114,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPassword"
-                    android:text="Name" />
+                    android:inputType="textPassword" />
             </LinearLayout>
 
             <LinearLayout
@@ -181,8 +180,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number"
-                    android:text="Name" />
+                    android:inputType="number" />
 
                 <TextView
                     android:id="@+id/regTxtinKG"
