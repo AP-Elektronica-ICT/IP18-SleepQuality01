@@ -3,6 +3,7 @@ package be.eaict.sleepqualitymeter;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.Toast;
  */
 
 public class records extends AppCompatActivity {
+    DockNavigation dock;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
@@ -25,6 +28,10 @@ public class records extends AppCompatActivity {
 
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_records);
+        dock = new DockNavigation(bottomNavigationView, getBaseContext());
     }
         class CustomAdapter extends BaseAdapter {
             @Override

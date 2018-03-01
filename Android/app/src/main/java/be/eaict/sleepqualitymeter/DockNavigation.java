@@ -27,6 +27,8 @@ public class DockNavigation {
                                 break;
 
                             case R.id.navigation_records:
+                                Intent intentRecords = new Intent(finalContext, records.class);
+                                finalContext.startActivity(intentRecords);
                                 break;
 
                             case R.id.navigation_overall:
