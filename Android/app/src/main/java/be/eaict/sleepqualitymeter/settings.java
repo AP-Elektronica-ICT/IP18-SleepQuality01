@@ -23,7 +23,7 @@ import com.mukesh.countrypicker.CountryPickerListener;
 
 public class settings extends AppCompatActivity {
     String firstName, lastName, password;
-    Boolean switchTemperature = false, switchLight = false, switchMeasurement = false;
+    Boolean switchTemperature , switchLight, switchMeasurement;
     Switch temperature, light, measurement;
     EditText editFirstName, editLastName, editPassword, editWeight;
     TextView selectCountry;
@@ -33,9 +33,13 @@ public class settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        switchTemperature = false;
+        switchLight = false;
+        switchMeasurement = false;
         Load();
         selectCountry = findViewById(R.id.setTxtSelectCountry);
         Button savebutton = findViewById(R.id.setBtnSave);
+        Button saveDiscard = findViewById(R.id.setBtnDiscard);
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
         measurement = findViewById(R.id.setSwitchMeasurement);
@@ -45,7 +49,6 @@ public class settings extends AppCompatActivity {
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Save();
                 if(temperature.isChecked()) {
                     switchTemperature = true;
                 }
@@ -64,11 +67,15 @@ public class settings extends AppCompatActivity {
                 else {
                     switchMeasurement = false;
                 }
+                Save();
+
                 Intent intent = new Intent(getBaseContext(), HomeScreen.class);
                 startActivity(intent);
             }
         });
-
+        light.setChecked(switchLight);
+        temperature.setChecked(switchTemperature);
+        measurement.setChecked(switchMeasurement);
         selectCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +91,13 @@ public class settings extends AppCompatActivity {
                 picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
             }
         });
-
+    saveDiscard.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(getBaseContext(), profile.class);
+            startActivity(intent);
+        }
+    });
     }
 
     public void Save() {
@@ -93,6 +106,10 @@ public class settings extends AppCompatActivity {
         password = editPassword.getText().toString();
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("light", switchLight);
+        editor.putBoolean("measurement", switchMeasurement);
+        editor.putBoolean("temp", switchTemperature);
+
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);
     }
@@ -101,8 +118,5 @@ public class settings extends AppCompatActivity {
         switchMeasurement  = sp.getBoolean("measurement", false);
         switchLight = sp.getBoolean("light", false);
         switchTemperature = sp.getBoolean("temp", false);
-/*        light.setChecked(switchLight);
-        temperature.setChecked(switchTemperature);
-        measurement.setChecked(switchMeasurement); */
     }
     }

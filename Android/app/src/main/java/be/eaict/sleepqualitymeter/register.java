@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.webkit.ConsoleMessage;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,6 +29,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
 import android.app.DatePickerDialog;
@@ -46,35 +49,44 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     String country;
     TextView selectedCountry;
     CountryPicker picker;
-    EditText editEmail, editPass, editName, editWeight;
+    EditText editEmail, editPass, editFirstName, editLastName, editWeight;
     TextView ageSelector;
     Integer weight;
+    String birthdate;
     //FireBase
     FirebaseAuth mAuth;
-    //Database code??
+    DatabaseReference userDB;
+    String userid;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         TextView txtFirstName = findViewById(R.id.regTxtFirstName);
         TextView txtLastName = findViewById(R.id.regTxtLastName);
-        EditText editFirstName = findViewById(R.id.regEditFirstName);
-        EditText editLastName = findViewById(R.id.regEditLastName);
         TextView title = findViewById(R.id.regTxtTitle);
         TextView txtemail = findViewById(R.id.regTxtEmail);
         TextView txtpass = findViewById(R.id.regTxtPass);
-        editEmail = findViewById(R.id.regEditEmail);
-        editPass = findViewById(R.id.regEditPass);
         TextView txtCountry = findViewById(R.id.regTxtCountry);
         TextView txtAge = findViewById(R.id.regTxtAge);
+        TextView txtWeight = findViewById(R.id.regTxtWeight);
+
+        editFirstName = findViewById(R.id.regEditFirstName);
+        editLastName = findViewById(R.id.regEditLastName);
+        editEmail = findViewById(R.id.regEditEmail);
+        editPass = findViewById(R.id.regEditPass);
         selectedCountry = findViewById(R.id.regTxtSelectedCountry);
         ageSelector = findViewById(R.id.regTxtAgeSelector);
-        TextView txtWeight = findViewById(R.id.regTxtWeight);
+        editWeight = findViewById(R.id.regEditWeight);
+
         Button register = findViewById(R.id.regBtnRegister);
         final Switch regswitch = findViewById(R.id.regSwitch);
-        editWeight = findViewById(R.id.regEditWeight);
         country = "Select country";
+
         mAuth = FirebaseAuth.getInstance();
+        userDB = FirebaseDatabase.getInstance().getReference("User");
+
         selectedCountry.setText(country);
         title.setText("Registration");
         txtemail.setText("Email address:");
@@ -111,6 +123,11 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             @Override
             public void onClick(View view) {
                 String value = editWeight.getText().toString();
+
+                if(value.isEmpty()){
+                    value = "0";
+                }
+
                 int finalvalue = Integer.parseInt(value);
                 if(regswitch.isChecked()) {
                     Double lbstokg = finalvalue *  0.45359237;
@@ -126,8 +143,22 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     }
 
     private void RegisterUser(){
-        final String email = editEmail.getText().toString().trim();
+        String firstname = editFirstName.getText().toString().trim();
+        String lastname = editLastName.getText().toString().trim();
+        String email = editEmail.getText().toString().trim();
         String password = editPass.getText().toString().trim();
+
+        if(firstname.isEmpty()){
+            editFirstName.setError("First Name is required");
+            editFirstName.requestFocus();
+            return;
+        }
+
+        if(lastname.isEmpty()){
+            editLastName.setError("Last Name is required");
+            editLastName.requestFocus();
+            return;
+        }
 
         if(email.isEmpty()){
             editEmail.setError("Email is required");
@@ -152,6 +183,30 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             return;
         }
 
+        if(country.isEmpty()){
+            selectedCountry.setError("Please select a country");
+            selectedCountry.requestFocus();
+            return;
+        }
+
+        if(birthdate.isEmpty()){
+            ageSelector.setError("Please choose a bithdate");
+            ageSelector.requestFocus();
+            return;
+        }
+
+        if(weight.equals(0)){
+            editWeight.setError("Weight is required");
+            editWeight.requestFocus();
+            return;
+        }
+
+        if(weight >= 200){
+            editWeight.setError("Please enter a valid weight");
+            editWeight.requestFocus();
+            return;
+        }
+
         //progressBar.setVisibility(View.VISIBLE);
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -167,6 +222,12 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     editor.putString("email", editEmail.getText().toString());
                     editor.putString("pass", editPass.getText().toString());
                     editor.apply();
+
+                    userid = userDB.push().getKey();
+                    User user = new User(userid, editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), country, weight, birthdate);
+
+                    userDB.child(userid).setValue(user);
+
                     Intent intent = new Intent(getBaseContext(), login.class);
                     startActivity(intent);
                 }
@@ -192,8 +253,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     }
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        Calendar cal = new GregorianCalendar(year,month,day);
-        setDate(cal);
+        birthdate = day + "/" + month + "/" + year;
     }
     public static class DatePickerFragment extends DialogFragment {
         @Override
@@ -205,4 +265,4 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             return new DatePickerDialog(getActivity(), R.style.DatePickerDialogTheme, (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
         }
     }
-    }
+}
