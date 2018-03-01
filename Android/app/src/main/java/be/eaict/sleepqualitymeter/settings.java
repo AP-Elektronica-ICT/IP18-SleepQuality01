@@ -34,10 +34,7 @@ public class settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Load();
-<<<<<<< HEAD
         selectCountry = findViewById(R.id.setTxtSelectCountry);
-=======
->>>>>>> 05e67468a6726f53cc62e2f9c59ad2635fcb9476
         Button savebutton = findViewById(R.id.setBtnSave);
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
@@ -72,7 +69,6 @@ public class settings extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
         selectCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,8 +110,6 @@ public class settings extends AppCompatActivity {
                         return true;
                     }
                 });
-=======
->>>>>>> 05e67468a6726f53cc62e2f9c59ad2635fcb9476
     }
 
     public void Save() {
