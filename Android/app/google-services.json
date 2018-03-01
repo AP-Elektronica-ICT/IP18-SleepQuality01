@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "161383902225-9pbneugfonkkfocueqtihg1c4gniqg1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "be.eaict.sleepqualitymeter",
+            "certificate_hash": "efe95d0335bdfb109cea341cfd1b9cc6949639a5"
+          }
+        },
+        {
           "client_id": "161383902225-kuc8q691hsvq5mkplp4e7kjh2eq52mli.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
