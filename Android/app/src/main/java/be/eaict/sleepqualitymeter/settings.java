@@ -21,6 +21,7 @@ public class settings extends AppCompatActivity {
     EditText editFirstName, editLastName, editPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Load();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Button savebutton = findViewById(R.id.setBtnSave);
@@ -53,6 +54,7 @@ public class settings extends AppCompatActivity {
                 else {
                     switchMeasurement = false;
                 }
+                Save();
             }
         });
     }
