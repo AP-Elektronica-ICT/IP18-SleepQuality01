@@ -62,7 +62,7 @@ public class login extends AppCompatActivity {
         goToSleepSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), SleepSummary.class);
+                Intent intent = new Intent(getBaseContext(), records.class);
                 startActivity(intent);
             }
         });
