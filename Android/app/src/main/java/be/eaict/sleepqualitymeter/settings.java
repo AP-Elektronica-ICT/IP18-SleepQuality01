@@ -84,32 +84,7 @@ public class settings extends AppCompatActivity {
                 picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
             }
         });
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                Intent intentHome = new Intent(getBaseContext(), HomeScreen.class);
-                                startActivity(intentHome);
-                                break;
-
-                            case R.id.navigation_overall:
-                                break;
-
-                            case R.id.navigation_profile:
-                                break;
-
-                            case R.id.navigation_records:
-                                Intent intentSummary = new Intent(getBaseContext(), SleepSummary.class);
-                                startActivity(intentSummary);
-                                break;
-                        }
-                        return true;
-                    }
-                });
     }
 
     public void Save() {
