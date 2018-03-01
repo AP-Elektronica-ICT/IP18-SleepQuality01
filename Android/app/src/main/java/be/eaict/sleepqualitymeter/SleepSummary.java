@@ -1,8 +1,12 @@
 package be.eaict.sleepqualitymeter;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,6 +55,38 @@ public class SleepSummary extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.layout);
         layout.addView(averageMovement);
         layout.addView(sleepTime);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.navigation_home:
+                                Intent intentHome = new Intent(getBaseContext(), HomeScreen.class);
+                                startActivity(intentHome);
+                                break;
+
+                            case R.id.navigation_overall:
+                                break;
+
+                            case R.id.navigation_profile:
+                                break;
+
+                            case R.id.navigation_records:
+                                Intent intentSummary = new Intent(getBaseContext(), SleepSummary.class);
+                                startActivity(intentSummary);
+                                break;
+
+                            case R.id.navigation_settings:
+                                Intent intentSettings = new Intent(getBaseContext(), settings.class);
+                                startActivity(intentSettings);
+                                break;
+                        }
+                        return true;
+                    }
+                });
     }
 
 

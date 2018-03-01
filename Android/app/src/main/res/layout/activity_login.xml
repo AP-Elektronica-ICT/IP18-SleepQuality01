@@ -88,14 +88,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:text="Button" />
-
-        <Button
-            android:id="@+id/sleepSummary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Go to sleep summary"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="289dp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
