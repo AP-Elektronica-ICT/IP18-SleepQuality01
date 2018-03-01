@@ -34,7 +34,10 @@ public class settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Load();
+<<<<<<< HEAD
         selectCountry = findViewById(R.id.setTxtSelectCountry);
+=======
+>>>>>>> 05e67468a6726f53cc62e2f9c59ad2635fcb9476
         Button savebutton = findViewById(R.id.setBtnSave);
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
@@ -69,6 +72,7 @@ public class settings extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         selectCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,6 +114,8 @@ public class settings extends AppCompatActivity {
                         return true;
                     }
                 });
+=======
+>>>>>>> 05e67468a6726f53cc62e2f9c59ad2635fcb9476
     }
 
     public void Save() {
@@ -126,8 +132,8 @@ public class settings extends AppCompatActivity {
         switchMeasurement  = sp.getBoolean("measurement", false);
         switchLight = sp.getBoolean("light", false);
         switchTemperature = sp.getBoolean("temp", false);
-        light.setChecked(switchLight);
+/*        light.setChecked(switchLight);
         temperature.setChecked(switchTemperature);
-        measurement.setChecked(switchMeasurement);
+        measurement.setChecked(switchMeasurement); */
     }
     }
