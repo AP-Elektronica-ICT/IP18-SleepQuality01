@@ -94,8 +94,8 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     @Override
                     public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
                        country = name;
-                        selectedCountry.setText(country);
-                        picker.dismiss();
+                       selectedCountry.setText(country);
+                       picker.dismiss();
                     }
                 });
                 picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
