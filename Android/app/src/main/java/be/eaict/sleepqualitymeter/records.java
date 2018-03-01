@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by CarlV on 2/28/2018.
@@ -44,6 +46,7 @@ public class records extends AppCompatActivity {
             public View getView(final int i, View view, ViewGroup viewGroup) {
                 final int current = i;
                 view = getLayoutInflater().inflate(R.layout.listview_records, null);
+                LinearLayout layout = findViewById(R.id.recListLayout);
                 TextView listDate = view.findViewById(R.id.recListDate);
                 TextView listSleepTime = view.findViewById(R.id.recListTime);
                 TextView listSummary = view.findViewById(R.id.recListSummary);
@@ -53,19 +56,19 @@ public class records extends AppCompatActivity {
                 listDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        intentDetail();
+                        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
                     }
                 });
                 listSleepTime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
                     }
                 });
                 listSummary.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
                     }
                 });
                 //    listSummary.setBackgroundColor();

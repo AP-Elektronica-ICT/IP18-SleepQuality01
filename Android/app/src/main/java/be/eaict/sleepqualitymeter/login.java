@@ -57,7 +57,7 @@ public class login extends AppCompatActivity {
         chbRemember.setText("Remember me");
         btnLogin.setText("Login");
         btnRegister.setText("Register");
-
+        
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
