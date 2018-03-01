@@ -14,7 +14,7 @@ import android.view.MenuItem;
 public class DockNavigation {
 
     public DockNavigation(BottomNavigationView bottomNavigationView, Context context){
-        final Context finalcontext = context;
+        final Context finalContext = context;
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -22,19 +22,21 @@ public class DockNavigation {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                Intent intentHome = new Intent(finalcontext, HomeScreen.class);
-                                finalcontext.startActivity(intentHome);
+                                Intent intentHome = new Intent(finalContext, HomeScreen.class);
+                                finalContext.startActivity(intentHome);
                                 break;
 
                             case R.id.navigation_records:
                                 break;
 
                             case R.id.navigation_overall:
-                                Intent intentSummary = new Intent(finalcontext, SleepSummary.class);
-                                finalcontext.startActivity(intentSummary);
+                                Intent intentSummary = new Intent(finalContext, SleepSummary.class);
+                                finalContext.startActivity(intentSummary);
                                 break;
 
                             case R.id.navigation_profile:
+                                Intent intentProfile = new Intent(finalContext, profile.class);
+                                finalContext.startActivity(intentProfile);
                                 break;
 
                         }

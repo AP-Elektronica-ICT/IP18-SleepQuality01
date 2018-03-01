@@ -19,9 +19,10 @@ public class profile extends AppCompatActivity {
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Load();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Load();
+
         txtAge = findViewById(R.id.profTxtAge);
         txtEmail = findViewById(R.id.profTxtEmail);
         txtName = findViewById(R.id.profTxtName);

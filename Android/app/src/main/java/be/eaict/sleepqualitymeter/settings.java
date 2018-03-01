@@ -24,9 +24,9 @@ public class settings extends AppCompatActivity {
     EditText editFirstName, editLastName, editPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Load();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Load();
         Button savebutton = findViewById(R.id.setBtnSave);
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
@@ -61,33 +61,6 @@ public class settings extends AppCompatActivity {
             }
         });
 
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                Intent intentHome = new Intent(getBaseContext(), HomeScreen.class);
-                                startActivity(intentHome);
-                                break;
-
-                            case R.id.navigation_overall:
-                                break;
-
-                            case R.id.navigation_profile:
-                                break;
-
-                            case R.id.navigation_records:
-                                Intent intentSummary = new Intent(getBaseContext(), SleepSummary.class);
-                                startActivity(intentSummary);
-                                break;
-                        }
-                        return true;
-                    }
-                });
     }
 
     public void Save() {
@@ -104,8 +77,8 @@ public class settings extends AppCompatActivity {
         switchMeasurement  = sp.getBoolean("measurement", false);
         switchLight = sp.getBoolean("light", false);
         switchTemperature = sp.getBoolean("temp", false);
-        light.setChecked(switchLight);
+/*        light.setChecked(switchLight);
         temperature.setChecked(switchTemperature);
-        measurement.setChecked(switchMeasurement);
+        measurement.setChecked(switchMeasurement); */
     }
     }

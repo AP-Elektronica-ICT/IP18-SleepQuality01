@@ -36,6 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeScreen"></activity>
+        <activity android:name=".profile"></activity>
     </application>
 
 </manifest>
