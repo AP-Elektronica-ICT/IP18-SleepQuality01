@@ -3,7 +3,10 @@ package be.eaict.sleepqualitymeter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +60,34 @@ public class settings extends AppCompatActivity {
                 Save();
             }
         });
+
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.navigation_home:
+                                Intent intentHome = new Intent(getBaseContext(), HomeScreen.class);
+                                startActivity(intentHome);
+                                break;
+
+                            case R.id.navigation_overall:
+                                break;
+
+                            case R.id.navigation_profile:
+                                break;
+
+                            case R.id.navigation_records:
+                                Intent intentSummary = new Intent(getBaseContext(), SleepSummary.class);
+                                startActivity(intentSummary);
+                                break;
+                        }
+                        return true;
+                    }
+                });
     }
 
     public void Save() {
