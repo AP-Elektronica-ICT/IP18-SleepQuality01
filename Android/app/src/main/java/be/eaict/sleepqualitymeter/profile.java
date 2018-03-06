@@ -9,15 +9,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 /**
  * Created by CarlV on 2/27/2018.
  */
 
 public class profile extends AppCompatActivity {
-    String firstName, lastName, email, nationality, avgSleepTime;
-    Integer age, weight;
+    String firstName, lastName, email, nationality, avgSleepTime, userid, birthdate;
+    Integer age, weight, rawdata_weight;
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
+
+    //Firebase
+    DatabaseReference databaseReference;
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +48,43 @@ public class profile extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
         DockNavigation dockNavigation = new DockNavigation(bottomNavigationView, getBaseContext());
 
+        mAuth = FirebaseAuth.getInstance();
+        email = mAuth.getCurrentUser().getEmail();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("User");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                    User user = snapshot.getValue(User.class);String datamail = snapshot.child("email").getValue(String.class);
+
+                    if(user.getEmail().equals(email)){
+                        userid = user.getId();
+                        email = user.getEmail();
+                        firstName = user.getFirstname();
+                        lastName = user.getLastname();
+                        //Country instead of nationality ??
+                        nationality = user.getCountry();
+                        rawdata_weight = user.getWeight();
+                        System.out.println("weight : " + rawdata_weight);
+                        //birthdate instead of age ??
+                        birthdate = user.getBirthdate();
+                    }
+                }
+                txtName.setText(firstName + " " + lastName);
+                txtEmail.setText(email);
+                txtNationality.setText(nationality);
+                txtAge.setText(birthdate);
+                txtWeight.setText(rawdata_weight.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         Button btnSettings = findViewById(R.id.profBtnSettings);
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,11 +96,11 @@ public class profile extends AppCompatActivity {
         int value = 0; // Value = Kg from DB
         //Convert KG to pound
         if(measurement == true) {
-            Double lbstokg = value / 0.45359237;
+            Double lbstokg = rawdata_weight / 0.45359237;
             weight = lbstokg.intValue();
         }
         else {
-            weight = value;
+            weight = rawdata_weight;
         }
     }
     private void Load() {

@@ -13,16 +13,20 @@ public class User {
     private String email;
     private String country;
     private int weight;
-    private String bithdate;
+    private String birthdate;
 
-    public User(String id, String firstname, String lastname, String email, String country, int weight, String bithdate){
+    public User(){
+
+    }
+
+    public User(String id, String firstname, String lastname, String email, String country, int weight, String birthdate){
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.country = country;
         this.weight = weight;
-        this.bithdate = bithdate;
+        this.birthdate = birthdate;
     }
 
     public String getId() { return id; }
@@ -37,8 +41,8 @@ public class User {
         return email;
     }
 
-    public String getC() {
-        return bithdate;
+    public String getBirthdate() {
+        return birthdate;
     }
 
     public String getCountry() {
