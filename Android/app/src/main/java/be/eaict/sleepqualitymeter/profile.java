@@ -21,8 +21,8 @@ import com.google.firebase.database.ValueEventListener;
  */
 
 public class profile extends AppCompatActivity {
-    String firstName, lastName, email, nationality, avgSleepTime, userid, birthdate;
-    Integer age, weight, rawdata_weight;
+    String firstName, lastName, email, country, avgSleepTime, userid, birthdate;
+    Integer weight, rawdata_weight;
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
 
@@ -57,24 +57,21 @@ public class profile extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
-                    User user = snapshot.getValue(User.class);String datamail = snapshot.child("email").getValue(String.class);
+                    User user = snapshot.getValue(User.class);
 
                     if(user.getEmail().equals(email)){
                         userid = user.getId();
                         email = user.getEmail();
                         firstName = user.getFirstname();
                         lastName = user.getLastname();
-                        //Country instead of nationality ??
-                        nationality = user.getCountry();
+                        country = user.getCountry();
                         rawdata_weight = user.getWeight();
-                        System.out.println("weight : " + rawdata_weight);
-                        //birthdate instead of age ??
                         birthdate = user.getBirthdate();
                     }
                 }
                 txtName.setText(firstName + " " + lastName);
                 txtEmail.setText(email);
-                txtNationality.setText(nationality);
+                txtNationality.setText(country);
                 txtAge.setText(birthdate);
                 txtWeight.setText(rawdata_weight.toString());
             }
@@ -102,6 +99,7 @@ public class profile extends AppCompatActivity {
         else {
             weight = rawdata_weight;
         }
+
     }
     private void Load() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
