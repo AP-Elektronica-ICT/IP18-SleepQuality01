@@ -4,25 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="be.eaict.sleepqualitymeter.SleepSummary">
-
-    <LinearLayout
+    tools:context="be.eaict.sleepqualitymeter.MainActivity">
+    
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/layout">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Welcome to sleep summary"/>
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/movement"></com.github.mikephil.charting.charts.LineChart>
-
-    </LinearLayout>
+        android:id="@+id/frame_container">
+    </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

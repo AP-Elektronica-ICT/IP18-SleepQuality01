@@ -16,7 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SleepSummary" />
         <activity android:name=".register">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -35,17 +34,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".records">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <data android:scheme="geo" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".HomeScreen"></activity>
-        <activity android:name=".profile"></activity>
+        <activity android:name=".profile" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

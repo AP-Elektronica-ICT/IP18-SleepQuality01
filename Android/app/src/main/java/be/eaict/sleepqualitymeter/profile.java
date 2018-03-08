@@ -43,11 +43,7 @@ public class profile extends AppCompatActivity {
         txtWeight = findViewById(R.id.profTxtWeight);
         txtAvgSleepTime = findViewById(R.id.profTxtAvgSleepTime);
         txtAvgSleepTime.setText("N/A");
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
-        DockNavigation dockNavigation = new DockNavigation(bottomNavigationView, getBaseContext());
-
+        
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail();
 

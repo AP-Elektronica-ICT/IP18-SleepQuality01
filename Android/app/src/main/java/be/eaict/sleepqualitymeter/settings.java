@@ -69,7 +69,7 @@ public class settings extends AppCompatActivity {
                 }
                 Save();
 
-                Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
