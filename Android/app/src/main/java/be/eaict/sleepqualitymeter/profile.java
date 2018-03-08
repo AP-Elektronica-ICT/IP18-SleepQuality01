@@ -69,11 +69,21 @@ public class profile extends AppCompatActivity {
                         birthdate = user.getBirthdate();
                     }
                 }
+
+                //Convert KG to pound
+                if(measurement == true) {
+                    Double lbstokg = rawdata_weight / 0.45359237;
+                    weight = lbstokg.intValue();
+                }
+                else {
+                    weight = rawdata_weight;
+                }
+
                 txtName.setText(firstName + " " + lastName);
                 txtEmail.setText(email);
                 txtNationality.setText(country);
                 txtAge.setText(birthdate);
-                txtWeight.setText(rawdata_weight.toString());
+                txtWeight.setText(weight.toString());
             }
 
             @Override
@@ -90,16 +100,6 @@ public class profile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        int value = 0; // Value = Kg from DB
-        //Convert KG to pound
-        if(measurement == true) {
-            Double lbstokg = rawdata_weight / 0.45359237;
-            weight = lbstokg.intValue();
-        }
-        else {
-            weight = rawdata_weight;
-        }
-
     }
     private void Load() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
