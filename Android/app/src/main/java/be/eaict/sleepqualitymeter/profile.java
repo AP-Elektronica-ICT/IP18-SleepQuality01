@@ -21,10 +21,10 @@ import com.google.firebase.database.ValueEventListener;
  */
 
 public class profile extends AppCompatActivity {
-    String firstName, lastName, email, country, avgSleepTime, userid, birthdate;
-    Integer weight, rawdata_weight;
+    String firstName, lastName, email, country, avgSleepTime, userid, birthdate, weight, rawdata_weight;
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
+    User user;
 
     //Firebase
     DatabaseReference databaseReference;
@@ -49,7 +49,7 @@ public class profile extends AppCompatActivity {
         DockNavigation dockNavigation = new DockNavigation(bottomNavigationView, getBaseContext());
 
         mAuth = FirebaseAuth.getInstance();
-        email = mAuth.getCurrentUser().getEmail();
+        email = mAuth.getCurrentUser().getEmail().toLowerCase();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -57,9 +57,12 @@ public class profile extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
-                    User user = snapshot.getValue(User.class);
+                    user = snapshot.getValue(User.class);
+
+                    System.out.println(user.getEmail());
 
                     if(user.getEmail().equals(email)){
+                        System.out.println("WOOOOHOOO");
                         userid = user.getId();
                         email = user.getEmail();
                         firstName = user.getFirstname();
@@ -72,18 +75,20 @@ public class profile extends AppCompatActivity {
 
                 //Convert KG to pound
                 if(measurement == true) {
-                    Double lbstokg = rawdata_weight / 0.45359237;
-                    weight = lbstokg.intValue();
+                    Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
+                    int t = lbstokg.intValue();
+                    weight = Integer.toString(t);
+                    txtWeight.setText(weight + " lbs");
                 }
                 else {
                     weight = rawdata_weight;
+                    txtWeight.setText(weight + " kg");
                 }
 
                 txtName.setText(firstName + " " + lastName);
                 txtEmail.setText(email);
                 txtNationality.setText(country);
                 txtAge.setText(birthdate);
-                txtWeight.setText(weight.toString());
             }
 
             @Override
@@ -100,6 +105,8 @@ public class profile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
     private void Load() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
