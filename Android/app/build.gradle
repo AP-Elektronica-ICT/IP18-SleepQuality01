@@ -7,6 +7,7 @@ android {
         applicationId "be.eaict.sleepqualitymeter"
         minSdkVersion 20
         targetSdkVersion 26
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,8 +32,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.github.mukeshsolanki:country-picker-android:1.2.0'
-    compile 'com.android.support:design:27.0.2'
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:design:27.1.0'
 }
 
 
