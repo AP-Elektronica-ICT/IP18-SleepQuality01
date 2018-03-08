@@ -21,7 +21,8 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/movement"
             android:layout_width="match_parent"
-            android:layout_height="300dp"></com.github.mikephil.charting.charts.LineChart>
+            android:layout_height="300dp"
+            android:background="#d7ebe7"></com.github.mikephil.charting.charts.LineChart>
 
     </LinearLayout>
 
