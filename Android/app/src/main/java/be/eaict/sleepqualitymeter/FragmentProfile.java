@@ -1,12 +1,25 @@
 package be.eaict.sleepqualitymeter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -26,6 +39,15 @@ public class FragmentProfile extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    String firstName, lastName, email, country, avgSleepTime, userid, birthdate, weight, rawdata_weight;
+    Boolean measurement;
+    TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
+    User user;
+
+    //Firebase
+    DatabaseReference databaseReference;
+    FirebaseAuth mAuth;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +86,82 @@ public class FragmentProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_profile, container, false);
+        View view =  inflater.inflate(R.layout.fragment_fragment_profile, container, false);
+
+        Load();
+
+        txtAge = view.findViewById(R.id.profTxtAge);
+        txtEmail = view.findViewById(R.id.profTxtEmail);
+        txtName = view.findViewById(R.id.profTxtName);
+        txtNationality = view.findViewById(R.id.profTxtNationality);
+        txtWeight = view.findViewById(R.id.profTxtWeight);
+        txtAvgSleepTime = view.findViewById(R.id.profTxtAvgSleepTime);
+        txtAvgSleepTime.setText("N/A");
+
+        mAuth = FirebaseAuth.getInstance();
+        email = mAuth.getCurrentUser().getEmail().toLowerCase();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("User");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                    user = snapshot.getValue(User.class);
+
+                    System.out.println(user.getEmail());
+
+                    if(user.getEmail().equals(email)){
+                        System.out.println("WOOOOHOOO");
+                        userid = user.getId();
+                        email = user.getEmail();
+                        firstName = user.getFirstname();
+                        lastName = user.getLastname();
+                        country = user.getCountry();
+                        rawdata_weight = user.getWeight();
+                        birthdate = user.getBirthdate();
+                    }
+                }
+
+                //Convert KG to pound
+                if(measurement ==true) {
+                    Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
+                    int t = lbstokg.intValue();
+                    weight = Integer.toString(t);
+                    txtWeight.setText(weight + " lbs");
+                }
+                else {
+                    weight = rawdata_weight;
+                    txtWeight.setText(weight + " kg");
+                }
+
+                txtName.setText(firstName + " " + lastName);
+                txtEmail.setText(email);
+                txtNationality.setText(country);
+                txtAge.setText(birthdate);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                throw databaseError.toException();
+            }
+        });
+
+        Button btnSettings = view.findViewById(R.id.profBtnSettings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), settings.class);
+                startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+    private void Load() {
+        SharedPreferences sp = getContext().getSharedPreferences("DATA", MODE_PRIVATE);
+        measurement = sp.getBoolean("measurement", false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -106,7 +106,7 @@ public class settings extends AppCompatActivity {
     saveDiscard.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(getBaseContext(), profile.class);
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
         }
     });
