@@ -14,6 +14,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
 
@@ -29,6 +31,11 @@ public class settings extends AppCompatActivity {
     TextView selectCountry;
     CountryPicker picker;
     String country;
+
+    //Firebase
+    FirebaseAuth mAuth;
+    FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,12 @@ public class settings extends AppCompatActivity {
         switchTemperature = false;
         switchLight = false;
         switchMeasurement = false;
+
         Load();
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+
         selectCountry = findViewById(R.id.setTxtSelectCountry);
         Button savebutton = findViewById(R.id.setBtnSave);
         Button saveDiscard = findViewById(R.id.setBtnDiscard);
@@ -109,6 +121,16 @@ public class settings extends AppCompatActivity {
         editor.putBoolean("light", switchLight);
         editor.putBoolean("measurement", switchMeasurement);
         editor.putBoolean("temp", switchTemperature);
+
+        //Set password Firebase
+        if(!password.isEmpty()){
+            if(password.length() < 6){
+                editPassword.setError("Minimum lenght of password should be 6");
+                editPassword.requestFocus();
+                return;
+            }
+            firebaseUser.updatePassword(password);
+        }
 
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);

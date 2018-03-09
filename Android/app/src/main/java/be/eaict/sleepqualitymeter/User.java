@@ -12,14 +12,12 @@ public class User {
     private String lastname;
     private String email;
     private String country;
-    private int weight;
+    private String weight;
     private String birthdate;
 
-    public User(){
+    public User(){}
 
-    }
-
-    public User(String id, String firstname, String lastname, String email, String country, int weight, String birthdate){
+    public User(String id, String firstname, String lastname, String email, String country, String weight, String birthdate){
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -49,7 +47,7 @@ public class User {
         return country;
     }
 
-    public int getWeight() {
+    public String getWeight() {
         return weight;
     }
 }

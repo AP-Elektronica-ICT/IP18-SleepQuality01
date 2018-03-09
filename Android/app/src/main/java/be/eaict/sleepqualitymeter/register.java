@@ -224,7 +224,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     editor.apply();
 
                     userid = userDB.push().getKey();
-                    User user = new User(userid, editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString(), country, weight, birthdate);
+                    User user = new User(userid, editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString().toLowerCase(), country, weight.toString(), birthdate);
 
                     userDB.child(userid).setValue(user);
 

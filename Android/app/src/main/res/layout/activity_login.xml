@@ -9,13 +9,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#8dd5e0"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/lgnImg"
+        <TextView
+            android:id="@+id/textView19"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:srcCompat="@android:drawable/btn_star" />
+            android:layout_height="400dp"
+            android:gravity="center"
+            android:text="Sleep Quality"
+            android:textColor="?attr/actionModeSplitBackground"
+            android:textSize="50sp"
+            android:textStyle="bold|italic" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:background="@android:color/holo_blue_light"
             android:gravity="center"
             android:text="Button"
             android:textAlignment="center" />
@@ -87,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:background="@android:color/holo_blue_light"
             android:text="Button" />
     </LinearLayout>
 

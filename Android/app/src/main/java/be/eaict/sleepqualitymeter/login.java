@@ -39,7 +39,6 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //BINDINGS
-        ImageView ImageHeader = findViewById(R.id.lgnImg);
         TextView txtusername = findViewById(R.id.lgnTxtUsername);
         TextView txtpassword = findViewById(R.id.lgnTxtPassw);
         editemail = findViewById(R.id.lgnEditUsername);
