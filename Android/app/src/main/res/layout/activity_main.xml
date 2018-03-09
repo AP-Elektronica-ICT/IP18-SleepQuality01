@@ -5,12 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="be.eaict.sleepqualitymeter.MainActivity">
-    
-    <FrameLayout
+
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frame_container">
-    </FrameLayout>
+        android:id="@+id/pager">
+
+        <android.support.v4.view.PagerTitleStrip
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
+
+    </android.support.v4.view.ViewPager>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
