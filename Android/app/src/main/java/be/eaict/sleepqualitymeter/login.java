@@ -62,14 +62,6 @@ public class login extends AppCompatActivity {
             public void onClick(View view) {
                 Save();
                 userLogin();
-                /*If successful
-                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT);
-                Intent intent = new Intent(getBaseContext(), SleepSummary.class);
-                startActivity(intent);
-                */
-                /*
-                Toast.makeText(this, "Incorrect login", Toast.LENGTH_SHORT);
-                */
             }
         });
         btnRegister.setOnClickListener(new View.OnClickListener() {

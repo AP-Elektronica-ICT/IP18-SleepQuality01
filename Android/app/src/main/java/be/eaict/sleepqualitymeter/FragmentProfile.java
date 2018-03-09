@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mukesh.countrypicker.Country;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -44,11 +46,10 @@ public class FragmentProfile extends Fragment {
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
     User user;
-
     //Firebase
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
-
+    ImageView imgCountry;
     private OnFragmentInteractionListener mListener;
 
     public FragmentProfile() {
@@ -89,7 +90,6 @@ public class FragmentProfile extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_fragment_profile, container, false);
 
         Load();
-
         txtAge = view.findViewById(R.id.profTxtAge);
         txtEmail = view.findViewById(R.id.profTxtEmail);
         txtName = view.findViewById(R.id.profTxtName);
@@ -97,10 +97,10 @@ public class FragmentProfile extends Fragment {
         txtWeight = view.findViewById(R.id.profTxtWeight);
         txtAvgSleepTime = view.findViewById(R.id.profTxtAvgSleepTime);
         txtAvgSleepTime.setText("N/A");
-
+        imgCountry = view.findViewById(R.id.profImgCountry);
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
-
+        txtName.setText("Loading profile...");
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -135,9 +135,11 @@ public class FragmentProfile extends Fragment {
                     txtWeight.setText(weight + " kg");
                 }
 
-                txtName.setText(firstName + " " + lastName);
+                txtName.setText(firstName + " " + lastName + "'s profile");
                 txtEmail.setText(email);
                 txtNationality.setText(country);
+                Country tempcountry = Country.getCountryByName(country);
+                imgCountry.setImageResource(tempcountry.getFlag());
                 txtAge.setText(birthdate);
             }
 

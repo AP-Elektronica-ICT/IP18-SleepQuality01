@@ -57,7 +57,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     FirebaseAuth mAuth;
     DatabaseReference userDB;
     String userid;
-
+    ImageView imgCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
         TextView txtCountry = findViewById(R.id.regTxtCountry);
         TextView txtAge = findViewById(R.id.regTxtAge);
         TextView txtWeight = findViewById(R.id.regTxtWeight);
-
+        imgCountry = findViewById(R.id.regImgCountry);
         editFirstName = findViewById(R.id.regEditFirstName);
         editLastName = findViewById(R.id.regEditLastName);
         editEmail = findViewById(R.id.regEditEmail);
@@ -107,6 +107,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
                        country = name;
                        selectedCountry.setText(country);
+                       imgCountry.setImageResource(flagDrawableResID);
                        picker.dismiss();
                     }
                 });
@@ -119,6 +120,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                   datePicker(view);
            }
         });
+        register.setText("Register");
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -253,7 +255,9 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     }
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        month = month +1;
         birthdate = day + "/" + month + "/" + year;
+        ageSelector.setText(birthdate);
     }
     public static class DatePickerFragment extends DialogFragment {
         @Override

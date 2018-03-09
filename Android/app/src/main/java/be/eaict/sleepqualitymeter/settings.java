@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class settings extends AppCompatActivity {
     //Firebase
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
-
+    ImageView imgCountry;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,7 @@ public class settings extends AppCompatActivity {
         editFirstName = findViewById(R.id.setEditFirstName);
         editLastName = findViewById(R.id.setEditLastName);
         editPassword = findViewById(R.id.setEditPassw);
+        imgCountry = findViewById(R.id.setImgCountry);
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +85,7 @@ public class settings extends AppCompatActivity {
 
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         light.setChecked(switchLight);
@@ -97,6 +100,7 @@ public class settings extends AppCompatActivity {
                     public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
                         country = name;
                         selectCountry.setText(country);
+                        imgCountry.setImageResource(flagDrawableResID);
                         picker.dismiss();
                     }
                 });
@@ -108,6 +112,7 @@ public class settings extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
+            finish();
         }
     });
     }
