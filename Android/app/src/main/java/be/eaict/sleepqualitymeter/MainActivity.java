@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity
 
     BottomNavigationView bottomNavigationView;
     BottomBarAdapter pagerAdapter;
-    ViewPager viewPager;
+    NoSwipePager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         viewPager = findViewById(R.id.pager);
+
+        viewPager.setPagingEnabled(false);
 
         pagerAdapter = new BottomBarAdapter(getSupportFragmentManager());
         pagerAdapter.addFragments(new FragmentHome());
@@ -36,27 +38,27 @@ public class MainActivity extends AppCompatActivity
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.navigation_home:
-                                    viewPager.setCurrentItem(0);
-                                    break;
+                    switch (item.getItemId()) {
+                        case R.id.navigation_home:
+                            viewPager.setCurrentItem(0);
+                            break;
 
-                                case R.id.navigation_records:
-                                    viewPager.setCurrentItem(1);
-                                    break;
+                        case R.id.navigation_records:
+                            viewPager.setCurrentItem(1);
+                            break;
 
-                                case R.id.navigation_overall:
-                                    viewPager.setCurrentItem(2);
-                                    break;
+                        case R.id.navigation_overall:
+                            viewPager.setCurrentItem(2);
+                            break;
 
-                                case R.id.navigation_profile:
-                                    viewPager.setCurrentItem(3);
-                                    break;
+                        case R.id.navigation_profile:
+                            viewPager.setCurrentItem(3);
+                            break;
 
-                            }
-            return true;
-            }
-                       });
+                        }
+                return true;
+                }
+            });
     }
 
     @Override
