@@ -1,29 +1,23 @@
 package be.eaict.sleepqualitymeter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentRecords.OnFragmentInteractionListener} interface
+ * {@link FragmentHeartRate.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentRecords#newInstance} factory method to
+ * Use the {@link FragmentHeartRate#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentRecords extends Fragment {
+public class FragmentHeartRate extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,7 +29,7 @@ public class FragmentRecords extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentRecords() {
+    public FragmentHeartRate() {
         // Required empty public constructor
     }
 
@@ -45,11 +39,11 @@ public class FragmentRecords extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentRecords.
+     * @return A new instance of fragment FragmentHeartRate.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentRecords newInstance(String param1, String param2) {
-        FragmentRecords fragment = new FragmentRecords();
+    public static FragmentHeartRate newInstance(String param1, String param2) {
+        FragmentHeartRate fragment = new FragmentHeartRate();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,14 +64,7 @@ public class FragmentRecords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
-
-        ListView listView = view.findViewById(R.id.recListv);
-
-        CustomAdapter customAdapter = new CustomAdapter();
-        listView.setAdapter(customAdapter);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_fragment_heart_rate, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -117,45 +104,5 @@ public class FragmentRecords extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-
-    class CustomAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
-            final int current = i;
-            view = getLayoutInflater().inflate(R.layout.listview_records, null);
-            LinearLayout layout = view.findViewById(R.id.recListLayout);
-            TextView listDate = view.findViewById(R.id.recListDate);
-            TextView listSleepTime = view.findViewById(R.id.recListTime);
-            TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText("12/01/1993");
-            listSleepTime.setText("8:21");
-            listSummary.setText("Good!");
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent);
-                }
-            });
-            //    listSummary.setBackgroundColor();
-            return view;
-        }
     }
 }
