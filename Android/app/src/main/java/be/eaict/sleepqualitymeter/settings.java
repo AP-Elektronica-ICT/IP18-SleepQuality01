@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
 
@@ -25,14 +26,12 @@ import com.mukesh.countrypicker.CountryPickerListener;
  */
 
 public class settings extends AppCompatActivity {
-    String firstName, lastName, password;
+    String firstName, lastName, password, newcountry, oldcountry, weight;
     Boolean switchTemperature , switchLight, switchMeasurement;
     Switch temperature, light, measurement;
     EditText editFirstName, editLastName, editPassword, editWeight;
     TextView selectCountry;
     CountryPicker picker;
-    String country;
-
     //Firebase
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
@@ -60,6 +59,10 @@ public class settings extends AppCompatActivity {
         editLastName = findViewById(R.id.setEditLastName);
         editPassword = findViewById(R.id.setEditPassw);
         imgCountry = findViewById(R.id.setImgCountry);
+        editWeight.setText(weight);
+        selectCountry.setText(oldcountry);
+        Country tempcountry = Country.getCountryByName(oldcountry);
+        imgCountry.setImageResource(tempcountry.getFlag());
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,8 +101,8 @@ public class settings extends AppCompatActivity {
                 picker.setListener(new CountryPickerListener() {
                     @Override
                     public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
-                        country = name;
-                        selectCountry.setText(country);
+                        newcountry = name;
+                        selectCountry.setText(newcountry);
                         imgCountry.setImageResource(flagDrawableResID);
                         picker.dismiss();
                     }
@@ -118,9 +121,10 @@ public class settings extends AppCompatActivity {
     }
 
     public void Save() {
-        firstName = editFirstName.getText().toString();
-        lastName = editLastName.getText().toString();
-        password = editPassword.getText().toString();
+        String newpassword = editPassword.getText().toString();
+        String newfirstName = editFirstName.getText().toString();
+        String newlastName = editLastName.getText().toString();
+        String newweight = editWeight.getText().toString();
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("light", switchLight);
@@ -128,7 +132,7 @@ public class settings extends AppCompatActivity {
         editor.putBoolean("temp", switchTemperature);
 
         //Set password Firebase
-        if(!password.isEmpty()){
+        if(!newpassword.isEmpty() && newpassword != password){
             if(password.length() < 6){
                 editPassword.setError("Minimum lenght of password should be 6");
                 editPassword.requestFocus();
@@ -136,7 +140,30 @@ public class settings extends AppCompatActivity {
             }
             firebaseUser.updatePassword(password);
         }
-
+        if(newfirstName != firstName) {
+            //zet newfirstName als nieuwe firstName in DB
+        }
+        if(newlastName != lastName) {
+            //Zet newlastName als lastName in DB
+        }
+        if(newweight != weight) {
+            if(Integer.getInteger(newweight) < 200) {
+                editWeight.setError("Max weight is 200");
+                editWeight.requestFocus();
+                return;
+            }
+            if (measurement.isChecked() == false) {
+                //Zet newweight als weight in DB
+            }
+            else {
+                Double tempweight = Double.parseDouble(newweight) * 0.45359237;
+                int Finalweight = tempweight.intValue();
+                //Zet Finalweight als weight in DB
+            }
+        }
+        if (newcountry != oldcountry) {
+            //Zet newcountry als country in DB
+        }
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);
     }
