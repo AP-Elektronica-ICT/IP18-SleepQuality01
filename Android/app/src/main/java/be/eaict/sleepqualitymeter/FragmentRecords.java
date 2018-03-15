@@ -1,6 +1,7 @@
 package be.eaict.sleepqualitymeter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -146,6 +147,27 @@ public class FragmentRecords extends Fragment {
             listDate.setText("12/01/1993");
             listSleepTime.setText("8:21");
             listSummary.setText("Good!");
+            listDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    startActivity(intent);
+                }
+            });
+            listSleepTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    startActivity(intent);
+                }
+            });
+            listSummary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    startActivity(intent);
+                }
+            });
             //    listSummary.setBackgroundColor();
             return view;
         }
