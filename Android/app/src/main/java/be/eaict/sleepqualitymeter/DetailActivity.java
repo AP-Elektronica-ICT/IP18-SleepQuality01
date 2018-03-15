@@ -21,10 +21,10 @@ public class DetailActivity extends AppCompatActivity
         viewPager = findViewById(R.id.pager);
 
         pagerAdapter = new BottomBarAdapter(getSupportFragmentManager());
-        pagerAdapter.addFragments(new FragmentHome());
-        pagerAdapter.addFragments(new FragmentRecords());
-        pagerAdapter.addFragments(new FragmentOverall());
-        pagerAdapter.addFragments(new FragmentProfile());
+        pagerAdapter.addFragments(new FragmentDetails());
+        pagerAdapter.addFragments(new FragmentHeartRate());
+        pagerAdapter.addFragments(new FragmentMovement());
+        pagerAdapter.addFragments(new FragmentRoom());
         viewPager.setAdapter(pagerAdapter);
 
     }

@@ -147,21 +147,7 @@ public class FragmentRecords extends Fragment {
             listDate.setText("12/01/1993");
             listSleepTime.setText("8:21");
             listSummary.setText("Good!");
-            listDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent);
-                }
-            });
-            listSleepTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent);
-                }
-            });
-            listSummary.setOnClickListener(new View.OnClickListener() {
+            layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getContext(), DetailActivity.class);
