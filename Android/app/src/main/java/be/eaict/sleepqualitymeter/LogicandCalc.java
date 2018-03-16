@@ -17,4 +17,17 @@ public class LogicandCalc {
     public  String SleepLengthString(SleepLength sleepLength){
         return sleepLength.getSleeptime()[0] + " hrs and " + sleepLength.getSleeptime()[1] + " mins.";
     }
+
+    public float[] MinMax(float[] data){
+        float min = data[4], max = data[4];
+        for (int i = 4; i < data.length - 4; i++){
+            if (data[i] > max){
+                max = data[i];
+            }
+            if (data[i] < min){
+                min = data[i];
+            }
+        }
+        return new float[]{min, max};
+    }
 }
