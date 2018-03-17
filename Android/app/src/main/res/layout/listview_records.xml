@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/recListDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/recListTime"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/recListSummary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
