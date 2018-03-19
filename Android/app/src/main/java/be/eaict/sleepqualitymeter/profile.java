@@ -62,7 +62,7 @@ public class profile extends AppCompatActivity {
                     System.out.println(user.getEmail());
 
                     if(user.getEmail().equals(email)){
-                        System.out.println("WOOOOHOOO");
+                        //System.out.println("WOOOOHOOO");
                         userid = user.getId();
                         email = user.getEmail();
                         firstName = user.getFirstname();

@@ -26,6 +26,7 @@ public class SleepSummary extends AppCompatActivity {
     private LogicandCalc calculator;
     private SleepLength LastNight;
     private DummyRepo dummyRepo = new DummyRepo();
+    private SleepDataRepo sleepDataRepo = new SleepDataRepo();
     private DockNavigation dock;
 
     @Override
@@ -35,6 +36,9 @@ public class SleepSummary extends AppCompatActivity {
 
         calculator = new LogicandCalc();
         LastNight = new SleepLength(dummyRepo.length());
+
+        //sleepDataRepo.FetchData();
+        //System.out.println("Lol");
 
         movement = findViewById(R.id.movement);
         List<Entry> movementEntries = new ArrayList<>();
