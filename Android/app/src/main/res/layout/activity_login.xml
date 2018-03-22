@@ -6,95 +6,101 @@
     android:layout_height="match_parent"
     tools:context="be.eaict.sleepqualitymeter.login">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#8dd5e0"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:gravity="center"
-            android:text="Sleep Quality"
-            android:textColor="?attr/actionModeSplitBackground"
-            android:textSize="50sp"
-            android:textStyle="bold|italic" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="#bddce1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/lgnTxtUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="TextView"
-                android:textAlignment="gravity" />
+                android:id="@+id/textView19"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:gravity="center"
+                android:text="Sleep Quality"
+                android:textColor="?attr/actionModeSplitBackground"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
-            <EditText
-                android:id="@+id/lgnEditUsername"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lgnTxtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="TextView"
+                    android:textAlignment="gravity" />
+
+                <EditText
+                    android:id="@+id/lgnEditUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lgnTxtPassw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/lgnEditPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/lgnChbRemember"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:layout_marginLeft="25dp"
+                android:text="CheckBox" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/lgnTxtPassw"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+            <Button
+                android:id="@+id/lgnBtnLogin"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#8ac8df"
                 android:gravity="center"
-                android:text="TextView"
+                android:text="Button"
                 android:textAlignment="center" />
 
-            <EditText
-                android:id="@+id/lgnEditPassword"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/lgnBtnRegister"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPassword" />
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#8ac8df"
+                android:text="Button" />
         </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/lgnChbRemember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CheckBox" />
-
-        <Button
-            android:id="@+id/lgnBtnLogin"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/holo_blue_light"
-            android:gravity="center"
-            android:text="Button"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/lgnBtnRegister"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/holo_blue_light"
-            android:text="Button" />
-    </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

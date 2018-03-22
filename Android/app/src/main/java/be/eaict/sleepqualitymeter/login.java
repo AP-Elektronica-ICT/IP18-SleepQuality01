@@ -62,14 +62,6 @@ public class login extends AppCompatActivity {
             public void onClick(View view) {
                 Save();
                 userLogin();
-                /*If successful
-                Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT);
-                Intent intent = new Intent(getBaseContext(), SleepSummary.class);
-                startActivity(intent);
-                */
-                /*
-                Toast.makeText(this, "Incorrect login", Toast.LENGTH_SHORT);
-                */
             }
         });
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +140,7 @@ public class login extends AppCompatActivity {
                 //progressBar.setVisibility(View.GONE);
 
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(login.this, HomeScreen.class);
+                    Intent intent = new Intent(login.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }

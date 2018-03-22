@@ -27,12 +27,12 @@ public class SleepSummary extends AppCompatActivity {
     private SleepLength LastNight;
     private DummyRepo dummyRepo = new DummyRepo();
     private SleepDataRepo sleepDataRepo = new SleepDataRepo();
-    private DockNavigation dock;
+    //private DockNavigation dock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sleep_summary);
+        //setContentView(R.layout.activity_sleep_summary);
 
         calculator = new LogicandCalc();
         LastNight = new SleepLength(dummyRepo.length());
@@ -65,7 +65,7 @@ public class SleepSummary extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.navigation_overall);
 
-        dock = new DockNavigation(bottomNavigationView, getBaseContext());
+        //dock = new DockNavigation(bottomNavigationView, getBaseContext());
     }
 
 

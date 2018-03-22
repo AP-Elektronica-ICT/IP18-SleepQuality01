@@ -33,7 +33,7 @@ public class profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        //setContentView(R.layout.activity_profile);
         Load();
 
         txtAge = findViewById(R.id.profTxtAge);
@@ -46,7 +46,7 @@ public class profile extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
-        DockNavigation dockNavigation = new DockNavigation(bottomNavigationView, getBaseContext());
+        //DockNavigation dockNavigation = new DockNavigation(bottomNavigationView, getBaseContext());
 
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
