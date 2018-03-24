@@ -27,7 +27,6 @@ public class SleepSummary extends AppCompatActivity {
     private SleepLength LastNight;
     private DummyRepo dummyRepo = new DummyRepo();
     private SleepDataRepo sleepDataRepo = new SleepDataRepo();
-    //private DockNavigation dock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,6 @@ public class SleepSummary extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setSelectedItemId(R.id.navigation_overall);
-
-        //dock = new DockNavigation(bottomNavigationView, getBaseContext());
     }
 
 
