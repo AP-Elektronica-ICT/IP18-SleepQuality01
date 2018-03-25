@@ -44,6 +44,7 @@ public class FragmentOverall extends Fragment {
     private SleepDataRepo sleepDataRepo = new SleepDataRepo();
 
     private OnFragmentInteractionListener mListener;
+    private SleepDataRepo.OnGetDataListener dataListener;
 
     public FragmentOverall() {
         // Required empty public constructor
@@ -67,8 +68,6 @@ public class FragmentOverall extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-
-
     }
 
     @Override
@@ -77,31 +76,13 @@ public class FragmentOverall extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_overall, container, false);
 
-
-
-        calculator = new LogicandCalc();
-        LastNight = new SleepLength(dummyRepo.length());
-
-        movement = view.findViewById(R.id.movement);
-        List<Entry> movementEntries = new ArrayList<>();
-        for(int i = 0; i < dummyRepo.length(); i++){
-            movementEntries.add(new Entry(i * 2, dummyRepo.dummyRepo[i]));
+        boolean status = sleepDataRepo.GetStatus();
+        if(status){
+            SetLayout(view);
         }
-
-        LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
-        LineData movementData = new LineData(movementDataSet);
-        movement.setData(movementData);
-        movement.invalidate();
-
-        TextView averageMovement = new TextView(getContext());
-        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
-
-        TextView sleepTime = new TextView(getContext());
-        sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
-
-        LinearLayout layout = view.findViewById(R.id.layout);
-        layout.addView(averageMovement);
-        layout.addView(sleepTime);
+        else {
+            sleepDataRepo.SleepData(view);
+        }
 
         return view;
     }
@@ -145,54 +126,32 @@ public class FragmentOverall extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void GetUserId(){
-        sleepDataRepo.GetUserId(new SleepDataRepo.OnGetDataListener() {
-            @Override
-            public void onStart() {
+    public View SetLayout(View view){
 
-            }
+        calculator = new LogicandCalc();
+        LastNight = new SleepLength(dummyRepo.length());
 
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
+        movement = view.findViewById(R.id.movement);
+        List<Entry> movementEntries = new ArrayList<>();
+        for(int i = 0; i < dummyRepo.length(); i++){
+            movementEntries.add(new Entry(i * 2, dummyRepo.dummyRepo[i]));
+        }
 
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                String email = mAuth.getCurrentUser().getEmail();
+        LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
+        LineData movementData = new LineData(movementDataSet);
+        movement.setData(movementData);
+        movement.invalidate();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user = snapshot.getValue(User.class);
+        TextView averageMovement = new TextView(getContext());
+        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
 
-                    if(user.getEmail().equals(email)){
-                        System.out.println("UserId Found!");
-                        userid = user.getId();
-                    }
-                }
+        TextView sleepTime = new TextView(getContext());
+        sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
 
+        LinearLayout layout = view.findViewById(R.id.layout);
+        layout.addView(averageMovement);
+        layout.addView(sleepTime);
 
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void DataRetrieval( ){
-        sleepDataRepo.FetchData(userid, new SleepDataRepo.OnGetDataListener() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-
-            }
-        });
+        return view;
     }
 }

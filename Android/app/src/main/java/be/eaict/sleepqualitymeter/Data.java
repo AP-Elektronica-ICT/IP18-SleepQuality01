@@ -8,13 +8,13 @@ public class Data {
     private int Heartbeat;
     private int Humidity;
     private int Luminosity;
-    private double Movement;
+    private float Movement;
     private int Noise;
     private int Temperature;
 
     public Data(){}
 
-    public Data(int Heartbeat, int Humidity, int Luminosity, double Movement, int Noise, int Temperature){
+    public Data(int Heartbeat, int Humidity, int Luminosity, float Movement, int Noise, int Temperature){
         this.Heartbeat = Heartbeat;
         this.Humidity = Humidity;
         this.Luminosity = Luminosity;
@@ -29,7 +29,7 @@ public class Data {
 
     public int getLuminosity() { return Luminosity; }
 
-    public double getMovement() { return Movement; }
+    public float getMovement() { return Movement; }
 
     public int getNoise() { return Noise; }
 
