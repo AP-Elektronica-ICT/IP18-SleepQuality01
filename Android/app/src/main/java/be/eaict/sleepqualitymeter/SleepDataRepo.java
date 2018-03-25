@@ -1,5 +1,7 @@
 package be.eaict.sleepqualitymeter;
 
+import android.icu.text.SymbolTable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,8 +27,8 @@ public class SleepDataRepo {
     private String date;
 
     private List<Data> dataList = new ArrayList<>();
-    private List<Integer> movementList = new ArrayList<>();
-    private int[] movementArray;
+    private List<Double> movementList = new ArrayList<>();
+    private Double[] movementArray;
 
     private int[] heartbeat;
     private int[] humidity;
@@ -35,60 +37,71 @@ public class SleepDataRepo {
     private int[] noise;
     private int[] temperature;
 
-    public void FetchData(){
-        GetUserId();
-        System.out.println("Lol2");
+    public interface OnGetDataListener {
+        public void onStart();
+        public void onSuccess(DataSnapshot dataSnapshot);
+        public void onFailed(DatabaseError databaseError);
+    }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Data").child(userid);
+    public void FetchData(String userid, final OnGetDataListener listener){
+
+        listener.onStart();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child("12-03-2018").child("0");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    System.out.println(snapshot.getChildren());
-                    for (DataSnapshot snapshot2 : dataSnapshot.getChildren()){
+
+                    data = snapshot.getValue(Data.class);
+                    dataList.add(data);
+
+                    /*for (DataSnapshot snapshot2 : dataSnapshot.getChildren()){
                         data = snapshot2.getValue(Data.class);
                         dataList.add(data);
-                    }
+                    }*/
                 }
+
+                for (Data x : dataList){
+                    System.out.println(x.getMovement());
+                    movementList.add(x.getMovement());
+                }
+
+                movementArray = new Double[movementList.size()];
+                movementArray = movementList.toArray(movementArray);
+
+                listener.onSuccess(dataSnapshot);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                System.out.println("The data read failed: " + databaseError.getCode());
+                listener.onFailed(databaseError);
             }
         });
-
-        for (Data x : dataList){
-            System.out.println("Lol");
-            System.out.println(x.getMovement());
-            //movementList.add(x.getMovement());
-        }
     }
 
-    private void GetUserId(){
-        mAuth = FirebaseAuth.getInstance();
-        email = mAuth.getCurrentUser().getEmail();
+    public void GetUserId(final OnGetDataListener listener){
+        listener.onStart();
+
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    user = snapshot.getValue(User.class);
-
-                    if(user.getEmail().equals(email)){
-                        //System.out.println("WOOOOHOOO");
-                        userid = user.getId();
-                    }
-                }
+                listener.onSuccess(dataSnapshot);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+                System.out.println("The userid read failed: " + databaseError.getCode());
+                listener.onFailed(databaseError);
             }
         });
     }
 
-    //get movement
+    public void GetMovementLength(){
+
+    }
 }

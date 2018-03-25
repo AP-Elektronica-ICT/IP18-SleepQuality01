@@ -47,7 +47,5 @@ public class User {
         return country;
     }
 
-    public String getWeight() {
-        return weight;
-    }
+    public String getWeight() { return weight; }
 }

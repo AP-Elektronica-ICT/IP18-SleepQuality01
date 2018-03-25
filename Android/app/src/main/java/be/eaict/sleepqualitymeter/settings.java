@@ -38,10 +38,12 @@ public class settings extends AppCompatActivity {
     EditText editFirstName, editLastName, editPassword, editWeight;
     TextView selectCountry;
     CountryPicker picker;
+
     //Firebase
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+
     ImageView imgCountry;
     User user;
     DatabaseReference dbFirstName;
@@ -52,11 +54,14 @@ public class settings extends AppCompatActivity {
         switchTemperature = false;
         switchLight = false;
         switchMeasurement = false;
+
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
         dbFirstName = FirebaseDatabase.getInstance().getReference().child("User").child("firstname");
+
         Load();
+
         selectCountry = findViewById(R.id.setTxtSelectCountry);
         Button savebutton = findViewById(R.id.setBtnSave);
         Button saveDiscard = findViewById(R.id.setBtnDiscard);

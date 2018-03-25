@@ -14,6 +14,11 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +34,14 @@ import java.util.List;
  */
 public class FragmentOverall extends Fragment {
 
+    private String userid;
+
     private LineChart movement;
     private LogicandCalc calculator;
     private SleepLength LastNight;
+
     private DummyRepo dummyRepo = new DummyRepo();
+    private SleepDataRepo sleepDataRepo = new SleepDataRepo();
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,6 +67,8 @@ public class FragmentOverall extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+
     }
 
     @Override
@@ -65,6 +76,7 @@ public class FragmentOverall extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_overall, container, false);
+
 
 
         calculator = new LogicandCalc();
@@ -131,5 +143,56 @@ public class FragmentOverall extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void GetUserId(){
+        sleepDataRepo.GetUserId(new SleepDataRepo.OnGetDataListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                String email = mAuth.getCurrentUser().getEmail();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+
+                    if(user.getEmail().equals(email)){
+                        System.out.println("UserId Found!");
+                        userid = user.getId();
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void DataRetrieval( ){
+        sleepDataRepo.FetchData(userid, new SleepDataRepo.OnGetDataListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

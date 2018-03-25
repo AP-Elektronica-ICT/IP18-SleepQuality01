@@ -5,33 +5,33 @@ package be.eaict.sleepqualitymeter;
  */
 
 public class Data {
-    int heartbeat;
-    int humidity;
-    int luminosity;
-    int movement;
-    int noise;
-    int temperature;
+    private int Heartbeat;
+    private int Humidity;
+    private int Luminosity;
+    private double Movement;
+    private int Noise;
+    private int Temperature;
 
     public Data(){}
 
-    public Data(int heartbeat, int humidity, int luminosity, int movement, int noise, int temperature){
-        this.heartbeat = heartbeat;
-        this.humidity = humidity;
-        this.luminosity = luminosity;
-        this.movement = movement;
-        this.noise = noise;
-        this.temperature = temperature;
+    public Data(int Heartbeat, int Humidity, int Luminosity, double Movement, int Noise, int Temperature){
+        this.Heartbeat = Heartbeat;
+        this.Humidity = Humidity;
+        this.Luminosity = Luminosity;
+        this.Movement = Movement;
+        this.Noise = Noise;
+        this.Temperature = Temperature;
     }
 
-    public int getHeartbeat() { return heartbeat; }
+    public int getHeartbeat() { return Heartbeat; }
 
-    public int getHumidity() { return humidity; }
+    public int getHumidity() { return Humidity; }
 
-    public int getLuminosity() { return luminosity; }
+    public int getLuminosity() { return Luminosity; }
 
-    public int getMovement() { return movement; }
+    public double getMovement() { return Movement; }
 
-    public int getNoise() { return noise; }
+    public int getNoise() { return Noise; }
 
-    public int getTemperature() { return temperature; }
+    public int getTemperature() { return Temperature; }
 }

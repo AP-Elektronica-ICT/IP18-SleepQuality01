@@ -31,13 +31,12 @@ public class SleepSummary extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_sleep_summary);
 
         calculator = new LogicandCalc();
         LastNight = new SleepLength(dummyRepo.length());
 
-        //sleepDataRepo.FetchData();
-        //System.out.println("Lol");
+        sleepDataRepo.FetchData();
+        System.out.println("Lol");
 
         movement = findViewById(R.id.movement);
         List<Entry> movementEntries = new ArrayList<>();
