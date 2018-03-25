@@ -1,10 +1,12 @@
 package be.eaict.sleepqualitymeter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,11 +57,11 @@ public class settings extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("User");
-        dbFirstName = FirebaseDatabase.getInstance().getReference().child("User").child("firstname");
         Load();
         selectCountry = findViewById(R.id.setTxtSelectCountry);
         Button savebutton = findViewById(R.id.setBtnSave);
         Button saveDiscard = findViewById(R.id.setBtnDiscard);
+        Button deleteUser = findViewById(R.id.setBtnDelUser);
         temperature = findViewById(R.id.setSwitchTemp);
         light = findViewById(R.id.setSwitchLight);
         measurement = findViewById(R.id.setSwitchMeasurement);
@@ -126,6 +128,40 @@ public class settings extends AppCompatActivity {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
             finish();
+        }
+    });
+    deleteUser.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(settings.this);
+
+            builder.setTitle("Confirm");
+            builder.setMessage("Are you sure?");
+
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing but close the dialog
+                    firebaseUser.delete();
+                    databaseReference.child(userID).removeValue();
+                    Intent intent = new Intent(getBaseContext(), login.class);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // Do nothing
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     });
     }

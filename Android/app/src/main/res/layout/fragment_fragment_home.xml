@@ -4,16 +4,10 @@
     android:layout_height="match_parent"
     tools:context="be.eaict.sleepqualitymeter.FragmentHome">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ScrollView>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#bddce1"
+        android:background="#d6e7f6"
         android:gravity="center"
         android:orientation="vertical">
 
