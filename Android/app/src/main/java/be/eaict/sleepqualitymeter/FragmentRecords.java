@@ -75,7 +75,6 @@ public class FragmentRecords extends Fragment {
         ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         listview.setAdapter(adapter);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
-
             @Override
             public void create(SwipeMenu menu) {
                 SwipeMenuItem openItem = new SwipeMenuItem(
@@ -97,12 +96,14 @@ public class FragmentRecords extends Fragment {
                 menu.addMenuItem(deleteItem);
             }
         };
+
         listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        // open
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        startActivity(intent);
                         break;
                     case 1:
                         // delete
