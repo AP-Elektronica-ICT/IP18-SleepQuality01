@@ -71,20 +71,12 @@ public class FragmentRecords extends Fragment {
         for(int i = 0; i<=20; i++) {
             templist.add("Test123");
         }
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, templist);
-        ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
-        listview.setAdapter(adapter);
+        CustomAdapter customAdapter = new CustomAdapter();
+        listview.setAdapter(customAdapter);
+      //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
-                SwipeMenuItem openItem = new SwipeMenuItem(
-                        getActivity());
-                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                        0xCE)));
-                openItem.setWidth(120);
-                openItem.setTitleSize(18);
-                openItem.setTitleColor(Color.WHITE);
-                menu.addMenuItem(openItem);
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         getActivity());
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
@@ -102,10 +94,6 @@ public class FragmentRecords extends Fragment {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Intent intent = new Intent(getContext(), DetailActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
                         // delete
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -132,6 +120,8 @@ public class FragmentRecords extends Fragment {
                         AlertDialog alert = builder.create();
                         alert.show();
                         break;
+                    case 1:
+                        break;
                 }
                 // false : close the menu; true : not close the menu
                 return false;
@@ -142,7 +132,44 @@ public class FragmentRecords extends Fragment {
         listview.setMenuCreator(creator);
         return view;
     }
+    class CustomAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return 5;
+        }
 
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            final int current = i;
+            view = getLayoutInflater().inflate(R.layout.listview_records, null);
+            LinearLayout layout = view.findViewById(R.id.recListLayout);
+            TextView listDate = view.findViewById(R.id.recListDate);
+            TextView listSleepTime = view.findViewById(R.id.recListTime);
+            TextView listSummary = view.findViewById(R.id.recListSummary);
+            listDate.setText("12/01/1993");
+            listSleepTime.setText("8:21");
+            listSummary.setText("Good!");
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    startActivity(intent);
+                }
+            });
+            //    listSummary.setBackgroundColor();
+            return view;
+        }
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

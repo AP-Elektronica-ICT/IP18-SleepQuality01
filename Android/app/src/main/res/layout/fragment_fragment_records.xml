@@ -4,10 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="be.eaict.sleepqualitymeter.FragmentRecords">
-<com.baoyz.swipemenulistview.SwipeMenuListView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/recListView">
 
-</com.baoyz.swipemenulistview.SwipeMenuListView>
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/recListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#d6e7f6">
+
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
 </android.support.constraint.ConstraintLayout>
