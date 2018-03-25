@@ -36,12 +36,12 @@ public class FragmentOverall extends Fragment {
 
     private String userid;
 
-    private LineChart movement;
-    private LogicandCalc calculator;
-    private SleepLength LastNight;
+    private static LineChart movement;
+    private static LogicandCalc calculator;
+    private static SleepLength LastNight;
 
     private DummyRepo dummyRepo = new DummyRepo();
-    private SleepDataRepo sleepDataRepo = new SleepDataRepo();
+    private static SleepDataRepo sleepDataRepo = new SleepDataRepo();
 
     private OnFragmentInteractionListener mListener;
     private SleepDataRepo.OnGetDataListener dataListener;
@@ -76,13 +76,16 @@ public class FragmentOverall extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_overall, container, false);
 
-        boolean status = sleepDataRepo.GetStatus();
-        if(status){
+        sleepDataRepo.SleepData(view);
+
+        System.out.println("Trololololol ik ben true");
+
+        /*if(sleepDataRepo.GetStatus()){
             SetLayout(view);
         }
         else {
             sleepDataRepo.SleepData(view);
-        }
+        }*/
 
         return view;
     }
@@ -126,15 +129,15 @@ public class FragmentOverall extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public View SetLayout(View view){
+    public static View SetLayout(View view){
 
         calculator = new LogicandCalc();
-        LastNight = new SleepLength(dummyRepo.length());
+        LastNight = new SleepLength(sleepDataRepo.movementArray.length);
 
         movement = view.findViewById(R.id.movement);
         List<Entry> movementEntries = new ArrayList<>();
-        for(int i = 0; i < dummyRepo.length(); i++){
-            movementEntries.add(new Entry(i * 2, dummyRepo.dummyRepo[i]));
+        for(int i = 0; i < sleepDataRepo.movementArray.length; i++){
+            movementEntries.add(new Entry(i * 2, sleepDataRepo.movementArray[i]));
         }
 
         LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
@@ -142,7 +145,7 @@ public class FragmentOverall extends Fragment {
         movement.setData(movementData);
         movement.invalidate();
 
-        TextView averageMovement = new TextView(getContext());
+        /*TextView averageMovement = new TextView(getContext());
         averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
 
         TextView sleepTime = new TextView(getContext());
@@ -150,7 +153,7 @@ public class FragmentOverall extends Fragment {
 
         LinearLayout layout = view.findViewById(R.id.layout);
         layout.addView(averageMovement);
-        layout.addView(sleepTime);
+        layout.addView(sleepTime);*/
 
         return view;
     }

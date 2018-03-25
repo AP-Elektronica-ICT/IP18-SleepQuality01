@@ -55,8 +55,7 @@ public class SleepDataRepo {
 
     public void SleepData(View view){
         this.view = view;
-
-        status = false;
+        movementArray = null;
         GetUserId();
     }
 
@@ -143,6 +142,10 @@ public class SleepDataRepo {
                 movementArray = movementList.toArray(movementArray);
 
                 status = true;
+
+                System.out.println(status);
+
+                FragmentOverall.SetLayout(view);
             }
 
             @Override
