@@ -136,7 +136,7 @@ public class settings extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(settings.this);
 
             builder.setTitle("Confirm");
-            builder.setMessage("Are you sure?");
+            builder.setMessage("Are you sure you want to delete your account and erase all the data?");
 
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 

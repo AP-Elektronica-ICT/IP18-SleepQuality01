@@ -1,18 +1,29 @@
 package be.eaict.sleepqualitymeter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -54,14 +65,80 @@ public class FragmentRecords extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
+        SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
+        ArrayList<String> templist = new ArrayList<>();
+        for(int i = 0; i<=20; i++) {
+            templist.add("Test123");
+        }
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, templist);
+        ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
+        listview.setAdapter(adapter);
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
 
-        ListView listView = view.findViewById(R.id.recListv);
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getActivity());
+                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                openItem.setWidth(120);
+                openItem.setTitleSize(18);
+                openItem.setTitleColor(Color.WHITE);
+                menu.addMenuItem(openItem);
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getActivity());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                deleteItem.setWidth(120);
+                deleteItem.setTitle("Del");
+                deleteItem.setTitleColor(Color.BLACK);
+                deleteItem.setTitleSize(18);
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // open
+                        break;
+                    case 1:
+                        // delete
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        CustomAdapter customAdapter = new CustomAdapter();
-        listView.setAdapter(customAdapter);
+                        builder.setTitle("Confirm");
+                        builder.setMessage("Are you sure you want to delete this record?");
 
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
+            }
+        });
+
+// set creator
+        listview.setMenuCreator(creator);
         return view;
     }
 
@@ -104,43 +181,4 @@ public class FragmentRecords extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-    class CustomAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
-            final int current = i;
-            view = getLayoutInflater().inflate(R.layout.listview_records, null);
-            LinearLayout layout = view.findViewById(R.id.recListLayout);
-            TextView listDate = view.findViewById(R.id.recListDate);
-            TextView listSleepTime = view.findViewById(R.id.recListTime);
-            TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText("12/01/1993");
-            listSleepTime.setText("8:21");
-            listSummary.setText("Good!");
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent);
-                }
-            });
-            //    listSummary.setBackgroundColor();
-            return view;
-        }
-    }
 }
