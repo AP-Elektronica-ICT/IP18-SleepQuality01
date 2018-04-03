@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,25 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -35,9 +53,10 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentRecords extends Fragment {
-
     private OnFragmentInteractionListener mListener;
-
+    private DatabaseReference mDatabaseData;
+    private ArrayList<Map> mDates = new ArrayList<>();
+    ArrayList<String> listOfvalues = new ArrayList<String>();
     public FragmentRecords() {
         // Required empty public constructor
     }
@@ -60,6 +79,7 @@ public class FragmentRecords extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
     }
 
     @Override
@@ -67,12 +87,30 @@ public class FragmentRecords extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
         SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
+        final CustomAdapter customAdapter = new CustomAdapter();
+        listview.setAdapter(customAdapter);
+        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data");
+        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, String> map = (Map) postSnapshot.getValue();
+                    if (map != null) {
+                        mDates.add(map);
+                        customAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
         ArrayList<String> templist = new ArrayList<>();
         for(int i = 0; i<=20; i++) {
             templist.add("Test123");
         }
-        CustomAdapter customAdapter = new CustomAdapter();
-        listview.setAdapter(customAdapter);
+
       //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -135,7 +173,7 @@ public class FragmentRecords extends Fragment {
     class CustomAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return 5;
+            return mDates.size();
         }
 
         @Override
@@ -156,7 +194,7 @@ public class FragmentRecords extends Fragment {
             TextView listDate = view.findViewById(R.id.recListDate);
             TextView listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText("12/01/1993");
+            listDate.setText(mDates.get(i).toString());
             listSleepTime.setText("8:21");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
