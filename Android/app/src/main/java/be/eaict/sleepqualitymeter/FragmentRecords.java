@@ -55,7 +55,7 @@ import static android.content.ContentValues.TAG;
 public class FragmentRecords extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabaseData;
-    private ArrayList<Map> mDates = new ArrayList<>();
+    private ArrayList<String> mDates = new ArrayList<>();
     ArrayList<String> listOfvalues = new ArrayList<String>();
     public FragmentRecords() {
         // Required empty public constructor
@@ -86,19 +86,17 @@ public class FragmentRecords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
-        SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
+        final SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
         final CustomAdapter customAdapter = new CustomAdapter();
         listview.setAdapter(customAdapter);
-        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data");
+        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
         mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Map<String, String> map = (Map) postSnapshot.getValue();
-                    if (map != null) {
-                        mDates.add(map);
-                        customAdapter.notifyDataSetChanged();
-                    }
+                    String date = postSnapshot.getKey();
+                    mDates.add(date);
+                    customAdapter.notifyDataSetChanged();
                 }
             }
 
