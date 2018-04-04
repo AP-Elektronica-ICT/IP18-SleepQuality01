@@ -14,6 +14,11 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +34,17 @@ import java.util.List;
  */
 public class FragmentOverall extends Fragment {
 
-    private LineChart movement;
-    private LogicandCalc calculator;
-    private SleepLength LastNight;
+    private String userid;
+
+    private static LineChart movement;
+    private static LogicandCalc calculator;
+    private static SleepLength LastNight;
+
     private DummyRepo dummyRepo = new DummyRepo();
+    private static SleepDataRepo sleepDataRepo = new SleepDataRepo();
 
     private OnFragmentInteractionListener mListener;
+    private SleepDataRepo.OnGetDataListener dataListener;
 
     public FragmentOverall() {
         // Required empty public constructor
@@ -66,30 +76,16 @@ public class FragmentOverall extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_overall, container, false);
 
+        sleepDataRepo.SleepData(view);
 
-        calculator = new LogicandCalc();
-        LastNight = new SleepLength(dummyRepo.length());
+        System.out.println("Trololololol ik ben true");
 
-        movement = view.findViewById(R.id.movement);
-        List<Entry> movementEntries = new ArrayList<>();
-        for(int i = 0; i < dummyRepo.length(); i++){
-            movementEntries.add(new Entry(i * 2, dummyRepo.dummyRepo[i]));
+        /*if(sleepDataRepo.GetStatus()){
+            SetLayout(view);
         }
-
-        LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
-        LineData movementData = new LineData(movementDataSet);
-        movement.setData(movementData);
-        movement.invalidate();
-
-        TextView averageMovement = new TextView(getContext());
-        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
-
-        TextView sleepTime = new TextView(getContext());
-        sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
-
-        LinearLayout layout = view.findViewById(R.id.layout);
-        layout.addView(averageMovement);
-        layout.addView(sleepTime);
+        else {
+            sleepDataRepo.SleepData(view);
+        }*/
 
         return view;
     }
@@ -131,5 +127,34 @@ public class FragmentOverall extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static View SetLayout(View view){
+
+        calculator = new LogicandCalc();
+        LastNight = new SleepLength(sleepDataRepo.movementArray.length);
+
+        movement = view.findViewById(R.id.movement);
+        List<Entry> movementEntries = new ArrayList<>();
+        for(int i = 0; i < sleepDataRepo.movementArray.length; i++){
+            movementEntries.add(new Entry(i * 2, sleepDataRepo.movementArray[i]));
+        }
+
+        LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
+        LineData movementData = new LineData(movementDataSet);
+        movement.setData(movementData);
+        movement.invalidate();
+
+        /*TextView averageMovement = new TextView(getContext());
+        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
+
+        TextView sleepTime = new TextView(getContext());
+        sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
+
+        LinearLayout layout = view.findViewById(R.id.layout);
+        layout.addView(averageMovement);
+        layout.addView(sleepTime);*/
+
+        return view;
     }
 }
