@@ -55,8 +55,11 @@ import static android.content.ContentValues.TAG;
 public class FragmentRecords extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabaseData;
+    private DatabaseReference mDatabaseDataTotalTime;
     private ArrayList<String> mDates = new ArrayList<>();
-    ArrayList<String> listOfvalues = new ArrayList<String>();
+    private ArrayList<String> mMinutes = new ArrayList<>();
+    TextView listSleepTime;
+
     public FragmentRecords() {
         // Required empty public constructor
     }
@@ -96,8 +99,8 @@ public class FragmentRecords extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String date = postSnapshot.getKey();
                     mDates.add(date);
-                    customAdapter.notifyDataSetChanged();
                 }
+                customAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -190,16 +193,18 @@ public class FragmentRecords extends Fragment {
             view = getLayoutInflater().inflate(R.layout.listview_records, null);
             LinearLayout layout = view.findViewById(R.id.recListLayout);
             TextView listDate = view.findViewById(R.id.recListDate);
-            TextView listSleepTime = view.findViewById(R.id.recListTime);
+            listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
             listDate.setText(mDates.get(i).toString());
-            listSleepTime.setText("8:21");
+            listSleepTime.setText("0");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent);
+                   /* Intent intent = new Intent(getContext(), DetailActivity.class);
+                    startActivity(intent);*/
+                    listSleepTime.setText(mMinutes.get(i).toString());
+
                 }
             });
             //    listSummary.setBackgroundColor();
@@ -244,5 +249,4 @@ public class FragmentRecords extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }
