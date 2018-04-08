@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -56,10 +57,9 @@ public class FragmentRecords extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabaseData;
     private DatabaseReference mDatabaseDataTotalTime;
-    private ArrayList<String> mDates = new ArrayList<>();
-    private ArrayList<String> mMinutes = new ArrayList<>();
     TextView listSleepTime;
-
+    private List<String> mDates = new ArrayList<>();
+    private List<String> mMinutes = new ArrayList<>();
     public FragmentRecords() {
         // Required empty public constructor
     }
@@ -99,6 +99,23 @@ public class FragmentRecords extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String date = postSnapshot.getKey();
                     mDates.add(date);
+                    mDatabaseDataTotalTime = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(date);
+                    mDatabaseDataTotalTime.addListenerForSingleValueEvent(new ValueEventListener() {
+                        int counter = 0;
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                counter +=2;
+                                Log.d(TAG, Integer.toString(counter));
+                            }
+                            mMinutes.add(Integer.toString(counter));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 customAdapter.notifyDataSetChanged();
             }
@@ -188,7 +205,7 @@ public class FragmentRecords extends Fragment {
         }
 
         @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
+        public View getView(int i, View view, ViewGroup viewGroup) {
             final int current = i;
             view = getLayoutInflater().inflate(R.layout.listview_records, null);
             LinearLayout layout = view.findViewById(R.id.recListLayout);
@@ -196,15 +213,13 @@ public class FragmentRecords extends Fragment {
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
             listDate.setText(mDates.get(i).toString());
-            listSleepTime.setText("0");
+            listSleepTime.setText(mMinutes.get(i).toString());
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   /* Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent);*/
-                    listSleepTime.setText(mMinutes.get(i).toString());
-
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    startActivity(intent);
                 }
             });
             //    listSummary.setBackgroundColor();
