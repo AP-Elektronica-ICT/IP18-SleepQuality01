@@ -48,7 +48,7 @@ public class settings extends AppCompatActivity {
 
     ImageView imgCountry;
     User user;
-    DatabaseReference dbFirstName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +59,8 @@ public class settings extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
-        //databaseReference = FirebaseDatabase.getInstance().getReference("User");
+        databaseReference = FirebaseDatabase.getInstance().getReference("User");
 
-        dbFirstName = FirebaseDatabase.getInstance().getReference().child("User").child("firstname");
         Load();
 
         selectCountry = findViewById(R.id.setTxtSelectCountry);

@@ -76,7 +76,7 @@ public class SleepDataRepo {
 
     private void FetchData(String userid, final OnGetDataListener listener){
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child("12-03-2018").child("0");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child("12-03-2018");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
