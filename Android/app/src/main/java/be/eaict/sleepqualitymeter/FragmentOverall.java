@@ -131,7 +131,7 @@ public class FragmentOverall extends Fragment {
 
     public static View SetLayout(View view){
 
-        calculator = new LogicandCalc();
+     /*   calculator = new LogicandCalc();
         LastNight = new SleepLength(sleepDataRepo.movementArray.length);
 
         movement = view.findViewById(R.id.movement);
