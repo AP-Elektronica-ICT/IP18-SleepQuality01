@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 
@@ -20,7 +21,7 @@ import com.github.mikephil.charting.charts.LineChart;
  * create an instance of this fragment.
  */
 public class FragmentHeartRate extends Fragment {
-
+    TextView hrtrate;
     LogicandCalc calculator;
 
     private OnFragmentInteractionListener mListener;
@@ -56,7 +57,9 @@ public class FragmentHeartRate extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_heart_rate, container, false);
-
+        hrtrate = view.findViewById(R.id.dtlHrtRate);
+        int Date = getActivity().getIntent().getExtras().getInt("date");
+        hrtrate.setText(LandingPage.Repository.get(Date).Date);
         calculator = new LogicandCalc();
 
         LineChart heartRate = view.findViewById(R.id.heartRate);

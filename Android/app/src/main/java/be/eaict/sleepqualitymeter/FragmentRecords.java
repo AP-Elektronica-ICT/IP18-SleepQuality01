@@ -185,9 +185,8 @@ public class FragmentRecords extends Fragment {
     class CustomAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return mDates.size();
+            return LandingPage.Repository.size();
         }
-
         @Override
         public Object getItem(int i) {
             return null;
@@ -207,17 +206,15 @@ public class FragmentRecords extends Fragment {
             TextView listDate = view.findViewById(R.id.recListDate);
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText(mDates.get(current).toString());
-            listSleepTime.setText("xD");
+            listDate.setText(LandingPage.Repository.get(i).Date);
+            listSleepTime.setText(Integer.toString(LandingPage.Repository.get(i).Repo.size() * 2) + "mins");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   /* Intent intent = new Intent(getContext(), DetailActivity.class);
-                    startActivity(intent); */
-                    listSleepTime.setText(mMinutes.get(current));
-                    Log.d(TAG, mMinutes.get(current));
-
+                   Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("date", current);
+                    startActivity(intent);
                 }
             });
             //    listSummary.setBackgroundColor();

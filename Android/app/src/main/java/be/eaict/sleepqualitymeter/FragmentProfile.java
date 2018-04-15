@@ -38,9 +38,6 @@ public class FragmentProfile extends Fragment {
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
     User user;
-    //Firebase
-    DatabaseReference databaseReference;
-    FirebaseAuth mAuth;
     ImageView imgCountry;
     private OnFragmentInteractionListener mListener;
 
@@ -51,6 +48,7 @@ public class FragmentProfile extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment FragmentProfile.
      */
     // TODO: Rename and change types and number of parameters
@@ -72,8 +70,8 @@ public class FragmentProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_fragment_profile, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_fragment_profile, container, false);
+        user = LandingPage.DefUser;
         Load();
         txtAge = view.findViewById(R.id.profTxtAge);
         txtEmail = view.findViewById(R.id.profTxtEmail);
@@ -82,57 +80,30 @@ public class FragmentProfile extends Fragment {
         txtWeight = view.findViewById(R.id.profTxtWeight);
         txtAvgSleepTime = view.findViewById(R.id.profTxtAvgSleepTime);
         txtAvgSleepTime.setText("N/A");
+        firstName = user.getFirstname();
+        lastName = user.getLastname();
+        email = user.getEmail();
+        birthdate = user.getBirthdate();
+        country = user.getCountry();
+        rawdata_weight = user.getWeight();
         imgCountry = view.findViewById(R.id.profImgCountry);
-        mAuth = FirebaseAuth.getInstance();
-        email = mAuth.getCurrentUser().getEmail().toLowerCase();
-        txtName.setText("Loading profile...");
-        databaseReference = FirebaseDatabase.getInstance().getReference("User");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+        //Convert KG to pound
+        if (measurement == true) {
+            Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
+            int t = lbstokg.intValue();
+            weight = Integer.toString(t);
+            txtWeight.setText(weight + " lbs");
+        } else {
+            weight = rawdata_weight;
+            txtWeight.setText(weight + " kg");
+        }
 
-                    user = snapshot.getValue(User.class);
-
-                    System.out.println(user.getEmail());
-
-                    if(user.getEmail().equals(email)){
-                        System.out.println("WOOOOHOOO");
-                        userid = user.getId();
-                        email = user.getEmail();
-                        firstName = user.getFirstname();
-                        lastName = user.getLastname();
-                        country = user.getCountry();
-                        rawdata_weight = user.getWeight();
-                        birthdate = user.getBirthdate();
-                    }
-                }
-
-                //Convert KG to pound
-                if(measurement ==true) {
-                    Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
-                    int t = lbstokg.intValue();
-                    weight = Integer.toString(t);
-                    txtWeight.setText(weight + " lbs");
-                }
-                else {
-                    weight = rawdata_weight;
-                    txtWeight.setText(weight + " kg");
-                }
-
-                txtName.setText(firstName + " " + lastName + "'s profile");
-                txtEmail.setText(email);
-                txtNationality.setText(country);
-                Country tempcountry = Country.getCountryByName(country);
-                imgCountry.setImageResource(tempcountry.getFlag());
-                txtAge.setText(birthdate);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                throw databaseError.toException();
-            }
-        });
+        txtName.setText(firstName + " " + lastName + "'s profile");
+        txtEmail.setText(email);
+        txtNationality.setText(country);
+        Country tempcountry = Country.getCountryByName(country);
+        imgCountry.setImageResource(tempcountry.getFlag());
+        txtAge.setText(birthdate);
 
         Button btnSettings = view.findViewById(R.id.profBtnSettings);
         btnSettings.setOnClickListener(new View.OnClickListener() {
