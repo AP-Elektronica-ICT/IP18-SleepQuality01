@@ -140,7 +140,7 @@ public class login extends AppCompatActivity {
                 //progressBar.setVisibility(View.GONE);
 
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(login.this, MainActivity.class);
+                    Intent intent = new Intent(login.this, LandingPage.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }

@@ -86,6 +86,7 @@ public class FragmentRecords extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
         final SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
         customAdapter = new CustomAdapter();
+        listview.setAdapter(customAdapter);
         mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
         mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -116,7 +117,6 @@ public class FragmentRecords extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        listview.setAdapter(customAdapter);
 
         ArrayList<String> templist = new ArrayList<>();
         for(int i = 0; i<=20; i++) {
@@ -208,7 +208,7 @@ public class FragmentRecords extends Fragment {
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
             listDate.setText(mDates.get(current).toString());
-            listSleepTime.setText(mMinutes.get(i));
+            listSleepTime.setText("xD");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
