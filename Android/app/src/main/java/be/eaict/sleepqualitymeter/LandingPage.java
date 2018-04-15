@@ -16,9 +16,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.content.ContentValues.TAG;
 
 public class LandingPage extends AppCompatActivity {
+
     TextView landingTxt;
     Button landingBtn;
     private DatabaseReference mDatabaseData;
@@ -26,7 +30,10 @@ public class LandingPage extends AppCompatActivity {
     private DatabaseReference mDatabaseUser;
     private FirebaseAuth mAuth;
     private User user;
+    private DataRepo dataRepo;
+    private List<DataRepo> Repository;
     String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +43,16 @@ public class LandingPage extends AppCompatActivity {
         landingTxt.setText("Loading");
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
+        Repository = new ArrayList<>();
+
         landingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LandingPage.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                for (int i = 0; i < Repository.size(); i++){
+                    Log.d("Repo", String.valueOf(Repository.get(i).Repo.size()));
+                }
                 startActivity(intent);
             }
         });
@@ -74,6 +86,8 @@ public class LandingPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String date = postSnapshot.getKey();
+                    dataRepo = new DataRepo(date);
+                    Log.d("Date", date);
                     //Date is hier de datum van de collectie opgeslagen als bv. string "12-03-2018"
                     mDatabaseDataTimes = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(date);
                     mDatabaseDataTimes.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,13 +108,20 @@ public class LandingPage extends AppCompatActivity {
                                 Log.d("Noise", Float.toString(noise));
                                 Log.d("Lum", Float.toString(luminosity));
                                 Log.d("Mov", Float.toString(movement));
+
+                                Data data = new Data(time, heartbeat, humidity, luminosity, movement, noise, temperature);
+                                Log.d("Data", String.valueOf(data.getHeartbeat()));
+                                dataRepo.addData(data);
                             }
+                            Repository.add(dataRepo);
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                         }
+
                     });
+
                 }
             }
 
