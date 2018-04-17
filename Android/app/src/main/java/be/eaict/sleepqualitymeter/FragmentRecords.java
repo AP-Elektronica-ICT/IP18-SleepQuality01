@@ -58,7 +58,7 @@ public class FragmentRecords extends Fragment {
     private List<String> mMinutes = new ArrayList<>();
     ImageButton btnRefresh;
     TextView txtBanner;
-    List<DataRepo> Repository = new ArrayList<>();
+    List<DataRepo> Repository;
     User user;
     public FragmentRecords() {
         // Required empty public constructor
@@ -93,7 +93,6 @@ public class FragmentRecords extends Fragment {
         btnRefresh = view.findViewById(R.id.fragRecRefresh);
         txtBanner = view.findViewById(R.id.fragRecTxtName);
         user = LandingPage.DefUser;
-        Repository = null;
         Repository = LandingPage.Repository;
         txtBanner.setText(user.getFirstname() + " " + user.getLastname() + "'s records");
         btnRefresh.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +105,7 @@ public class FragmentRecords extends Fragment {
         });
         customAdapter = new CustomAdapter();
         listview.setAdapter(customAdapter);
-
+        Log.d("Repo", Integer.toString(Repository.size()));
       /*  FetchData(view, new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
