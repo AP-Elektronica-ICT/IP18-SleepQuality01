@@ -53,7 +53,7 @@ public class FragmentDetails extends Fragment {
         int Date = getActivity().getIntent().getExtras().getInt("date");
 
         temp = view.findViewById(R.id.dtl_txt);
-        temp.setText(LandingPage.Repository.get(Date).Date);
+        temp.setText(LandingPage.Repository.get(Date).Date + "Details");
         return view;
 
     }

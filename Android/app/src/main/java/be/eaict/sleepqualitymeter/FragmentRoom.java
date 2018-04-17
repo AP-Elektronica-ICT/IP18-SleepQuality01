@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,15 @@ import java.util.List;
 public class FragmentRoom extends Fragment {
     List<DataRepo> Repository = new ArrayList<>();
     int Date;
+    List<Float> Noise;
+    List<Float> Luminosity;
+    List<Float> Humidity;
+    List<Float> Temperature;
+    LineChart noisechart;
+    LineChart luminositychart;
+    LineChart humiditychart;
+    LineChart temperaturechart;
+    LogicandCalc calculator;
     private OnFragmentInteractionListener mListener;
 
     public FragmentRoom() {
@@ -55,7 +69,53 @@ public class FragmentRoom extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_room, container, false);
         Repository = LandingPage.Repository;
+        calculator = new LogicandCalc();
         Date = getActivity().getIntent().getExtras().getInt("date");
+        noisechart = view.findViewById(R.id.noise);
+        luminositychart = view.findViewById(R.id.luminosity);
+        temperaturechart = view.findViewById(R.id.temperature);
+        humiditychart = view.findViewById(R.id.humidity);
+
+        Noise = calculator.getDataType("noise", Repository.get(Date).Repo);
+        Luminosity = calculator.getDataType("luminosity", Repository.get(Date).Repo);
+        Humidity = calculator.getDataType("humidity", Repository.get(Date).Repo);
+        Temperature = calculator.getDataType("temperature", Repository.get(Date).Repo);
+
+        List<Entry> entriesNoise = new ArrayList<>();
+        List<Entry> entriesLuminosity = new ArrayList<>();
+        List<Entry> entriesHumidity = new ArrayList<>();
+        List<Entry> entriesTemperature = new ArrayList<>();
+
+        for (int i = 0; i < Noise.size(); i++){
+            int time = i * 2;
+            entriesNoise.add(new Entry(time, Noise.get(i)));
+            entriesLuminosity.add(new Entry(time, Luminosity.get(i)));
+            entriesHumidity.add(new Entry(time, Humidity.get(i)));
+            entriesTemperature.add(new Entry(time, Temperature.get(i)));
+        }
+
+        LineDataSet dataSetNoise = new LineDataSet(entriesNoise, "Noise");
+        LineDataSet dataSetLuminosity = new LineDataSet(entriesLuminosity, "Luminosity");
+        LineDataSet dataSetHumidity = new LineDataSet(entriesHumidity, "Humidity");
+        LineDataSet dataSetTemperature = new LineDataSet(entriesTemperature, "Temperature");
+
+
+        LineData lineDataNoise = new LineData(dataSetNoise);
+        noisechart.setData(lineDataNoise);
+        noisechart.invalidate();
+
+        LineData lineDataLuminosity = new LineData(dataSetLuminosity);
+        noisechart.setData(lineDataLuminosity);
+        noisechart.invalidate();
+
+        LineData lineDataHumidity = new LineData(dataSetHumidity);
+        noisechart.setData(lineDataHumidity);
+        noisechart.invalidate();
+
+        LineData lineDataTemperature = new LineData(dataSetTemperature);
+        noisechart.setData(lineDataTemperature);
+        noisechart.invalidate();
+
         return view;
     }
 

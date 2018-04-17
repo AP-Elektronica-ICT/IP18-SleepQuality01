@@ -74,7 +74,7 @@ public class FragmentMovement extends Fragment {
             entries.add(new Entry(time, Movement.get(i)));
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Heartrate");
+        LineDataSet dataSet = new LineDataSet(entries, "Movement");
 
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
