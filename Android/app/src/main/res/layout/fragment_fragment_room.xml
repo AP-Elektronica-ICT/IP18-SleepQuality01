@@ -16,22 +16,22 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:id="@+id/noise"></com.github.mikephil.charting.charts.LineChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:id="@+id/luminosity"></com.github.mikephil.charting.charts.LineChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:id="@+id/temperature"></com.github.mikephil.charting.charts.LineChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:id="@+id/humidity"></com.github.mikephil.charting.charts.LineChart>
 
 
