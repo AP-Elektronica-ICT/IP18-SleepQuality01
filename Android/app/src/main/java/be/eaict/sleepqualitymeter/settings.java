@@ -35,7 +35,7 @@ import com.mukesh.countrypicker.CountryPickerListener;
 
 public class settings extends AppCompatActivity {
     String firstName, lastName, password, newcountry, oldcountry, weight, email, userID;
-    Boolean switchTemperature , switchLight, switchMeasurement;
+    Boolean switchTemperature, switchLight, switchMeasurement;
     Switch temperature, light, measurement;
     EditText editFirstName, editLastName, editPassword, editWeight;
     TextView selectCountry;
@@ -48,7 +48,7 @@ public class settings extends AppCompatActivity {
 
     ImageView imgCountry;
     User user;
-    DatabaseReference dbFirstName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +56,10 @@ public class settings extends AppCompatActivity {
         switchTemperature = false;
         switchLight = false;
         switchMeasurement = false;
-
+        user = LandingPage.DefUser;
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
-        //databaseReference = FirebaseDatabase.getInstance().getReference("User");
-
-        dbFirstName = FirebaseDatabase.getInstance().getReference().child("User").child("firstname");
-        Load();
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("User");
         selectCountry = findViewById(R.id.setTxtSelectCountry);
         Button savebutton = findViewById(R.id.setBtnSave);
         Button saveDiscard = findViewById(R.id.setBtnDiscard);
@@ -76,34 +72,28 @@ public class settings extends AppCompatActivity {
         editPassword = findViewById(R.id.setEditPassw);
         editWeight = findViewById(R.id.setEditWeight);
         imgCountry = findViewById(R.id.setImgCountry);
-        editWeight.setText(weight);
-        selectCountry.setText(oldcountry);
-        editFirstName.setText(firstName);
-    //    Country tempcountry = Country.getCountryByName(oldcountry);
-    //    imgCountry.setImageResource(tempcountry.getFlag());
+        Load();
+        //    Country tempcountry = Country.getCountryByName(oldcountry);
+        //    imgCountry.setImageResource(tempcountry.getFlag());
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(temperature.isChecked()) {
+                if (temperature.isChecked()) {
                     switchTemperature = true;
-                }
-                else {
+                } else {
                     switchTemperature = false;
                 }
-                if(light.isChecked()) {
+                if (light.isChecked()) {
                     switchLight = true;
-                }
-                else {
+                } else {
                     switchLight = false;
                 }
-                if(measurement.isChecked()) {
+                if (measurement.isChecked()) {
                     switchMeasurement = true;
-                }
-                else {
+                } else {
                     switchMeasurement = false;
                 }
                 Save();
-
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -128,48 +118,48 @@ public class settings extends AppCompatActivity {
                 picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
             }
         });
-    saveDiscard.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    });
-    deleteUser.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(settings.this);
+        saveDiscard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        deleteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(settings.this);
 
-            builder.setTitle("Confirm");
-            builder.setMessage("Are you sure you want to delete your account and erase all the data?");
+                builder.setTitle("Confirm");
+                builder.setMessage("Are you sure you want to delete your account and erase all the data?");
 
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
-                    // Do nothing but close the dialog
-                    firebaseUser.delete();
-                    databaseReference.child(userID).removeValue();
-                    Intent intent = new Intent(getBaseContext(), login.class);
-                    startActivity(intent);
-                    dialog.dismiss();
-                }
-            });
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                        firebaseUser.delete();
+                        databaseReference.child(userID).removeValue();
+                        Intent intent = new Intent(getBaseContext(), login.class);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
 
-            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                    // Do nothing
-                    dialog.dismiss();
-                }
-            });
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
 
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-    });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
     }
 
     public void Save() {
@@ -183,22 +173,24 @@ public class settings extends AppCompatActivity {
         editor.putBoolean("measurement", switchMeasurement);
         editor.putBoolean("temp", switchTemperature);
         //Set password Firebase
-                    if(!newpassword.isEmpty()){
-                        if(password.length() < 6){
-                            editPassword.setError("Minimum lenght of password should be 6");
-                            editPassword.requestFocus();
-                            return;
-                        }
-                        firebaseUser.updatePassword(newpassword);
-                    }
-                    if(newfirstName != firstName && !editFirstName.toString().isEmpty()) {
-                        databaseReference.child(userID).child("firstname").setValue(newfirstName);
-                    }
-                    if(newlastName != lastName && !editLastName.toString().isEmpty()) {
-                        databaseReference.child(userID).child("lastname").setValue(newlastName);
-                    }
-        if(newweight != weight && !editWeight.toString().isEmpty()) {
-         //   int t = Integer.getInteger(editWeight.getText().toString().);
+        if (!newpassword.isEmpty()) {
+            if (newpassword.length() < 6) {
+                editPassword.setError("Minimum lenght of password should be 6");
+                editPassword.requestFocus();
+                return;
+            }
+            firebaseUser.updatePassword(newpassword);
+        }
+        if (newfirstName != firstName && !editFirstName.toString().isEmpty()) {
+            databaseReference.child(userID).child("firstname").setValue(newfirstName);
+            user.setFirstname(editFirstName.toString());
+        }
+        if (newlastName != lastName && !editLastName.toString().isEmpty()) {
+            databaseReference.child(userID).child("lastname").setValue(newlastName);
+            user.setLastname(editLastName.toString());
+        }
+        if (newweight != weight && !editWeight.toString().isEmpty()) {
+            //   int t = Integer.getInteger(editWeight.getText().toString().);
           /*  if(t  > 200) {
                 editWeight.setError("Max weight is 200");
                 editWeight.requestFocus();
@@ -206,16 +198,17 @@ public class settings extends AppCompatActivity {
             } */
             if (measurement.isChecked() == false) {
                 databaseReference.child(userID).child("weight").setValue(newweight);
-            }
-            else {
+                user.setWeight(newweight);
+            } else {
                 Double tempweight = Double.parseDouble(newweight) * 0.45359237;
                 int tempt = tempweight.intValue();
                 databaseReference.child(userID).child("weight").setValue(Integer.toString(tempt));
-
+                user.setWeight(Integer.toString(tempt));
             }
         }
         if (newcountry != oldcountry && newcountry != null) {
             databaseReference.child(userID).child("country").setValue(newcountry);
+            user.setCountry(newcountry);
         }
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);
@@ -223,52 +216,34 @@ public class settings extends AppCompatActivity {
 
     public void Load() {
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
-        switchMeasurement  = sp.getBoolean("measurement", false);
+        switchMeasurement = sp.getBoolean("measurement", false);
         switchLight = sp.getBoolean("light", false);
         switchTemperature = sp.getBoolean("temp", false);
-        email = mAuth.getCurrentUser().getEmail().toLowerCase();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String rawdata_weight = null;
+        email = user.getEmail();
+        oldcountry = user.getCountry();
+        firstName = user.getFirstname();
+        lastName = user.getLastname();
+        userID = user.getId();
+        editWeight.setText(weight);
+        selectCountry.setText(oldcountry);
+        editFirstName.setText(firstName);
+        editLastName.setText(lastName);
+        measurement.setChecked(switchMeasurement);
+        light.setChecked(switchLight);
+        temperature.setChecked(switchTemperature);
+        String rawdata_weight = user.getWeight();
+        //Convert KG to pound
+        if (measurement.isChecked() == true) {
+            Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
+            int t = lbstokg.intValue();
+            weight = Integer.toString(t);
+            editWeight.setText(weight);
+        } else {
+            weight = rawdata_weight;
+            editWeight.setText(weight);
+        }
 
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    user = snapshot.getValue(User.class);
-                    System.out.println(user.getEmail());
-
-                    if(user.getEmail().equals(email)){
-                        System.out.println("WOOOOHOOO");
-                        userID = user.getId();
-                        firstName = user.getFirstname();
-                        lastName = user.getLastname();
-                        oldcountry = user.getCountry();
-                        rawdata_weight = user.getWeight();
-                        selectCountry.setText(oldcountry);
-                        editFirstName.setText(firstName);
-                        editLastName.setText(lastName);
-                    }
-                }
-
-                //Convert KG to pound
-                if(measurement.isChecked() ==true) {
-                    Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
-                    int t = lbstokg.intValue();
-                    weight = Integer.toString(t);
-                    editWeight.setText(weight);
-                }
-                else {
-                    weight = rawdata_weight;
-                    editWeight.setText(weight);
-                }
-
-                Country tempcountry = Country.getCountryByName(oldcountry);
-                imgCountry.setImageResource(tempcountry.getFlag());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                throw databaseError.toException();
-            }
-        });
+        Country tempcountry = Country.getCountryByName(oldcountry);
+        imgCountry.setImageResource(tempcountry.getFlag());
     }
-    }
+}

@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity
     implements FragmentDetails.OnFragmentInteractionListener, FragmentHeartRate.OnFragmentInteractionListener,
@@ -14,14 +15,13 @@ public class DetailActivity extends AppCompatActivity
     BottomBarAdapter pagerAdapter;
     ViewPager viewPager;
     TabLayout tabLayout;
-
+    TextView temp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         viewPager = findViewById(R.id.pager);
-
         tabLayout = findViewById(R.id.tabDots);
         tabLayout.setupWithViewPager(viewPager, true);
 
@@ -31,7 +31,6 @@ public class DetailActivity extends AppCompatActivity
         pagerAdapter.addFragments(new FragmentMovement());
         pagerAdapter.addFragments(new FragmentRoom());
         viewPager.setAdapter(pagerAdapter);
-
     }
 
     @Override

@@ -1,7 +1,5 @@
 package be.eaict.sleepqualitymeter;
 
-import java.util.Calendar;
-
 /**
  * Created by sande on 22/02/2018.
  */
@@ -48,4 +46,20 @@ public class User {
     }
 
     public String getWeight() { return weight; }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 }

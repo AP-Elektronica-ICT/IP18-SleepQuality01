@@ -29,11 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +52,7 @@ public class FragmentRecords extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabaseData;
     private DatabaseReference mDatabaseDataTotalTime;
-    TextView listSleepTime;
+    CustomAdapter customAdapter;
     private List<String> mDates = new ArrayList<>();
     private List<String> mMinutes = new ArrayList<>();
 
@@ -91,7 +86,7 @@ public class FragmentRecords extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
         final SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
-        final CustomAdapter customAdapter = new CustomAdapter();
+        customAdapter = new CustomAdapter();
         listview.setAdapter(customAdapter);
 
         FetchData(view, new OnGetDataListener() {
@@ -111,11 +106,10 @@ public class FragmentRecords extends Fragment {
                             }
                             System.out.println("counter" + counter);
                             mMinutes.add(Integer.toString(counter));
+                            customAdapter.notifyDataSetChanged();
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
                 }
@@ -127,6 +121,11 @@ public class FragmentRecords extends Fragment {
                 System.out.println("The Records read failed " + databaseError.getCode());
             }
         });
+
+        ArrayList<String> templist = new ArrayList<>();
+        for(int i = 0; i<=20; i++) {
+            templist.add("Test123");
+        }
 
       //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -190,9 +189,8 @@ public class FragmentRecords extends Fragment {
     class CustomAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return mDates.size();
+            return LandingPage.Repository.size();
         }
-
         @Override
         public Object getItem(int i) {
             return null;
@@ -206,18 +204,20 @@ public class FragmentRecords extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             final int current = i;
+            final TextView listSleepTime;
             view = getLayoutInflater().inflate(R.layout.listview_records, null);
-            LinearLayout layout = view.findViewById(R.id.recListLayout);
+            final LinearLayout layout = view.findViewById(R.id.recListLayout);
             TextView listDate = view.findViewById(R.id.recListDate);
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText(mDates.get(i).toString());
-            listSleepTime.setText(mMinutes.get(i).toString());
+            listDate.setText(LandingPage.Repository.get(i).Date);
+            listSleepTime.setText(Integer.toString(LandingPage.Repository.get(i).Repo.size() * 2) + "mins");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                   Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("date", current);
                     startActivity(intent);
                 }
             });
