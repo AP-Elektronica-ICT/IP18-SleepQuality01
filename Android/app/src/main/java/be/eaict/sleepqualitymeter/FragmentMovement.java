@@ -8,6 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +26,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class FragmentMovement extends Fragment {
-
+    int Date;
+    List<DataRepo> Repository = new ArrayList<>();
+    List<Float> Movement;
+    LogicandCalc Calculator = new LogicandCalc();
+    LineChart chart;
     private OnFragmentInteractionListener mListener;
 
     public FragmentMovement() {
@@ -49,7 +61,26 @@ public class FragmentMovement extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_movement, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragment_movement, container, false);
+        Repository = LandingPage.Repository;
+        Date = getActivity().getIntent().getExtras().getInt("date");
+        chart = view.findViewById(R.id.movement);
+        Movement = Calculator.getDataType("movement", Repository.get(Date).Repo);
+
+        List<Entry> entries = new ArrayList<>();
+
+        for (int i = 0; i < Movement.size(); i++){
+            int time = i * 2;
+            entries.add(new Entry(time, Movement.get(i)));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Heartrate");
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate();
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

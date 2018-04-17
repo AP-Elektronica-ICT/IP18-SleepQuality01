@@ -10,6 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -23,6 +29,10 @@ import com.github.mikephil.charting.charts.LineChart;
 public class FragmentHeartRate extends Fragment {
     TextView hrtrate;
     LogicandCalc calculator;
+    int Date;
+    List<DataRepo> Repository = new ArrayList<>();
+    List<Float> Heartrates;
+    LineChart chart;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,11 +68,27 @@ public class FragmentHeartRate extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_heart_rate, container, false);
         hrtrate = view.findViewById(R.id.dtlHrtRate);
-        int Date = getActivity().getIntent().getExtras().getInt("date");
-        hrtrate.setText(LandingPage.Repository.get(Date).Date);
+        chart = view.findViewById(R.id.heartRate);
+
+        Repository = LandingPage.Repository;
+        Date = getActivity().getIntent().getExtras().getInt("date");
+        hrtrate.setText(Repository.get(Date).Date);
         calculator = new LogicandCalc();
 
-        LineChart heartRate = view.findViewById(R.id.heartRate);
+        Heartrates = calculator.getDataType("heartbeat", Repository.get(Date).Repo);
+
+        List<Entry> entries = new ArrayList<>();
+
+        for (int i = 0; i < Heartrates.size(); i++){
+            int time = i * 2;
+            entries.add(new Entry(time, Heartrates.get(i)));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Heartrate");
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate();
 
         return view;
     }

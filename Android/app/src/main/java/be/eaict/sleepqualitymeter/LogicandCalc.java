@@ -1,5 +1,8 @@
 package be.eaict.sleepqualitymeter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jonas on 22/02/2018.
  */
@@ -29,5 +32,37 @@ public class LogicandCalc {
             }
         }
         return new float[]{min, max};
+    }
+
+    public List<Float> getDataType(String dataType, List<Data> Repo){
+        List<Float> end = new ArrayList<>();
+        for (int i = 0; i < Repo.size(); i++){
+            switch (dataType){
+                case "heartbeat":
+                    end.add(Repo.get(i).getHeartbeat());
+                    break;
+
+                case "humidity":
+                    end.add(Repo.get(i).getHumidity());
+                    break;
+
+                case "luminosity":
+                    end.add(Repo.get(i).getLuminosity());
+                    break;
+
+                case "movement":
+                    end.add(Repo.get(i).getMovement());
+                    break;
+
+                case "noise":
+                    end.add(Repo.get(i).getNoise());
+                    break;
+
+                case "temperature":
+                    end.add(Repo.get(i).getTemperature());
+                    break;
+            }
+        }
+        return end;
     }
 }
