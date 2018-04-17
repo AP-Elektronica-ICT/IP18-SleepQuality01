@@ -218,6 +218,7 @@ public class FragmentRecords extends Fragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            IssueChecker issueChecker = new IssueChecker(Repository.get(i));
             final int current = i;
             final TextView listSleepTime;
             view = getLayoutInflater().inflate(R.layout.listview_records, null);
@@ -227,7 +228,9 @@ public class FragmentRecords extends Fragment {
             TextView listSummary = view.findViewById(R.id.recListSummary);
             listDate.setText(Repository.get(i).Date);
             listSleepTime.setText(Integer.toString(Repository.get(i).Repo.size() * 2) + "mins");
-            listSummary.setText("Good!");
+            issueChecker.sleepTimeChecker();
+            listSummary.setText(issueChecker.sleepQuality);
+            Log.d("Sleep", issueChecker.sleepQuality);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
