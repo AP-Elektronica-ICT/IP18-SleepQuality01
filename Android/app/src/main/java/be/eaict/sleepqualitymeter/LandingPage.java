@@ -28,12 +28,11 @@ public class LandingPage extends AppCompatActivity {
     private DatabaseReference mDatabaseUser;
     private FirebaseAuth mAuth;
     private User user;
-    private String date;
 
     private List<String> dates = new ArrayList<>();
     private List<Data> datas = new ArrayList<>();
 
-    static List<DataRepo> Repository = new ArrayList<>();
+    static List<DataRepo> Repository;
     private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
     static User DefUser;
 
@@ -46,6 +45,8 @@ public class LandingPage extends AppCompatActivity {
         landingTxt.setText("Loading");
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
+
+        Repository = new ArrayList<>();
 
         GetUserData();
 
@@ -135,7 +136,7 @@ public class LandingPage extends AppCompatActivity {
                 System.out.println("GetSleepDataDate OnSucces");
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    date = postSnapshot.getKey();
+                    final String date = postSnapshot.getKey();
                     dates.add(date);
                     Log.d("Date", date);
                     //Date is hier de datum van de collectie opgeslagen als bv. string "12-03-2018"
@@ -165,6 +166,7 @@ public class LandingPage extends AppCompatActivity {
                                 datas.add(new Data(time, heartbeat, humidity, luminosity, movement, noise, temperature));
                             }
                             Log.d("RepoDataSize", String.valueOf(datas.size()));
+                            Log.d("RepoDate", date);
                            /* for (int i = 0; i < dates.size(); i++) {
                                 Repository.add(new DataRepo(dates.get(i), datas));
                             }*/
