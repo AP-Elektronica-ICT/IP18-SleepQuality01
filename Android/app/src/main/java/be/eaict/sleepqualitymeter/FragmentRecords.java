@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,7 +56,10 @@ public class FragmentRecords extends Fragment {
     CustomAdapter customAdapter;
     private List<String> mDates = new ArrayList<>();
     private List<String> mMinutes = new ArrayList<>();
-
+    ImageButton btnRefresh;
+    TextView txtBanner;
+    List<DataRepo> Repository = new ArrayList<>();
+    User user;
     public FragmentRecords() {
         // Required empty public constructor
     }
@@ -86,10 +90,21 @@ public class FragmentRecords extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
         final SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
+        btnRefresh = view.findViewById(R.id.fragRecRefresh);
+        txtBanner = view.findViewById(R.id.fragRecTxtName);
+        user = LandingPage.DefUser;
+        Repository = null;
+        Repository = LandingPage.Repository;
+        txtBanner.setText(user.getFirstname() + " " + user.getLastname() + "'s records");
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         customAdapter = new CustomAdapter();
         listview.setAdapter(customAdapter);
 
-        FetchData(view, new OnGetDataListener() {
+      /*  FetchData(view, new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -121,11 +136,7 @@ public class FragmentRecords extends Fragment {
                 System.out.println("The Records read failed " + databaseError.getCode());
             }
         });
-
-        ArrayList<String> templist = new ArrayList<>();
-        for(int i = 0; i<=20; i++) {
-            templist.add("Test123");
-        }
+*/
 
       //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -145,10 +156,10 @@ public class FragmentRecords extends Fragment {
 
         listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        // delete
+                        final int pos = position;
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                         builder.setTitle("Confirm");
@@ -157,7 +168,9 @@ public class FragmentRecords extends Fragment {
                         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(Repository.get(pos).Date);
+                                Repository.remove(pos);
+                                ref.removeValue();
                             }
                         });
 
@@ -210,8 +223,8 @@ public class FragmentRecords extends Fragment {
             TextView listDate = view.findViewById(R.id.recListDate);
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText(LandingPage.Repository.get(i).Date);
-            listSleepTime.setText(Integer.toString(LandingPage.Repository.get(i).Repo.size() * 2) + "mins");
+            listDate.setText(Repository.get(i).Date);
+            listSleepTime.setText(Integer.toString(Repository.get(i).Repo.size() * 2) + "mins");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override

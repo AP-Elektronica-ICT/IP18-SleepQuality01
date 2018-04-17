@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -140,9 +141,9 @@ public class settings extends AppCompatActivity {
                         // Do nothing but close the dialog
                         firebaseUser.delete();
                         databaseReference.child(userID).removeValue();
-                        Intent intent = new Intent(getBaseContext(), login.class);
-                        startActivity(intent);
-                        dialog.dismiss();
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Data").child(user.getId());
+                        ref.removeValue();
+                        finishAffinity();
                     }
                 });
 
@@ -183,19 +184,13 @@ public class settings extends AppCompatActivity {
         }
         if (newfirstName != firstName && !editFirstName.toString().isEmpty()) {
             databaseReference.child(userID).child("firstname").setValue(newfirstName);
-            user.setFirstname(editFirstName.toString());
+            user.setFirstname(editFirstName.getText().toString());
         }
         if (newlastName != lastName && !editLastName.toString().isEmpty()) {
             databaseReference.child(userID).child("lastname").setValue(newlastName);
-            user.setLastname(editLastName.toString());
+            user.setLastname(editLastName.getText().toString());
         }
         if (newweight != weight && !editWeight.toString().isEmpty()) {
-            //   int t = Integer.getInteger(editWeight.getText().toString().);
-          /*  if(t  > 200) {
-                editWeight.setError("Max weight is 200");
-                editWeight.requestFocus();
-                return;
-            } */
             if (measurement.isChecked() == false) {
                 databaseReference.child(userID).child("weight").setValue(newweight);
                 user.setWeight(newweight);
