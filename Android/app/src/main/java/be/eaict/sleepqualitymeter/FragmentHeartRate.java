@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,8 @@ import com.github.mikephil.charting.charts.LineChart;
 public class FragmentHeartRate extends Fragment {
     TextView hrtrate;
     LogicandCalc calculator;
+    int Date;
+    List<DataRepo> Repository = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -57,9 +62,10 @@ public class FragmentHeartRate extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_heart_rate, container, false);
+        Repository = LandingPage.Repository;
         hrtrate = view.findViewById(R.id.dtlHrtRate);
-        int Date = getActivity().getIntent().getExtras().getInt("date");
-        hrtrate.setText(LandingPage.Repository.get(Date).Date);
+        Date = getActivity().getIntent().getExtras().getInt("date");
+        hrtrate.setText(Repository.get(Date).Date);
         calculator = new LogicandCalc();
 
         LineChart heartRate = view.findViewById(R.id.heartRate);

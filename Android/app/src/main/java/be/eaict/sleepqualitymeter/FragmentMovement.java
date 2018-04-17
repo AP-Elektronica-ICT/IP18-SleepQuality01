@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +21,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class FragmentMovement extends Fragment {
-
+    int Date;
+    List<DataRepo> Repository = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
 
     public FragmentMovement() {
@@ -49,7 +53,11 @@ public class FragmentMovement extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_movement, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragment_movement, container, false);
+        Repository = LandingPage.Repository;
+        Date = getActivity().getIntent().getExtras().getInt("date");
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
