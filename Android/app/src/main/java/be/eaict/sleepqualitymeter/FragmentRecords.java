@@ -220,7 +220,9 @@ public class FragmentRecords extends Fragment {
             listDate.setText(Repository.get(i).Date);
             listSleepTime.setText(Integer.toString(Repository.get(i).Repo.size() * 2) + "mins");
             issueChecker.sleepTimeChecker();
-            listSummary.setText(issueChecker.sleepQuality);
+            issueChecker.heartRate();
+            listSummary.setText(Integer.toString(issueChecker.issuecounter));
+            listSummary.setTextColor(issueChecker.ColorPicker());
             Log.d("Sleep", issueChecker.sleepQuality);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
