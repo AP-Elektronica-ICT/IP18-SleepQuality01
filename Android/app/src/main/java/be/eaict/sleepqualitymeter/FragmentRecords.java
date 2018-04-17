@@ -60,6 +60,7 @@ public class FragmentRecords extends Fragment {
     TextView listSleepTime;
     private List<String> mDates = new ArrayList<>();
     private List<String> mMinutes = new ArrayList<>();
+
     public FragmentRecords() {
         // Required empty public constructor
     }
@@ -92,10 +93,10 @@ public class FragmentRecords extends Fragment {
         final SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
         final CustomAdapter customAdapter = new CustomAdapter();
         listview.setAdapter(customAdapter);
-        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
-        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FetchData(view, new OnGetDataListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onSuccess(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String date = postSnapshot.getKey();
                     mDates.add(date);
@@ -108,6 +109,7 @@ public class FragmentRecords extends Fragment {
                                 counter +=2;
                                 Log.d(TAG, Integer.toString(counter));
                             }
+                            System.out.println("counter" + counter);
                             mMinutes.add(Integer.toString(counter));
                         }
 
@@ -117,17 +119,14 @@ public class FragmentRecords extends Fragment {
                         }
                     });
                 }
-                customAdapter.notifyDataSetChanged();
+                //customAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onFailed(DatabaseError databaseError) {
+                System.out.println("The Records read failed " + databaseError.getCode());
             }
         });
-        ArrayList<String> templist = new ArrayList<>();
-        for(int i = 0; i<=20; i++) {
-            templist.add("Test123");
-        }
 
       //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -263,5 +262,25 @@ public class FragmentRecords extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void FetchData(View view, final OnGetDataListener listener){
+        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
+        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onSuccess(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailed(databaseError);
+            }
+        });
+    }
+
+    public interface OnGetDataListener {
+        public void onSuccess(DataSnapshot dataSnapshot);
+        public void onFailed(DatabaseError databaseError);
     }
 }

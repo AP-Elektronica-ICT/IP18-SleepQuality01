@@ -91,7 +91,7 @@ public class SleepDataRepo {
     }
 
     private void GetUserId(){
-        FetchUserId(new SleepDataRepo.OnGetDataListener() {
+        FetchUserId(new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
 
@@ -118,7 +118,7 @@ public class SleepDataRepo {
     }
 
     private void GetData( ){
-        FetchData(userid, new SleepDataRepo.OnGetDataListener() {
+        FetchData(userid, new OnGetDataListener() {
 
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {

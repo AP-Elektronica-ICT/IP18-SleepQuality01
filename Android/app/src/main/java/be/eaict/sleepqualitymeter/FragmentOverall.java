@@ -131,7 +131,7 @@ public class FragmentOverall extends Fragment {
 
     public static View SetLayout(View view){
 
-        calculator = new LogicandCalc();
+        /*calculator = new LogicandCalc();
         LastNight = new SleepLength(sleepDataRepo.movementArray.length);
 
         movement = view.findViewById(R.id.movement);
@@ -143,7 +143,7 @@ public class FragmentOverall extends Fragment {
         LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
         LineData movementData = new LineData(movementDataSet);
         movement.setData(movementData);
-        movement.invalidate();
+        movement.invalidate();*/
 
         /*TextView averageMovement = new TextView(getContext());
         averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
