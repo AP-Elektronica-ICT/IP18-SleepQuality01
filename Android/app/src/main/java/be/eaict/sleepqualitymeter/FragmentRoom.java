@@ -105,16 +105,16 @@ public class FragmentRoom extends Fragment {
         noisechart.invalidate();
 
         LineData lineDataLuminosity = new LineData(dataSetLuminosity);
-        noisechart.setData(lineDataLuminosity);
-        noisechart.invalidate();
+        luminositychart.setData(lineDataLuminosity);
+        luminositychart.invalidate();
 
         LineData lineDataHumidity = new LineData(dataSetHumidity);
-        noisechart.setData(lineDataHumidity);
-        noisechart.invalidate();
+        humiditychart.setData(lineDataHumidity);
+        humiditychart.invalidate();
 
         LineData lineDataTemperature = new LineData(dataSetTemperature);
-        noisechart.setData(lineDataTemperature);
-        noisechart.invalidate();
+        temperaturechart.setData(lineDataTemperature);
+        temperaturechart.invalidate();
 
         return view;
     }
