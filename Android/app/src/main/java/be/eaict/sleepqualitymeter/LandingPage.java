@@ -1,7 +1,6 @@
 package be.eaict.sleepqualitymeter;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,36 +9,34 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class LandingPage extends AppCompatActivity {
 
     TextView landingTxt;
     Button landingBtn;
+
     private DatabaseReference mDatabaseData;
     private DatabaseReference mDatabaseDataTimes;
     private DatabaseReference mDatabaseUser;
     private FirebaseAuth mAuth;
     private User user;
-    String date;
-    List<String> dates = new ArrayList<>();
-    List<Data> datas = new ArrayList<>();
+    private String date;
+
+    private List<String> dates = new ArrayList<>();
+    private List<Data> datas = new ArrayList<>();
+
     static List<DataRepo> Repository = new ArrayList<>();
-    String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
+    private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
     static User DefUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +47,9 @@ public class LandingPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
 
+        GetUserData();
 
+        //Button to continue after datafetch
         landingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,10 +63,45 @@ public class LandingPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+    }
+
+    private void FetchUserData(final OnGetDataListener listener){
         mDatabaseUser = FirebaseDatabase.getInstance().getReference("User");
         mDatabaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onSuccess(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailed(databaseError);
+            }
+        });
+    }
+
+    private void FetchSleepDataDate(final OnGetDataListener listener){
+        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
+        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onSuccess(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailed(databaseError);
+            }
+        });
+    }
+
+    private void GetUserData(){
+        FetchUserData(new OnGetDataListener() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                System.out.println("GetUserData OnSucces");
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     user = snapshot.getValue(User.class);
                     if (user.getEmail().equals(email)) {
@@ -82,26 +116,36 @@ public class LandingPage extends AppCompatActivity {
                         DefUser = new User(userid, firstName, lastName, email, country, rawdata_weight, birthdate);
                     }
                 }
+
+                GetSleepDataDate();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onFailed(DatabaseError databaseError) {
+                Log.d("UserDataPullError", databaseError.getMessage());
+                System.out.println("UserDataPullError : " + databaseError.getMessage());
             }
         });
-        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
-        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+    }
+
+    private void GetSleepDataDate(){
+        FetchSleepDataDate(new OnGetDataListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                System.out.println("GetSleepDataDate OnSucces");
+
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    final String date = postSnapshot.getKey();
+                    date = postSnapshot.getKey();
                     dates.add(date);
                     Log.d("Date", date);
                     //Date is hier de datum van de collectie opgeslagen als bv. string "12-03-2018"
+
                     mDatabaseDataTimes = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(date);
                     mDatabaseDataTimes.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            System.out.println("GetSleepData OnSucces");
+
                             datas = new ArrayList<>();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String time = snapshot.getKey();
@@ -129,16 +173,37 @@ public class LandingPage extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
+                            Log.d("SleepDataPullError", databaseError.getMessage());
+                            System.out.println("SleepDataPullError : " + databaseError.getMessage());
                         }
-
                     });
-
                 }
+
+                Finished();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onFailed(DatabaseError databaseError) {
+                Log.d("SleepDataDatePullError", databaseError.getMessage());
+                System.out.println("UserDataDatePullError : " + databaseError.getMessage());
             }
         });
+    }
+
+    private void Finished(){
+        System.out.println("Finished");
+        Intent intent = new Intent(LandingPage.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        for (int i = 0; i < Repository.size(); i++){
+            Log.d("Repo", String.valueOf(Repository.get(i).Repo.size()));
+            Log.d("RepoDate", Repository.get(i).Date);
+        }
+        Log.d("RepoStringLength", String.valueOf(dates.size()));
+        startActivity(intent);
+    }
+
+    public interface OnGetDataListener {
+        public void onSuccess(DataSnapshot dataSnapshot);
+        public void onFailed(DatabaseError databaseError);
     }
 }
