@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mukesh.countrypicker.Country;
+
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -41,6 +44,8 @@ public class FragmentProfile extends Fragment {
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
     User user;
     ImageView imgCountry;
+    List<DataRepo> Repository;
+
     private OnFragmentInteractionListener mListener;
 
     public FragmentProfile() {
@@ -74,6 +79,7 @@ public class FragmentProfile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_profile, container, false);
         user = LandingPage.DefUser;
+        Repository = LandingPage.Repository;
         Load();
         txtAge = view.findViewById(R.id.profTxtAge);
         txtEmail = view.findViewById(R.id.profTxtEmail);
@@ -81,7 +87,16 @@ public class FragmentProfile extends Fragment {
         txtNationality = view.findViewById(R.id.profTxtNationality);
         txtWeight = view.findViewById(R.id.profTxtWeight);
         txtAvgSleepTime = view.findViewById(R.id.profTxtAvgSleepTime);
-        txtAvgSleepTime.setText("N/A");
+        int totaltime = 0;
+        for (int i = 0; i < Repository.size(); i++) {
+            totaltime = totaltime + Repository.get(i).Repo.size() * 2;
+            }
+            Log.d("Totaltime", Integer.toString(totaltime));
+        SleepLength sleepLength;
+        LogicandCalc logicandCalc = new LogicandCalc();
+         sleepLength = new SleepLength(totaltime);
+         txtAvgSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
+        //txtAvgSleepTime.setText("N/A");
         firstName = user.getFirstname();
         lastName = user.getLastname();
         email = user.getEmail();

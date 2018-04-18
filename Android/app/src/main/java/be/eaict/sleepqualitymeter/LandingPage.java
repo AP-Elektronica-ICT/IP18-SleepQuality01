@@ -34,7 +34,8 @@ public class LandingPage extends AppCompatActivity {
 
     private int counter = 0;
 
-    static List<DataRepo> Repository;
+    //static List<DataRepo> Repository;
+    //public static List<DataRepo> Repository = new ArrayList<>();
     private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
     static User DefUser;
 
@@ -48,7 +49,6 @@ public class LandingPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
 
-        Repository = new ArrayList<>();
 
         GetUserData();
 
@@ -228,7 +228,7 @@ public class LandingPage extends AppCompatActivity {
             Log.d("RepoDate", Repository.get(i).Date);
         }
         Log.d("RepoStringLength", String.valueOf(dates.size()));
-        startActivity(intent);
+     //   startActivity(intent);
     }
 
     public interface OnGetDataListener {

@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -26,9 +28,10 @@ public class FragmentHome extends Fragment {
 
     LogicandCalc calculator = new LogicandCalc();
     SleepLength sleepLength;
-    DummyRepo dummyRepo = new DummyRepo();
     User user;
     TextView txtTimeOfDay;
+    List<DataRepo> Repository;
+
     private OnFragmentInteractionListener mListener;
 
     public FragmentHome() {
@@ -64,10 +67,11 @@ public class FragmentHome extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_home, container, false);
         txtTimeOfDay = view.findViewById(R.id.fragTxtTimeOfDAy);
+        Repository = LandingPage.Repository;
         user = LandingPage.DefUser;
-        sleepLength = new SleepLength(dummyRepo.length());
         txtTimeOfDay.setText(timeOfDay());
         TextView sleepTime = view.findViewById(R.id.sleepTime);
+        sleepLength = new SleepLength(Repository.get(Repository.size() - 1).Repo.size());
         sleepTime.setText(calculator.SleepLengthString(sleepLength));
 
         return view;
