@@ -78,8 +78,6 @@ public class FragmentOverall extends Fragment {
 
         sleepDataRepo.SleepData(view);
 
-        System.out.println("Trololololol ik ben true");
-
         /*if(sleepDataRepo.GetStatus()){
             SetLayout(view);
         }

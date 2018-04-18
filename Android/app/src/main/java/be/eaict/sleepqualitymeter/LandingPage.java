@@ -32,6 +32,8 @@ public class LandingPage extends AppCompatActivity {
     private List<String> dates = new ArrayList<>();
     private List<Data> datas = new ArrayList<>();
 
+    private int counter = 0;
+
     static List<DataRepo> Repository;
     private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
     static User DefUser;
@@ -98,6 +100,22 @@ public class LandingPage extends AppCompatActivity {
         });
     }
 
+    private void FetchSleepData(final OnGetDataListener listener){
+        mDatabaseDataTimes = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(dates.get(counter));
+        mDatabaseDataTimes.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("SleepDataPullError", databaseError.getMessage());
+                System.out.println("SleepDataPullError : " + databaseError.getMessage());
+            }
+        });
+    }
+
     private void GetUserData(){
         FetchUserData(new OnGetDataListener() {
             @Override
@@ -140,54 +158,63 @@ public class LandingPage extends AppCompatActivity {
                     dates.add(date);
                     Log.d("Date", date);
                     //Date is hier de datum van de collectie opgeslagen als bv. string "12-03-2018"
-
-                    mDatabaseDataTimes = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(date);
-                    mDatabaseDataTimes.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            System.out.println("GetSleepData OnSucces");
-
-                            datas = new ArrayList<>();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String time = snapshot.getKey();
-                                //Time is hier de tijdstip van de collectie, 22:04
-                                float heartbeat = Float.parseFloat(snapshot.child("Heartbeat").getValue().toString());
-                                float humidity = Float.parseFloat(snapshot.child("Humidity").getValue().toString());
-                                float luminosity = Float.parseFloat(snapshot.child("Luminosity").getValue().toString());
-                                float movement = Float.parseFloat(snapshot.child("Movement").getValue().toString());
-                                float noise = Float.parseFloat(snapshot.child("Noise").getValue().toString());
-                                float temperature = Float.parseFloat(snapshot.child("Temperature").getValue().toString());
-                                Log.d("Heartbeat", Float.toString(heartbeat));
-                                Log.d("Temp", Float.toString(temperature));
-                                Log.d("Hum", Float.toString(humidity));
-                                Log.d("Noise", Float.toString(noise));
-                                Log.d("Lum", Float.toString(luminosity));
-                                Log.d("Mov", Float.toString(movement));
-                                datas.add(new Data(time, heartbeat, humidity, luminosity, movement, noise, temperature));
-                            }
-                            Log.d("RepoDataSize", String.valueOf(datas.size()));
-                            Log.d("RepoDate", date);
-                           /* for (int i = 0; i < dates.size(); i++) {
-                                Repository.add(new DataRepo(dates.get(i), datas));
-                            }*/
-                            Repository.add(new DataRepo(date, datas));
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.d("SleepDataPullError", databaseError.getMessage());
-                            System.out.println("SleepDataPullError : " + databaseError.getMessage());
-                        }
-                    });
                 }
 
-                Finished();
+                for(int i = 0; i < dates.size(); i++){
+                    GetSleepData(i);
+                }
             }
 
             @Override
             public void onFailed(DatabaseError databaseError) {
                 Log.d("SleepDataDatePullError", databaseError.getMessage());
                 System.out.println("UserDataDatePullError : " + databaseError.getMessage());
+            }
+        });
+    }
+
+    private void GetSleepData(final int getal){
+        //implement getal i
+        FetchSleepData(new OnGetDataListener() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                System.out.println("GetSleepData OnSucces");
+
+                datas = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String time = snapshot.getKey();
+                    //Time is hier de tijdstip van de collectie, 22:04
+                    float heartbeat = Float.parseFloat(snapshot.child("Heartbeat").getValue().toString());
+                    float humidity = Float.parseFloat(snapshot.child("Humidity").getValue().toString());
+                    float luminosity = Float.parseFloat(snapshot.child("Luminosity").getValue().toString());
+                    float movement = Float.parseFloat(snapshot.child("Movement").getValue().toString());
+                    float noise = Float.parseFloat(snapshot.child("Noise").getValue().toString());
+                    float temperature = Float.parseFloat(snapshot.child("Temperature").getValue().toString());
+                    Log.d("Heartbeat", Float.toString(heartbeat));
+                    Log.d("Temp", Float.toString(temperature));
+                    Log.d("Hum", Float.toString(humidity));
+                    Log.d("Noise", Float.toString(noise));
+                    Log.d("Lum", Float.toString(luminosity));
+                    Log.d("Mov", Float.toString(movement));
+                    datas.add(new Data(time, heartbeat, humidity, luminosity, movement, noise, temperature));
+                }
+                Log.d("RepoDataSize", String.valueOf(datas.size()));
+                Log.d("RepoDate", dates.get(getal));
+                           /* for (int i = 0; i < dates.size(); i++) {
+                                Repository.add(new DataRepo(dates.get(i), datas));
+                            }*/
+                Repository.add(new DataRepo(dates.get(getal), datas));
+
+                counter++;
+
+                if(counter == dates.size()){
+                    Finished();
+                }
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
             }
         });
     }

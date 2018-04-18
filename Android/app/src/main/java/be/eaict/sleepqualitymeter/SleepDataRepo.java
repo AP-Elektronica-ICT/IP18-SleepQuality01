@@ -102,7 +102,7 @@ public class SleepDataRepo {
                     User user = snapshot.getValue(User.class);
 
                     if(user.getEmail().equals(email)){
-                        System.out.println("UserId Found!");
+                        //System.out.println("UserId Found!");
                         userid = user.getId();
                     }
                 }
