@@ -32,10 +32,10 @@ public class LandingPage extends AppCompatActivity {
     private List<String> dates = new ArrayList<>();
     private List<Data> datas = new ArrayList<>();
 
-    private int counter = 0;
+    private int counter;
 
     //static List<DataRepo> Repository;
-    //public static List<DataRepo> Repository = new ArrayList<>();
+    public static List<DataRepo> Repository;
     private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
     static User DefUser;
 
@@ -49,6 +49,9 @@ public class LandingPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
 
+        Repository = new ArrayList<>();
+
+        counter = 0;
 
         GetUserData();
 
@@ -101,15 +104,17 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void FetchSleepData(final OnGetDataListener listener){
+        System.out.println(dates.get(counter));
         mDatabaseDataTimes = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(dates.get(counter));
         mDatabaseDataTimes.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                listener.onSuccess(dataSnapshot);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                listener.onFailed(databaseError);
                 Log.d("SleepDataPullError", databaseError.getMessage());
                 System.out.println("SleepDataPullError : " + databaseError.getMessage());
             }
@@ -156,25 +161,21 @@ public class LandingPage extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     final String date = postSnapshot.getKey();
                     dates.add(date);
+                    System.out.println(date);
                     Log.d("Date", date);
                     //Date is hier de datum van de collectie opgeslagen als bv. string "12-03-2018"
                 }
-
-                for(int i = 0; i < dates.size(); i++){
-                    GetSleepData(i);
-                }
+                GetSleepData();
             }
 
             @Override
             public void onFailed(DatabaseError databaseError) {
-                Log.d("SleepDataDatePullError", databaseError.getMessage());
-                System.out.println("UserDataDatePullError : " + databaseError.getMessage());
+                System.out.println("SleepDataDatePullError : " + databaseError.getMessage());
             }
         });
     }
 
-    private void GetSleepData(final int getal){
-        //implement getal i
+    private void GetSleepData(){
         FetchSleepData(new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
@@ -199,24 +200,31 @@ public class LandingPage extends AppCompatActivity {
                     datas.add(new Data(time, heartbeat, humidity, luminosity, movement, noise, temperature));
                 }
                 Log.d("RepoDataSize", String.valueOf(datas.size()));
-                Log.d("RepoDate", dates.get(getal));
+                Log.d("RepoDate", dates.get(counter));
                            /* for (int i = 0; i < dates.size(); i++) {
                                 Repository.add(new DataRepo(dates.get(i), datas));
                             }*/
-                Repository.add(new DataRepo(dates.get(getal), datas));
+                Repository.add(new DataRepo(dates.get(counter), datas));
 
                 counter++;
 
-                if(counter == dates.size()){
-                    Finished();
-                }
+                Check();
             }
 
             @Override
             public void onFailed(DatabaseError databaseError) {
-
+                System.out.println("SleepDataPullError : " + databaseError.getMessage());
             }
         });
+    }
+
+    private void Check(){
+        if(counter >= dates.size()){
+            Finished();
+        }
+        else{
+            GetSleepData();
+        }
     }
 
     private void Finished(){
@@ -228,7 +236,7 @@ public class LandingPage extends AppCompatActivity {
             Log.d("RepoDate", Repository.get(i).Date);
         }
         Log.d("RepoStringLength", String.valueOf(dates.size()));
-     //   startActivity(intent);
+        startActivity(intent);
     }
 
     public interface OnGetDataListener {
