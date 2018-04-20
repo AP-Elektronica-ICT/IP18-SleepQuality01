@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LandingPage extends AppCompatActivity {
@@ -220,6 +221,7 @@ public class LandingPage extends AppCompatActivity {
 
     private void Check(){
         if(counter >= dates.size()){
+            Collections.reverse(Repository);
             Finished();
         }
         else{
