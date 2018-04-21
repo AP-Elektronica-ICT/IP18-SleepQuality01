@@ -36,7 +36,6 @@ public class LandingPage extends AppCompatActivity {
 
     private int counter;
 
-    //static List<DataRepo> Repository;
     public static List<DataRepo> Repository;
     private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
     static User DefUser;
@@ -91,7 +90,6 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void FetchSleepData(final OnGetDataListener listener){
-        System.out.println(dates.get(counter));
         mDatabaseDataTimes = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(dates.get(counter));
         mDatabaseDataTimes.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -102,8 +100,6 @@ public class LandingPage extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 listener.onFailed(databaseError);
-                Log.d("SleepDataPullError", databaseError.getMessage());
-                System.out.println("SleepDataPullError : " + databaseError.getMessage());
             }
         });
     }
@@ -112,7 +108,6 @@ public class LandingPage extends AppCompatActivity {
         FetchUserData(new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                System.out.println("GetUserData OnSucces");
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     user = snapshot.getValue(User.class);
                     if (user.getEmail().equals(email)) {
@@ -123,7 +118,6 @@ public class LandingPage extends AppCompatActivity {
                         country = user.getCountry();
                         rawdata_weight = user.getWeight();
                         birthdate = user.getBirthdate();
-                        Log.d("USERDATA", userid + " " + email + " " + firstName + " " + lastName + " " + country + " " + birthdate + " " + rawdata_weight);
                         DefUser = new User(userid, firstName, lastName, email, country, rawdata_weight, birthdate);
                     }
                 }
@@ -133,7 +127,6 @@ public class LandingPage extends AppCompatActivity {
 
             @Override
             public void onFailed(DatabaseError databaseError) {
-                Log.d("UserDataPullError", databaseError.getMessage());
                 System.out.println("UserDataPullError : " + databaseError.getMessage());
             }
         });
@@ -143,14 +136,10 @@ public class LandingPage extends AppCompatActivity {
         FetchSleepDataDate(new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                System.out.println("GetSleepDataDate OnSucces");
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     final String date = postSnapshot.getKey();
                     dates.add(date);
-                    System.out.println(date);
-                    Log.d("Date", date);
-                    //Date is hier de datum van de collectie opgeslagen als bv. string "12-03-2018"
                 }
                 GetSleepData();
             }
@@ -166,35 +155,21 @@ public class LandingPage extends AppCompatActivity {
         FetchSleepData(new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
-                System.out.println("GetSleepData OnSucces");
-
                 datas = new ArrayList<>();
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String time = snapshot.getKey();
-                    //Time is hier de tijdstip van de collectie, 22:04
                     float heartbeat = Float.parseFloat(snapshot.child("Heartbeat").getValue().toString());
                     float humidity = Float.parseFloat(snapshot.child("Humidity").getValue().toString());
                     float luminosity = Float.parseFloat(snapshot.child("Luminosity").getValue().toString());
                     float movement = Float.parseFloat(snapshot.child("Movement").getValue().toString());
                     float noise = Float.parseFloat(snapshot.child("Noise").getValue().toString());
                     float temperature = Float.parseFloat(snapshot.child("Temperature").getValue().toString());
-                    Log.d("Heartbeat", Float.toString(heartbeat));
-                    Log.d("Temp", Float.toString(temperature));
-                    Log.d("Hum", Float.toString(humidity));
-                    Log.d("Noise", Float.toString(noise));
-                    Log.d("Lum", Float.toString(luminosity));
-                    Log.d("Mov", Float.toString(movement));
                     datas.add(new Data(time, heartbeat, humidity, luminosity, movement, noise, temperature));
                 }
-                Log.d("RepoDataSize", String.valueOf(datas.size()));
-                Log.d("RepoDate", dates.get(counter));
-                           /* for (int i = 0; i < dates.size(); i++) {
-                                Repository.add(new DataRepo(dates.get(i), datas));
-                            }*/
                 Repository.add(new DataRepo(dates.get(counter), datas));
 
                 counter++;
-
                 Check();
             }
 
@@ -217,14 +192,9 @@ public class LandingPage extends AppCompatActivity {
 
     private void Finished(){
         progressBar.setVisibility(View.GONE);
-        System.out.println("Finished");
+
         Intent intent = new Intent(LandingPage.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        for (int i = 0; i < Repository.size(); i++){
-            Log.d("Repo", String.valueOf(Repository.get(i).Repo.size()));
-            Log.d("RepoDate", Repository.get(i).Date);
-        }
-        Log.d("RepoStringLength", String.valueOf(dates.size()));
         startActivity(intent);
     }
 
