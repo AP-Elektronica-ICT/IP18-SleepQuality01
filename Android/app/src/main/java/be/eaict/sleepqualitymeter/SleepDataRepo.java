@@ -91,7 +91,7 @@ public class SleepDataRepo {
     }
 
     private void GetUserId(){
-        FetchUserId(new SleepDataRepo.OnGetDataListener() {
+        FetchUserId(new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
 
@@ -102,7 +102,7 @@ public class SleepDataRepo {
                     User user = snapshot.getValue(User.class);
 
                     if(user.getEmail().equals(email)){
-                        System.out.println("UserId Found!");
+                        //System.out.println("UserId Found!");
                         userid = user.getId();
                     }
                 }
@@ -118,7 +118,7 @@ public class SleepDataRepo {
     }
 
     private void GetData( ){
-        FetchData(userid, new SleepDataRepo.OnGetDataListener() {
+        FetchData(userid, new OnGetDataListener() {
 
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {

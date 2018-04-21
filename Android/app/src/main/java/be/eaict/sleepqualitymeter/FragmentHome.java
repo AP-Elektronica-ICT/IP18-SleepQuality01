@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 /**
@@ -23,7 +28,9 @@ public class FragmentHome extends Fragment {
 
     LogicandCalc calculator = new LogicandCalc();
     SleepLength sleepLength;
-    DummyRepo dummyRepo = new DummyRepo();
+    User user;
+    TextView txtTimeOfDay;
+    List<DataRepo> Repository;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,12 +66,12 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_home, container, false);
-
-        sleepLength = new SleepLength(dummyRepo.length());
-
-        TextView name = view.findViewById(R.id.name);
+        txtTimeOfDay = view.findViewById(R.id.fragTxtTimeOfDAy);
+        Repository = LandingPage.Repository;
+        user = LandingPage.DefUser;
+        txtTimeOfDay.setText(timeOfDay());
         TextView sleepTime = view.findViewById(R.id.sleepTime);
-
+        sleepLength = new SleepLength(Repository.get(Repository.size() - 1).Repo.size());
         sleepTime.setText(calculator.SleepLengthString(sleepLength));
 
         return view;
@@ -107,5 +114,23 @@ public class FragmentHome extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public String timeOfDay() {
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+        String msg = "";
+        if(timeOfDay >= 6 && timeOfDay < 12){
+            msg = "Hope you had a good sleep, " + user.getFirstname() + " " + user.getLastname();
+        }else if(timeOfDay >= 12 && timeOfDay < 16){
+            msg = "Good Afternoon " + user.getFirstname() + " " + user.getLastname();
+        }else if(timeOfDay >= 16 && timeOfDay < 21){
+           msg = "Good Evening " + user.getFirstname() + " " + user.getLastname();
+        }else if(timeOfDay >= 21 && timeOfDay < 24){
+            msg = "Bedtime, " + user.getFirstname() + " " + user.getLastname() + "?";
+        }
+        else if(timeOfDay >= 0 && timeOfDay < 6) {
+            msg = "Good Night " + user.getFirstname() + " " + user.getLastname();
+        }
+        return msg;
     }
 }

@@ -1,15 +1,56 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="be.eaict.sleepqualitymeter.FragmentRecords">
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
-        android:id="@+id/recListView"
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#d6e7f6">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    </com.baoyz.swipemenulistview.SwipeMenuListView>
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fragRecTxtName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#d6e7f6"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/fragRecRefresh"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#d6e7f6"
+                android:src="@android:drawable/ic_menu_rotate" />
+        </LinearLayout>
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/recListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#d6e7f6">
+
+        </com.baoyz.swipemenulistview.SwipeMenuListView>
+    </LinearLayout>
+
+</LinearLayout>

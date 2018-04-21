@@ -78,15 +78,12 @@ public class FragmentOverall extends Fragment {
 
         sleepDataRepo.SleepData(view);
 
-        System.out.println("Trololololol ik ben true");
-
         /*if(sleepDataRepo.GetStatus()){
             SetLayout(view);
         }
         else {
             sleepDataRepo.SleepData(view);
         }*/
-
         return view;
     }
 
@@ -131,29 +128,7 @@ public class FragmentOverall extends Fragment {
 
     public static View SetLayout(View view){
 
-        calculator = new LogicandCalc();
-        LastNight = new SleepLength(sleepDataRepo.movementArray.length);
 
-        movement = view.findViewById(R.id.movement);
-        List<Entry> movementEntries = new ArrayList<>();
-        for(int i = 0; i < sleepDataRepo.movementArray.length; i++){
-            movementEntries.add(new Entry(i * 2, sleepDataRepo.movementArray[i]));
-        }
-
-        LineDataSet movementDataSet = new LineDataSet(movementEntries, "Movement");
-        LineData movementData = new LineData(movementDataSet);
-        movement.setData(movementData);
-        movement.invalidate();
-
-        /*TextView averageMovement = new TextView(getContext());
-        averageMovement.setText("Your average movement this night was " + calculator.calculateAverage(dummyRepo.dummyRepo) + ".");
-
-        TextView sleepTime = new TextView(getContext());
-        sleepTime.setText("You slept " + calculator.SleepLengthString(LastNight));
-
-        LinearLayout layout = view.findViewById(R.id.layout);
-        layout.addView(averageMovement);
-        layout.addView(sleepTime);*/
 
         return view;
     }

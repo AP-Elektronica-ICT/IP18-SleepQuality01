@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mukesh.countrypicker.Country;
+
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -38,10 +43,9 @@ public class FragmentProfile extends Fragment {
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
     User user;
-    //Firebase
-    DatabaseReference databaseReference;
-    FirebaseAuth mAuth;
     ImageView imgCountry;
+    List<DataRepo> Repository;
+
     private OnFragmentInteractionListener mListener;
 
     public FragmentProfile() {
@@ -51,6 +55,7 @@ public class FragmentProfile extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment FragmentProfile.
      */
     // TODO: Rename and change types and number of parameters
@@ -72,8 +77,9 @@ public class FragmentProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_fragment_profile, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_fragment_profile, container, false);
+        user = LandingPage.DefUser;
+        Repository = LandingPage.Repository;
         Load();
         txtAge = view.findViewById(R.id.profTxtAge);
         txtEmail = view.findViewById(R.id.profTxtEmail);
@@ -81,58 +87,40 @@ public class FragmentProfile extends Fragment {
         txtNationality = view.findViewById(R.id.profTxtNationality);
         txtWeight = view.findViewById(R.id.profTxtWeight);
         txtAvgSleepTime = view.findViewById(R.id.profTxtAvgSleepTime);
-        txtAvgSleepTime.setText("N/A");
+        int totaltime = 0;
+        for (int i = 0; i < Repository.size(); i++) {
+            totaltime = totaltime + Repository.get(i).Repo.size() * 2;
+            }
+            Log.d("Totaltime", Integer.toString(totaltime));
+        SleepLength sleepLength;
+        LogicandCalc logicandCalc = new LogicandCalc();
+         sleepLength = new SleepLength(totaltime);
+         txtAvgSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
+        //txtAvgSleepTime.setText("N/A");
+        firstName = user.getFirstname();
+        lastName = user.getLastname();
+        email = user.getEmail();
+        birthdate = user.getBirthdate();
+        country = user.getCountry();
+        rawdata_weight = user.getWeight();
         imgCountry = view.findViewById(R.id.profImgCountry);
-        mAuth = FirebaseAuth.getInstance();
-        email = mAuth.getCurrentUser().getEmail().toLowerCase();
-        txtName.setText("Loading profile...");
-        databaseReference = FirebaseDatabase.getInstance().getReference("User");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+        //Convert KG to pound
+        if (measurement == true) {
+            Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
+            int t = lbstokg.intValue();
+            weight = Integer.toString(t);
+            txtWeight.setText(weight + " lbs");
+        } else {
+            weight = rawdata_weight;
+            txtWeight.setText(weight + " kg");
+        }
 
-                    user = snapshot.getValue(User.class);
-
-                    System.out.println(user.getEmail());
-
-                    if(user.getEmail().equals(email)){
-                        System.out.println("WOOOOHOOO");
-                        userid = user.getId();
-                        email = user.getEmail();
-                        firstName = user.getFirstname();
-                        lastName = user.getLastname();
-                        country = user.getCountry();
-                        rawdata_weight = user.getWeight();
-                        birthdate = user.getBirthdate();
-                    }
-                }
-
-                //Convert KG to pound
-                if(measurement ==true) {
-                    Double lbstokg = Double.parseDouble(rawdata_weight) / 0.45359237;
-                    int t = lbstokg.intValue();
-                    weight = Integer.toString(t);
-                    txtWeight.setText(weight + " lbs");
-                }
-                else {
-                    weight = rawdata_weight;
-                    txtWeight.setText(weight + " kg");
-                }
-
-                txtName.setText(firstName + " " + lastName + "'s profile");
-                txtEmail.setText(email);
-                txtNationality.setText(country);
-                Country tempcountry = Country.getCountryByName(country);
-                imgCountry.setImageResource(tempcountry.getFlag());
-                txtAge.setText(birthdate);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                throw databaseError.toException();
-            }
-        });
+        txtName.setText(firstName + " " + lastName + "'s profile");
+        txtEmail.setText(email);
+        txtNationality.setText(country);
+        Country tempcountry = Country.getCountryByName(country);
+        imgCountry.setImageResource(tempcountry.getFlag());
+        txtAge.setText(birthdate);
 
         Button btnSettings = view.findViewById(R.id.profBtnSettings);
         btnSettings.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +128,7 @@ public class FragmentProfile extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), settings.class);
                 startActivity(intent);
-            }
+           }
         });
 
         return view;

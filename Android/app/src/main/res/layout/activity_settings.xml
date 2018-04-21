@@ -78,7 +78,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0"
                         android:gravity="center"
-                        android:text="Password:" />
+                        android:text="New password:" />
 
                     <EditText
                         android:id="@+id/setEditPassw"
@@ -276,7 +276,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Delete account" />
+                        android:background="@android:color/holo_red_dark"
+                        android:text="Delete account and sell user data to Camridge Analytica" />
                 </LinearLayout>
 
                 <LinearLayout

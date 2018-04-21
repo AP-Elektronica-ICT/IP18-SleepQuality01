@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,16 +30,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -55,8 +52,14 @@ import static android.content.ContentValues.TAG;
 public class FragmentRecords extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabaseData;
-    private ArrayList<String> mDates = new ArrayList<>();
-    ArrayList<String> listOfvalues = new ArrayList<String>();
+    private DatabaseReference mDatabaseDataTotalTime;
+    CustomAdapter customAdapter;
+    private List<String> mDates = new ArrayList<>();
+    private List<String> mMinutes = new ArrayList<>();
+    ImageButton btnRefresh;
+    TextView txtBanner;
+    List<DataRepo> Repository;
+    User user;
     public FragmentRecords() {
         // Required empty public constructor
     }
@@ -87,27 +90,55 @@ public class FragmentRecords extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fragment_records, container, false);
         final SwipeMenuListView listview = (SwipeMenuListView) view.findViewById(R.id.recListView);
-        final CustomAdapter customAdapter = new CustomAdapter();
-        listview.setAdapter(customAdapter);
-        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
-        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+        btnRefresh = view.findViewById(R.id.fragRecRefresh);
+        txtBanner = view.findViewById(R.id.fragRecTxtName);
+        user = LandingPage.DefUser;
+        Repository = LandingPage.Repository;
+        txtBanner.setText(user.getFirstname() + " " + user.getLastname() + "'s records");
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), LandingPage.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+        customAdapter = new CustomAdapter();
+        listview.setAdapter(customAdapter);
+        Log.d("Repo", Integer.toString(Repository.size()));
+      /*  FetchData(view, new OnGetDataListener() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String date = postSnapshot.getKey();
                     mDates.add(date);
-                    customAdapter.notifyDataSetChanged();
+                    mDatabaseDataTotalTime = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(date);
+                    mDatabaseDataTotalTime.addListenerForSingleValueEvent(new ValueEventListener() {
+                        int counter = 0;
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                counter +=2;
+                                Log.d(TAG, Integer.toString(counter));
+                            }
+                            System.out.println("counter" + counter);
+                            mMinutes.add(Integer.toString(counter));
+                            customAdapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
                 }
+                //customAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onFailed(DatabaseError databaseError) {
+                System.out.println("The Records read failed " + databaseError.getCode());
             }
         });
-        ArrayList<String> templist = new ArrayList<>();
-        for(int i = 0; i<=20; i++) {
-            templist.add("Test123");
-        }
+*/
 
       //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -127,10 +158,10 @@ public class FragmentRecords extends Fragment {
 
         listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        // delete
+                        final int pos = position;
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                         builder.setTitle("Confirm");
@@ -139,7 +170,9 @@ public class FragmentRecords extends Fragment {
                         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(Repository.get(pos).Date);
+                                Repository.remove(pos);
+                                ref.removeValue();
                             }
                         });
 
@@ -171,9 +204,8 @@ public class FragmentRecords extends Fragment {
     class CustomAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return mDates.size();
+            return LandingPage.Repository.size();
         }
-
         @Override
         public Object getItem(int i) {
             return null;
@@ -185,20 +217,22 @@ public class FragmentRecords extends Fragment {
         }
 
         @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
+        public View getView(int i, View view, ViewGroup viewGroup) {
             final int current = i;
+            final TextView listSleepTime;
             view = getLayoutInflater().inflate(R.layout.listview_records, null);
-            LinearLayout layout = view.findViewById(R.id.recListLayout);
+            final LinearLayout layout = view.findViewById(R.id.recListLayout);
             TextView listDate = view.findViewById(R.id.recListDate);
-            TextView listSleepTime = view.findViewById(R.id.recListTime);
+            listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText(mDates.get(i).toString());
-            listSleepTime.setText("8:21");
+            listDate.setText(Repository.get(i).Date);
+            listSleepTime.setText(Integer.toString(Repository.get(i).Repo.size() * 2) + "mins");
             listSummary.setText("Good!");
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                   Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("date", current);
                     startActivity(intent);
                 }
             });
@@ -245,4 +279,23 @@ public class FragmentRecords extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    public void FetchData(View view, final OnGetDataListener listener){
+        mDatabaseData = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs");
+        mDatabaseData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onSuccess(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailed(databaseError);
+            }
+        });
+    }
+
+    public interface OnGetDataListener {
+        public void onSuccess(DataSnapshot dataSnapshot);
+        public void onFailed(DatabaseError databaseError);
+    }
 }
