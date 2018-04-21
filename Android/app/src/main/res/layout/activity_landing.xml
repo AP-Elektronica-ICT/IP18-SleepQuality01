@@ -16,13 +16,13 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:textSize="40dp"
             android:text="TextView" />
-
-        <Button
-            android:id="@+id/lnd_btn"
+        <ProgressBar
+            android:id="@+id/progressbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:visibility="gone"/>
 
     </LinearLayout>
 </LinearLayout>

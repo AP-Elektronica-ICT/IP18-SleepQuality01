@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +23,7 @@ import java.util.List;
 public class LandingPage extends AppCompatActivity {
 
     TextView landingTxt;
-    Button landingBtn;
+    ProgressBar progressBar;
 
     private DatabaseReference mDatabaseData;
     private DatabaseReference mDatabaseDataTimes;
@@ -45,8 +46,10 @@ public class LandingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
         landingTxt = findViewById(R.id.lnd_loading);
-        landingBtn = findViewById(R.id.lnd_btn);
+        progressBar = findViewById(R.id.progressbar);
+
         landingTxt.setText("Loading");
+        progressBar.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
 
@@ -55,23 +58,6 @@ public class LandingPage extends AppCompatActivity {
         counter = 0;
 
         GetUserData();
-
-        //Button to continue after datafetch
-        landingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LandingPage.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                for (int i = 0; i < Repository.size(); i++){
-                    Log.d("Repo", String.valueOf(Repository.get(i).Repo.size()));
-                    Log.d("RepoDate", Repository.get(i).Date);
-                }
-                Log.d("RepoStringLength", String.valueOf(dates.size()));
-                startActivity(intent);
-            }
-        });
-
-
     }
 
     private void FetchUserData(final OnGetDataListener listener){
@@ -230,6 +216,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     private void Finished(){
+        progressBar.setVisibility(View.GONE);
         System.out.println("Finished");
         Intent intent = new Intent(LandingPage.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
