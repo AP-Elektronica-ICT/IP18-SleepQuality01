@@ -181,11 +181,13 @@ public class IssueChecker {
         int SleepyTime = logicandCalc.timeStamptoInt(repo.Repo.get(0).getTimeStamp());
         if(SleepyTime > hour + 45){
             issuecounter++;
+            tips.add(new Tips(tipRepo.getSleepPatternTips()));
             Log.d("Checker", "FUccct biological clock is behind now");
         }
 
         if (SleepyTime < hour - 45){
             issuecounter++;
+            tips.add(new Tips(tipRepo.getSleepPatternTips()));
             Log.d("Checker", "Sleeping early sounds like a good idea. But it is not.");
         }
     }
