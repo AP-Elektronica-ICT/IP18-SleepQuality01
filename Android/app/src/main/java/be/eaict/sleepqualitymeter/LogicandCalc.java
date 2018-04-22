@@ -34,6 +34,15 @@ public class LogicandCalc {
         return new float[]{min, max};
     }
 
+    public int timeStamptoInt(String TimeStamp){
+        String Time = TimeStamp;
+        String Hour = Time.substring(0,2);
+        String minute = Time.substring(3,5);
+        Time = Hour + minute;
+        int SleepyTime = Integer.parseInt(Time);
+        return SleepyTime;
+    }
+
     public List<Float> getDataType(String dataType, List<Data> Repo){
         List<Float> end = new ArrayList<>();
         for (int i = 0; i < Repo.size(); i++){

@@ -182,12 +182,7 @@ public class IssueChecker {
     }
 
     public void rhythm() {
-        String Time = repo.Repo.get(0).getTimeStamp();
-        String Hour = Time.substring(0,2);
-        String minute = Time.substring(3,5);
-        Time = Hour + minute;
-        int SleepyTime = Integer.parseInt(Time);
-        Log.d("Checker", Time);
+        int SleepyTime = logicandCalc.timeStamptoInt(repo.Repo.get(0).getTimeStamp());
         if(SleepyTime > hour + 45){
             issuecounter++;
             Log.d("Checker", "FUccct biological clock is behind now");

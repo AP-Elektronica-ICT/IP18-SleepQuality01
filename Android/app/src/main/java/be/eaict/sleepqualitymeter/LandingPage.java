@@ -30,6 +30,7 @@ public class LandingPage extends AppCompatActivity {
     private DatabaseReference mDatabaseUser;
     private FirebaseAuth mAuth;
     private User user;
+    private LogicandCalc Calculator;
 
     private List<String> dates = new ArrayList<>();
     private List<Data> datas = new ArrayList<>();
@@ -47,6 +48,7 @@ public class LandingPage extends AppCompatActivity {
         landingTxt = findViewById(R.id.lnd_loading);
         progressBar = findViewById(R.id.progressbar);
 
+        Calculator = new LogicandCalc();
         landingTxt.setText("Loading");
         progressBar.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
@@ -192,6 +194,8 @@ public class LandingPage extends AppCompatActivity {
 
     private void Finished(){
         progressBar.setVisibility(View.GONE);
+        Log.d("Kneusjes", "Finished loading");
+        Repository = SortUserData(Repository);
 
         Intent intent = new Intent(LandingPage.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -201,5 +205,42 @@ public class LandingPage extends AppCompatActivity {
     public interface OnGetDataListener {
         public void onSuccess(DataSnapshot dataSnapshot);
         public void onFailed(DatabaseError databaseError);
+    }
+
+    private List<DataRepo> SortUserData(List<DataRepo> Repo){
+        for (int k = 0; k < Repo.size(); k++){
+            //Sort all data using init timestamp in DataRepo name
+            Log.d("Kneusjes", "Sorting");
+            DataRepo org = Repo.get(k);
+            List<Data> temp = new ArrayList<>();
+
+            String Date = org.Date;
+            String Start = Date.substring(11, 16);
+            Log.d("Kneusjes", "Starting next Repo");
+            Log.d("Kneusjes", String.valueOf(k));
+            int StartInt = Calculator.timeStamptoInt(Start);
+            Log.d("Kneusjes", String.valueOf(StartInt));
+
+            int dataStart = 0;
+
+            for (int j = 0; j < org.Repo.size(); j++){
+                int TestInt = Calculator.timeStamptoInt(org.Repo.get(j).getTimeStamp());
+                Log.d("Kneusjes", String.valueOf(TestInt));
+                if (StartInt == TestInt){
+                    dataStart = j;
+                    j = org.Repo.size();
+
+                }
+            }
+
+            if (dataStart != 0){
+                temp.addAll(org.Repo.subList(dataStart, org.Repo.size()));
+                temp.addAll(org.Repo.subList(0, dataStart));
+                org.Repo = temp;
+            }
+
+            Repo.set(k, org);
+        }
+        return Repo;
     }
 }
