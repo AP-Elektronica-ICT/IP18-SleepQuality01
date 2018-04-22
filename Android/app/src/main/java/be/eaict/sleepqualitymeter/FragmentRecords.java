@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -18,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -209,30 +212,74 @@ public class FragmentRecords extends Fragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            IssueChecker issueChecker = new IssueChecker(Repository.get(i));
+            final IssueChecker issueChecker = new IssueChecker(Repository.get(i));
+            LogicandCalc logicandCalc = new LogicandCalc();
             final int current = i;
+            SleepLength sleepLength = new SleepLength(Repository.get(current).Repo.size());
             final TextView listSleepTime;
             view = getLayoutInflater().inflate(R.layout.listview_records, null);
-            final LinearLayout layout = view.findViewById(R.id.recListLayout);
             TextView listDate = view.findViewById(R.id.recListDate);
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
-            listDate.setText(Repository.get(i).Date);
-            listSleepTime.setText(Integer.toString(Repository.get(i).Repo.size() * 2) + "mins");
+            String date = Repository.get(i).Date.substring(0,10);
+            String time = Repository.get(i).Date.substring(12,16);
+            listDate.setText(date + System.getProperty("line.separator") + time);
+            listSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
             issueChecker.sleepTimeChecker();
             issueChecker.heartRate();
             listSummary.setText(Integer.toString(issueChecker.issuecounter));
             listSummary.setTextColor(issueChecker.ColorPicker());
             Log.d("Sleep", issueChecker.sleepQuality);
-            layout.setOnClickListener(new View.OnClickListener() {
+            listDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Intent intent = new Intent(getContext(), DetailActivity.class);
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra("date", current);
                     startActivity(intent);
                 }
             });
-            //    listSummary.setBackgroundColor();
+            listSleepTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("date", current);
+                    startActivity(intent);
+                }
+            });
+            if(issueChecker.issuecounter != 0) {
+                listSummary.setText(Integer.toString(issueChecker.issuecounter));
+                listSummary.setTextColor(issueChecker.ColorPicker());
+                listSummary.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new MaterialDialog.Builder(getContext())
+                                .title("Issues")
+                                .items(issueChecker.issuestringlist)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                        new MaterialDialog.Builder(getContext())
+                                                .title("Tips")
+                                                .items(issueChecker.tips.get(which).tips)
+                                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                                    @Override
+                                                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                                                    }
+                                                })
+                                                .positiveText("Okay, got it!")
+                                                .show();
+                                    }
+                                })
+                                .positiveText("Okay, got it!")
+                                .show();
+                    }
+                });
+            }
+            else {
+                listSummary.setText("No issues!");
+                listSummary.setTextColor(Color.rgb(0, 255, 0));
+            }
             return view;
         }
     }

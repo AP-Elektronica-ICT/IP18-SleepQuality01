@@ -40,7 +40,6 @@ public class FragmentOverall extends Fragment {
     private static LogicandCalc calculator;
     private static SleepLength LastNight;
 
-    private DummyRepo dummyRepo = new DummyRepo();
     private static SleepDataRepo sleepDataRepo = new SleepDataRepo();
 
     private OnFragmentInteractionListener mListener;

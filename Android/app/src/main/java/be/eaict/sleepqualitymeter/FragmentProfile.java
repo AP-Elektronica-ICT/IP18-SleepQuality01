@@ -90,13 +90,11 @@ public class FragmentProfile extends Fragment {
         int totaltime = 0;
         for (int i = 0; i < Repository.size(); i++) {
             totaltime = totaltime + Repository.get(i).Repo.size() * 2;
-            }
-            Log.d("Totaltime", Integer.toString(totaltime));
+        }
         SleepLength sleepLength;
         LogicandCalc logicandCalc = new LogicandCalc();
-         sleepLength = new SleepLength(totaltime);
-         txtAvgSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
-        //txtAvgSleepTime.setText("N/A");
+        sleepLength = new SleepLength(totaltime / Repository.size());
+        txtAvgSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
         firstName = user.getFirstname();
         lastName = user.getLastname();
         email = user.getEmail();
@@ -128,7 +126,7 @@ public class FragmentProfile extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), settings.class);
                 startActivity(intent);
-           }
+            }
         });
 
         return view;

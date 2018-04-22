@@ -7,10 +7,15 @@ import android.util.Log;
 import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class IssueChecker {
     DataRepo repo;
     String sleepQuality, heartRateQuality, luxQuality, tempQuality, noiseQuality, humidityQuality;
+    float maxheartbeat = 0, maxtemp = 0, maxhumidity = 0, maxLum = 0, maxNoise = 0;
+    List<String> issuestringlist = new ArrayList<>();
+    List<Tips> tips = new ArrayList<>();
+    TipRepo tipRepo = new TipRepo();
     int issuecounter;
     LogicandCalc logicandCalc;
     int hour = 2200;
@@ -23,16 +28,21 @@ public class IssueChecker {
     public void sleepTimeChecker() {
         int time = repo.Repo.size() * 2;
         SleepLength sleepLength = new SleepLength(time);
+        tipRepo.totalsleeptime = repo.Repo.size();
         if(time > 360 && time < 540) {
             sleepQuality = "Good!";
         }
-        else if(time <= 360) {
+        else if(time <= 420) {
             sleepQuality = "You've only slept " + logicandCalc.SleepLengthString(sleepLength);
             issuecounter++;
+            issuestringlist.add(sleepQuality);
+            tips.add(new Tips(tipRepo.getMoreSleepTips()));
         }
         else if(time >= 540) {
             sleepQuality = "You've slept " + logicandCalc.SleepLengthString(sleepLength);
             issuecounter++;
+            issuestringlist.add(sleepQuality);
+            tips.add(new Tips(tipRepo.getTooMuchSleepTips()));
         }
     }
 
@@ -50,12 +60,21 @@ public class IssueChecker {
         Boolean luxHit = false;
         int timer = 0;
         for(int i = 0; i < repo.Repo.size(); i++) {
-            if(repo.Repo.get(i).getHeartbeat() > 110 && heartRateHit == false) {
+            if(repo.Repo.get(i).getHeartbeat() > maxheartbeat) maxheartbeat = repo.Repo.get(i).getHeartbeat();
+            if(repo.Repo.get(i).getTemperature() > maxtemp) maxtemp = repo.Repo.get(i).getTemperature();
+            if(repo.Repo.get(i).getLuminosity() > maxLum) maxLum = repo.Repo.get(i).getLuminosity();
+            if(repo.Repo.get(i).getHumidity() > maxhumidity) maxhumidity = repo.Repo.get(i).getHumidity();
+            if(repo.Repo.get(i).getNoise() > maxNoise) maxNoise = repo.Repo.get(i).getNoise();
+            if(repo.Repo.get(i).getHeartbeat() > 100 && heartRateHit == false) {
                 issuecounter++;
                 heartRateHit = true;
                 heartRateQuality = "Heartbeat went over 110!";
+                Log.d("CHECKheartbeat", heartRateQuality);
             }
-            else heartRateQuality = "Good";
+            else {
+                heartRateQuality = "Good";
+                Log.d("CHECKheartbeat", heartRateQuality);
+            }
             luxvalue = luxvalue + repo.Repo.get(i).getLuminosity();
             humidityvalue =  humidityvalue + repo.Repo.get(i).getHumidity();
             noisevalue = noisevalue + repo.Repo.get(i).getNoise();
@@ -78,34 +97,57 @@ public class IssueChecker {
             if(luxvalues.get(i) >= 6 && luxHit == false) {
                 luxHit = true;
                 issuecounter++;
-                luxQuality = "Lux went over 6!";
-                Log.d("Checker", luxQuality);
+                luxQuality = "It was too bright in your room";
             }
             if(noisevalues.get(i) >= 40 && noiseHit == false) {
                 noiseHit = true;
                 issuecounter++;
-                noiseQuality = "Decibels went over 40";
-                Log.d("Checker", noiseQuality);
-
+                noiseQuality = "It was too loud in your room";
             }
             if(tempvalues.get(i) >= 19 && temperatureHit == false) {
                 temperatureHit = true;
                 issuecounter++;
-                tempQuality = "Room temperature went over 18.5 degrees celcius";
-                Log.d("Checker", tempQuality);
-
+                tempQuality = "It was too hot in your room";
             }
             if(humidityvalues.get(i) >= 60 && humidityHit == false) {
                 humidityHit = true;
                 issuecounter++;
-                humidityQuality = "Humidty went over 60";
-                Log.d("Checker", humidityQuality);
+                humidityQuality = "It was too humid in your room";
             }
         }
-        Log.d("Luxlength", Integer.toString(luxvalues.size()));
-        for(int i = 0; i <= luxvalues.size() - 1; i++) {
-            Log.d("Luxvalues", Float.toString(luxvalues.get(i)));
+
+        if(heartRateHit == true){
+            issuestringlist.add(heartRateQuality);
+            tipRepo.maxHeartbeat = maxheartbeat;
+            tips.add(new Tips(tipRepo.getHeartbeatTips()));
         }
+        if(luxHit == true) {
+            issuestringlist.add(luxQuality);
+            tipRepo.maxLuminosity = maxLum;
+            tips.add(new Tips(tipRepo.getLuminosityTips()));
+        }
+        if(noiseHit == true) {
+            tipRepo.maxNoise = maxNoise;
+            issuestringlist.add(noiseQuality);
+            tips.add(new Tips(tipRepo.getNoiseTips()));
+        }
+        if(temperatureHit == true) {
+            issuestringlist.add(tempQuality);
+            tipRepo.maxTemp = maxtemp;
+            tips.add(new Tips(tipRepo.getTempTips()));
+        }
+        if(humidityHit == true) {
+            issuestringlist.add(humidityQuality);
+            tipRepo.maxHumidity = maxhumidity;
+            tips.add(new Tips(tipRepo.getHumidityTips()));
+        }
+        Log.d("REPO",Integer.toString(issuestringlist.size()));
+        Log.d("REPOT", Float.toString(maxtemp));
+        Log.d("Repotemp", Float.toString(maxhumidity));
+        Log.d("Repotemp", Float.toString(maxheartbeat));
+        Log.d("Repotemp", Float.toString(maxLum));
+        Log.d("Repotemp", Float.toString(maxheartbeat));
+
 
     }
     public int ColorPicker() {
