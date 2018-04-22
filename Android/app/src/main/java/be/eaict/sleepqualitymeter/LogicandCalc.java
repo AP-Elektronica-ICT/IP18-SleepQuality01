@@ -9,14 +9,6 @@ import java.util.List;
 
 public class LogicandCalc {
 
-    public float calculateAverage(float[] data){
-        float sum = 0;
-        for (int i = 0; i < data.length; i++){
-            sum += data[i];
-        }
-        return sum/data.length;
-    }
-
     public  String SleepLengthString(SleepLength sleepLength){
         return sleepLength.getSleeptime()[0] + " hrs and " + sleepLength.getSleeptime()[1] + " mins";
     }
@@ -73,5 +65,75 @@ public class LogicandCalc {
             }
         }
         return end;
+    }
+    
+    public double getAverageOfWeek(String dataType, List<DataRepo> Repo){
+        double Total = 0;
+        int amount = 0;
+        if (Repo.size() < 7){
+            for (int i = 0; i < Repo.size(); i++) {
+                amount += Repo.get(i).Repo.size();
+                for (int j = 0; j < Repo.get(i).Repo.size() ; j++) {
+                    switch (dataType){
+                        case "heartbeat":
+                            Total += Repo.get(i).Repo.get(j).getHeartbeat();
+                            break;
+
+                        case "humidity":
+                            Total += Repo.get(i).Repo.get(j).getHumidity();
+                            break;
+
+                        case "luminosity":
+                            Total += Repo.get(i).Repo.get(j).getLuminosity();
+                            break;
+
+                        case "movement":
+                            Total += Repo.get(i).Repo.get(j).getMovement();
+                            break;
+
+                        case "noise":
+                            Total += Repo.get(i).Repo.get(j).getNoise();
+                            break;
+
+                        case "temperature":
+                            Total += Repo.get(i).Repo.get(j).getTemperature();
+                            break;
+                    }
+                }
+            return Total/amount;
+            }
+        } else{
+            for (int i = 0; i < 7; i++) {
+                amount += Repo.get(i).Repo.size();
+                for (int j = 0; j < Repo.get(i).Repo.size() ; j++) {
+                    switch (dataType){
+                        case "heartbeat":
+                            Total += Repo.get(i).Repo.get(j).getHeartbeat();
+                            break;
+
+                        case "humidity":
+                            Total += Repo.get(i).Repo.get(j).getHumidity();
+                            break;
+
+                        case "luminosity":
+                            Total += Repo.get(i).Repo.get(j).getLuminosity();
+                            break;
+
+                        case "movement":
+                            Total += Repo.get(i).Repo.get(j).getMovement();
+                            break;
+
+                        case "noise":
+                            Total += Repo.get(i).Repo.get(j).getNoise();
+                            break;
+
+                        case "temperature":
+                            Total += Repo.get(i).Repo.get(j).getTemperature();
+                            break;
+                    }
+                }
+            }
+        }
+        return Total/7;
     }
 }

@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+
+import java.util.List;
 
 
 /**
@@ -22,15 +25,16 @@ import com.github.mikephil.charting.charts.LineChart;
 public class FragmentOverall extends Fragment {
 
     private String userid;
+    private LogicandCalc calculator;
+    private SleepLength LastNight;
 
-    private static LineChart movement;
-    private static LogicandCalc calculator;
-    private static SleepLength LastNight;
+    private List<Float> HeartRateData;
+    private List<Float> MovementData;
+    private List<Integer> SleepLengthData;
 
-    private static SleepDataRepo sleepDataRepo = new SleepDataRepo();
+    private List<DataRepo> Repository = LandingPage.Repository;
 
     private OnFragmentInteractionListener mListener;
-    private SleepDataRepo.OnGetDataListener dataListener;
 
     public FragmentOverall() {
         // Required empty public constructor
@@ -61,15 +65,31 @@ public class FragmentOverall extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_overall, container, false);
+        calculator = new LogicandCalc();
+        double averageSleep = 0;
 
-        sleepDataRepo.SleepData(view);
-
-        /*if(sleepDataRepo.GetStatus()){
-            SetLayout(view);
+        if (Repository.size() < 7){
+            for (int i = 0; i < Repository.size(); i++) {
+                averageSleep += Repository.get(i).Repo.size()*2;
+            }
+        } else{
+            for (int i = 0; i < 7; i++) {
+                averageSleep += Repository.get(i).Repo.size()*2;
+            }
         }
-        else {
-            sleepDataRepo.SleepData(view);
-        }*/
+
+        averageSleep = averageSleep/7;
+        double averageHeartrate = calculator.getAverageOfWeek("heartbeat", Repository);
+        double averageMovement = calculator.getAverageOfWeek("movement", Repository);
+
+        TextView HeartRateTxt = view.findViewById(R.id.averageHeartrate);
+        TextView MovementTxt = view.findViewById(R.id.averageMovement);
+        TextView AverageSleepTxt = view.findViewById(R.id.averageSleepLength);
+
+        HeartRateTxt.setText("Your average heartrate is " + averageHeartrate);
+        MovementTxt.setText("Your average movement is " + averageMovement);
+        AverageSleepTxt.setText("Your average sleeplength is " + averageSleep);
+
         return view;
     }
 
