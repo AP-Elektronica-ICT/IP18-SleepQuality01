@@ -210,22 +210,17 @@ public class LandingPage extends AppCompatActivity {
     private List<DataRepo> SortUserData(List<DataRepo> Repo){
         for (int k = 0; k < Repo.size(); k++){
             //Sort all data using init timestamp in DataRepo name
-            Log.d("Kneusjes", "Sorting");
             DataRepo org = Repo.get(k);
             List<Data> temp = new ArrayList<>();
 
             String Date = org.Date;
             String Start = Date.substring(11, 16);
-            Log.d("Kneusjes", "Starting next Repo");
-            Log.d("Kneusjes", String.valueOf(k));
             int StartInt = Calculator.timeStamptoInt(Start);
-            Log.d("Kneusjes", String.valueOf(StartInt));
 
             int dataStart = 0;
 
             for (int j = 0; j < org.Repo.size(); j++){
                 int TestInt = Calculator.timeStamptoInt(org.Repo.get(j).getTimeStamp());
-                Log.d("Kneusjes", String.valueOf(TestInt));
                 if (StartInt == TestInt){
                     dataStart = j;
                     j = org.Repo.size();
