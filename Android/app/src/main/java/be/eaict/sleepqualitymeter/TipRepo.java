@@ -106,4 +106,16 @@ public class TipRepo {
         luminosityTips.add("Unplug unused electronic devices." + System.getProperty("line.separator") + "Many devices have lights to indicate that they’re plugged in, charging, or powered on. These can emit a surprising amount of light in your room, so unplug them when they’re not in use to shut those lights off.");
         return luminosityTips;
     }
+    public List<String> getSleepPatternTips() {
+        List<String> sleepPatternTips = new ArrayList<>();
+        sleepPatternTips.add("Your sleeping schedule is out of sync." + System.getProperty("line.separator") + "Use these tips to help you stay on the same schedule." + System.getProperty("line.separator") + System.getProperty("line.separator"));
+        sleepPatternTips.add("Stick to a Routine." + System.getProperty("line.separator") + "Go to bed at the same time and do the same activities every night before bed. Your body is getting a cue that it's time to fall asleep.");
+        sleepPatternTips.add("Make Mornings Bright." + System.getProperty("line.separator") + "Light tells your body's clock when it's time to wake up. You can help this process. In the morning, turn on bright lights, open the shades, or take a walk in the sunshine. That's a very healthy way to reset your clock.");
+        sleepPatternTips.add("Keep Nights Dark." + System.getProperty("line.separator") +"At night, dim the lights to cue your body that it's time for sleep. Also switch off your screens. E-readers, cellphones, and other devices give off blue light, which makes your brain too alert for sleep.");
+        sleepPatternTips.add("Work Out." + System.getProperty("line.separator") + "Exercise builds muscle and trims fat, and it could improve sleep, too. People who exercise at least 150 minutes a week sleep better at night and feel more alert during the day." + "The timing of your exercise can make a difference. A high-intensity cardio workout late in the day can disrupt sleep. Save your runs and step classes for the morning or afternoon if you find out that an intense workout interferes with your sleep.");
+        sleepPatternTips.add("Watch What -- and When -- You Eat" + System.getProperty("line.separator") + "Sleep isn't the only routine that follows the clock. Your liver, pancreas, and other organs have their own clocks that respond to food. A big late-night meal can throw them out of rhythm. When you eat late, your body also stores more fat and you can put on pounds. Get most of your calories early in the day and then have a light supper. That's for your waistline, and your sleep.");
+        sleepPatternTips.add("Keep Naps Short" + System.getProperty("line.separator") + "An afternoon nap can give you a burst of energy to get through the rest of your day. But if you snooze too long, your body will see the nap as your main sleep time. Then it becomes harder and harder to sleep during the night.");
+        sleepPatternTips.add("Limit Caffeine" + System.getProperty("line.separator") + "The cup of coffee that wakes you up in the morning has the same effect at night. Cut out the colas and coffee entirely, or avoid anything with caffeine for at least 6 hours before bedtime.");
+        return sleepPatternTips;
+    }
 }
