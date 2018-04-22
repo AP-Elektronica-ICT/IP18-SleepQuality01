@@ -7,239 +7,263 @@
     android:layout_height="match_parent"
     android:datePickerMode="spinner"
     android:calendarViewShown="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:background="#d6e7f6"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d6e7f6"
                 android:orientation="vertical"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="8dp">
 
+                <TextView
+                    android:id="@+id/regTxtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textSize="50sp"
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    tools:layout_editor_absoluteX="8dp"
-                    tools:layout_editor_absoluteY="8dp">
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/regTxtTitle"
+                        android:id="@+id/regTxtFirstName"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <EditText
+                        android:id="@+id/regEditFirstName"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/regTxtLastName"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <EditText
+                        android:id="@+id/regEditLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0"
+                        android:ems="10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/regTxtEmail"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <EditText
+                        android:id="@+id/regEditEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0"
+                        android:ems="10"
+                        android:inputType="textEmailAddress" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/regTxtPass"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <EditText
+                        android:id="@+id/regEditPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0"
+                        android:ems="10"
+                        android:inputType="textPassword" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/regTxtCountry"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <ImageView
+                        android:id="@+id/regImgCountry"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0" />
+
+                    <TextView
+                        android:id="@+id/regTxtSelectedCountry"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="4"
                         android:gravity="center"
                         android:text="TextView"
-                        android:textSize="50sp"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtFirstName"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <EditText
-                            android:id="@+id/regEditFirstName"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp"
-                            android:layout_weight="0"
-                            android:ems="10"
-                            android:inputType="textPersonName" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtLastName"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <EditText
-                            android:id="@+id/regEditLastName"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp"
-                            android:layout_weight="0"
-                            android:ems="10" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtEmail"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <EditText
-                            android:id="@+id/regEditEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp"
-                            android:layout_weight="0"
-                            android:ems="10"
-                            android:inputType="textEmailAddress" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtPass"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <EditText
-                            android:id="@+id/regEditPass"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp"
-                            android:layout_weight="0"
-                            android:ems="10"
-                            android:inputType="textPassword" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtCountry"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <ImageView
-                            android:id="@+id/regImgCountry"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:layout_weight="0" />
-
-                        <TextView
-                            android:id="@+id/regTxtSelectedCountry"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="4"
-                            android:gravity="center"
-                            android:text="TextView"
-                            android:textAlignment="textStart" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtAge"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <TextView
-                            android:id="@+id/regTxtAgeSelector"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="70dp"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView"
-                            android:textAlignment="viewStart" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/regTxtWeight"
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="TextView" />
-
-                        <EditText
-                            android:id="@+id/regEditWeight"
-                            android:layout_width="125dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="20dp"
-                            android:layout_weight="0"
-                            android:ems="10"
-                            android:inputType="number" />
-
-                        <TextView
-                            android:id="@+id/regTxtinKG"
-                            android:layout_width="34dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="kg" />
-
-                        <Switch
-                            android:id="@+id/regSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0" />
-
-                        <TextView
-                            android:id="@+id/regTxtinLbs"
-                            android:layout_width="33dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:gravity="center"
-                            android:text="lbs"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/regBtnRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:background="#8ac8df"
-                        android:text="Button" />
+                        android:textAlignment="textStart" />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/regTxtAge"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/regTxtAgeSelector"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="70dp"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView"
+                        android:textAlignment="viewStart" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="Bed time" />
+
+                    <TextView
+                        android:id="@+id/regTxtTimePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="70dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="TextView" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/regTxtWeight"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="TextView" />
+
+                    <EditText
+                        android:id="@+id/regEditWeight"
+                        android:layout_width="125dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="0"
+                        android:ems="10"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/regTxtinKG"
+                        android:layout_width="34dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="kg" />
+
+                    <Switch
+                        android:id="@+id/regSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0" />
+
+                    <TextView
+                        android:id="@+id/regTxtinLbs"
+                        android:layout_width="33dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="lbs"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/regBtnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="#8ac8df"
+                    android:text="Button" />
+
             </LinearLayout>
+
         </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -1,17 +1,22 @@
 package be.eaict.sleepqualitymeter;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +27,8 @@ import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
 
+import java.util.Calendar;
+
 /**
  * Created by CarlV on 2/22/2018.
  */
@@ -31,7 +38,7 @@ public class settings extends AppCompatActivity {
     Boolean switchTemperature, switchLight, switchMeasurement;
     Switch temperature, light, measurement;
     EditText editFirstName, editLastName, editPassword, editWeight;
-    TextView selectCountry;
+    TextView selectCountry, timeSelector;
     CountryPicker picker;
 
     //Firebase
@@ -66,6 +73,7 @@ public class settings extends AppCompatActivity {
         editPassword = findViewById(R.id.setEditPassw);
         editWeight = findViewById(R.id.setEditWeight);
         imgCountry = findViewById(R.id.setImgCountry);
+        timeSelector = findViewById(R.id.setTxtTimePicker);
         Load();
         savebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +99,25 @@ public class settings extends AppCompatActivity {
                 finish();
             }
         });
+        timeSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                        // TODO Auto-generated method stub
+                        Calendar mcurrentTime = Calendar.getInstance();
+                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                        int minute = mcurrentTime.get(Calendar.MINUTE);
+                        TimePickerDialog mTimePicker;
+                        mTimePicker = new TimePickerDialog(settings.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                timeSelector.setText( selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour, minute, true);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
+                    }
+                });
         light.setChecked(switchLight);
         temperature.setChecked(switchTemperature);
         measurement.setChecked(switchMeasurement);
@@ -232,4 +259,5 @@ public class settings extends AppCompatActivity {
         Country tempcountry = Country.getCountryByName(oldcountry);
         imgCountry.setImageResource(tempcountry.getFlag());
     }
+
 }

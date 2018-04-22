@@ -40,8 +40,8 @@ public class login extends AppCompatActivity {
         TextView txtpassword = findViewById(R.id.lgnTxtPassw);
         editemail = findViewById(R.id.lgnEditUsername);
         editpassword = findViewById(R.id.lgnEditPassword);
-        Button btnLogin = findViewById(R.id.lgnBtnLogin);
-        Button btnRegister = findViewById(R.id.lgnBtnRegister);
+        final Button btnLogin = findViewById(R.id.lgnBtnLogin);
+        final Button btnRegister = findViewById(R.id.lgnBtnRegister);
         chbRemember = findViewById(R.id.lgnChbRemember);
 
         mAuth = FirebaseAuth.getInstance();
@@ -57,6 +57,7 @@ public class login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnLogin.setEnabled(false);
                 Save();
                 userLogin();
             }
@@ -64,6 +65,7 @@ public class login extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnRegister.setEnabled(false);
                 Intent intent = new Intent(getBaseContext(), register.class);
                 startActivity(intent);
             }

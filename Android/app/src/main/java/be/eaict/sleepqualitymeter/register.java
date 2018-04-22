@@ -2,6 +2,7 @@ package be.eaict.sleepqualitymeter;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +39,7 @@ import android.support.v4.app.DialogFragment;
 public class register extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
     //Initialization
     String country;
-    TextView selectedCountry;
+    TextView selectedCountry, timeSelector;
     CountryPicker picker;
     EditText editEmail, editPass, editFirstName, editLastName, editWeight;
     TextView ageSelector;
@@ -69,7 +71,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
         selectedCountry = findViewById(R.id.regTxtSelectedCountry);
         ageSelector = findViewById(R.id.regTxtAgeSelector);
         editWeight = findViewById(R.id.regEditWeight);
-
+        timeSelector = findViewById(R.id.regTxtTimePicker);
         Button register = findViewById(R.id.regBtnRegister);
         final Switch regswitch = findViewById(R.id.regSwitch);
         country = "Select country";
@@ -109,6 +111,25 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             public void onClick(View view) {
                   datePicker(view);
            }
+        });
+        timeSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(register.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        timeSelector.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
         });
         register.setText("Register");
         register.setOnClickListener(new View.OnClickListener() {
