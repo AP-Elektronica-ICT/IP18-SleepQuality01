@@ -1,14 +1,22 @@
 package be.eaict.sleepqualitymeter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,8 +39,8 @@ public class FragmentHome extends Fragment {
     User user;
     TextView txtTimeOfDay;
     List<DataRepo> Repository;
-
     private OnFragmentInteractionListener mListener;
+    IssueChecker issueChecker;
 
     public FragmentHome() {
         // Required empty public constructor
@@ -72,8 +80,13 @@ public class FragmentHome extends Fragment {
         txtTimeOfDay.setText(timeOfDay());
         TextView sleepTime = view.findViewById(R.id.sleepTime);
         sleepLength = new SleepLength(Repository.get(Repository.size() - 1).Repo.size());
+        issueChecker = new IssueChecker(Repository.get(Repository.size() - 1));
+        issueChecker.sleepTimeChecker();
+        issueChecker.heartRate();
         sleepTime.setText(calculator.SleepLengthString(sleepLength));
-
+        ListView listview = (ListView) view.findViewById(R.id.fragHomeListView);
+        CustomAdapter customAdapter = new FragmentHome.CustomAdapter();
+        listview.setAdapter(customAdapter);
         return view;
     }
 
@@ -133,4 +146,33 @@ public class FragmentHome extends Fragment {
         }
         return msg;
     }
+    class CustomAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            if(issueChecker.issuecounter != 0) return issueChecker.issuecounter;
+            else return 1;
+        }
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.listview_issues, null);
+            TextView txtissue = view.findViewById(R.id.fragHomeListTxt);
+            if(issueChecker.issuecounter != 0) {
+                final int current = i;
+                txtissue.setText(issueChecker.issuestringlist.get(i));
+            }
+            else txtissue.setText("No issues");
+            return view;
+        }
+    }
 }
+

@@ -89,7 +89,7 @@ public class FragmentProfile extends Fragment {
         txtAvgSleepTime = view.findViewById(R.id.profTxtAvgSleepTime);
         int totaltime = 0;
         for (int i = 0; i < Repository.size(); i++) {
-            totaltime = totaltime + Repository.get(i).Repo.size() * 2;
+            totaltime = totaltime + Repository.get(i).Repo.size();
         }
         SleepLength sleepLength;
         LogicandCalc logicandCalc = new LogicandCalc();

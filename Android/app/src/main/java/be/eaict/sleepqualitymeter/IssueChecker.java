@@ -26,7 +26,7 @@ public class IssueChecker {
 
 
     public void sleepTimeChecker() {
-        int time = repo.Repo.size() * 2;
+        int time = repo.Repo.size();
         SleepLength sleepLength = new SleepLength(time);
         tipRepo.totalsleeptime = repo.Repo.size();
         if(time > 360 && time < 540) {
