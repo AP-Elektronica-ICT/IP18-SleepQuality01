@@ -2,12 +2,8 @@ package be.eaict.sleepqualitymeter;
 
 import android.util.Log;
 import android.graphics.Color;
-import android.media.MediaExtractor;
-import android.util.Log;
-import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 public class IssueChecker {
     DataRepo repo;
@@ -26,10 +22,10 @@ public class IssueChecker {
 
 
     public void sleepTimeChecker() {
-        int time = repo.Repo.size();
-        SleepLength sleepLength = new SleepLength(time);
+        int time = repo.Repo.size() * 2;
+        SleepLength sleepLength = new SleepLength(repo.Repo.size());
         tipRepo.totalsleeptime = repo.Repo.size();
-        if(time > 360 && time < 540) {
+        if(time > 420 && time < 540) {
             sleepQuality = "Good!";
         }
         else if(time <= 420) {

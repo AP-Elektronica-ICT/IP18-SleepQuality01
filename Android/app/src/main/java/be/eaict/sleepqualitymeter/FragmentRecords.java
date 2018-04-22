@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -16,10 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -46,10 +43,7 @@ import java.util.List;
 public class FragmentRecords extends Fragment {
     private OnFragmentInteractionListener mListener;
     private DatabaseReference mDatabaseData;
-    private DatabaseReference mDatabaseDataTotalTime;
     CustomAdapter customAdapter;
-    private List<String> mDates = new ArrayList<>();
-    private List<String> mMinutes = new ArrayList<>();
     ImageButton btnRefresh;
     TextView txtBanner;
     List<DataRepo> Repository;
@@ -100,41 +94,6 @@ public class FragmentRecords extends Fragment {
         customAdapter = new CustomAdapter();
         listview.setAdapter(customAdapter);
         Log.d("Repo", Integer.toString(Repository.size()));
-      /*  FetchData(view, new OnGetDataListener() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String date = postSnapshot.getKey();
-                    mDates.add(date);
-                    mDatabaseDataTotalTime = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(date);
-                    mDatabaseDataTotalTime.addListenerForSingleValueEvent(new ValueEventListener() {
-                        int counter = 0;
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                counter +=2;
-                                Log.d(TAG, Integer.toString(counter));
-                            }
-                            System.out.println("counter" + counter);
-                            mMinutes.add(Integer.toString(counter));
-                            customAdapter.notifyDataSetChanged();
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                }
-                //customAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailed(DatabaseError databaseError) {
-                System.out.println("The Records read failed " + databaseError.getCode());
-            }
-        });
-*/
-
-      //  ArrayAdapter adapter2 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_2, templist);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
@@ -175,7 +134,6 @@ public class FragmentRecords extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                // Do nothing
                                 dialog.dismiss();
                             }
                         });
@@ -186,12 +144,9 @@ public class FragmentRecords extends Fragment {
                     case 1:
                         break;
                 }
-                // false : close the menu; true : not close the menu
                 return false;
             }
         });
-
-// set creator
         listview.setMenuCreator(creator);
         return view;
     }

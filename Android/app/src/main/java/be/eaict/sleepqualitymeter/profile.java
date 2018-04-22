@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 
 public class profile extends AppCompatActivity {
-    String firstName, lastName, email, country, avgSleepTime, userid, birthdate, weight, rawdata_weight;
+    String firstName, lastName, email, country, userid, birthdate, weight, rawdata_weight;
     Boolean measurement;
     TextView txtName, txtAge, txtEmail, txtNationality, txtWeight, txtAvgSleepTime;
     User user;
@@ -33,7 +33,6 @@ public class profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_profile);
         Load();
 
         txtAge = findViewById(R.id.profTxtAge);
@@ -46,7 +45,6 @@ public class profile extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
-        //DockNavigation dockNavigation = new DockNavigation(bottomNavigationView, getBaseContext());
 
         mAuth = FirebaseAuth.getInstance();
         email = mAuth.getCurrentUser().getEmail().toLowerCase();
@@ -62,7 +60,6 @@ public class profile extends AppCompatActivity {
                     System.out.println(user.getEmail());
 
                     if(user.getEmail().equals(email)){
-                        //System.out.println("WOOOOHOOO");
                         userid = user.getId();
                         email = user.getEmail();
                         firstName = user.getFirstname();

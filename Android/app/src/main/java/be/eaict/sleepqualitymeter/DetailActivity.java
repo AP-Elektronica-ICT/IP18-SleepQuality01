@@ -15,7 +15,6 @@ public class DetailActivity extends AppCompatActivity
     BottomBarAdapter pagerAdapter;
     ViewPager viewPager;
     TabLayout tabLayout;
-    TextView temp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

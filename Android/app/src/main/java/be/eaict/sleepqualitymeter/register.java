@@ -1,21 +1,14 @@
 package be.eaict.sleepqualitymeter;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.webkit.ConsoleMessage;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,11 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.CountryPickerListener;
-import android.app.DatePickerDialog;
-import org.w3c.dom.Text;
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import android.support.v4.app.DialogFragment;
 
 /**
@@ -134,7 +124,6 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                 if(regswitch.isChecked()) {
                     Double lbstokg = finalvalue *  0.45359237;
                     weight = lbstokg.intValue();
-                    Log.d("weight", weight.toString());
                 }
                 else {
                     weight = finalvalue;
@@ -209,12 +198,10 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             return;
         }
 
-        //progressBar.setVisibility(View.VISIBLE);
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                //progressBar.setVisibility(View.GONE);
 
                 if(task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "User Registered Succesful", Toast.LENGTH_SHORT).show();

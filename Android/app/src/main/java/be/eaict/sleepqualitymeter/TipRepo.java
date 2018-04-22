@@ -6,7 +6,6 @@ import java.util.List;
 public class TipRepo {
     float maxHeartbeat, maxTemp, maxHumidity, maxLuminosity, maxNoise;
     int totalsleeptime;
-    SleepLength sleepLength = new SleepLength(totalsleeptime);
     LogicandCalc calc = new LogicandCalc();
     public List<String> getHeartbeatTips() {
         List<String> heartBeatTips = new ArrayList<>();
@@ -76,7 +75,7 @@ public class TipRepo {
     }
     public List<String> getTempTips() {
         List<String> tempTips = new ArrayList<>();
-        tempTips.add("The maximum measured temperature in your room this night was: " + Float.toString(maxTemp) + "°C" + System.getProperty("line.separator") + "This is " + String.format("%.1f", maxTemp - 18.5) + "°C too hot." + System.getProperty("line.separator") + "Try to use these tips to lower the temperature in your bedroom");
+        tempTips.add("The maximum measured temperature in your room this night was: " + Float.toString(maxTemp) + "°C" + System.getProperty("line.separator") + "This is " + String.format("%.1f", maxTemp - 18.5) + "°C too warm." + System.getProperty("line.separator") + "Try to use these tips to lower the temperature in your bedroom");
         tempTips.add("Close your blinds/curtains." + System.getProperty("line.separator") + "About 30 percent of unwanted heat comes from windows. Close your window coverings to prevent direct sunlight from heating up the room. If you don’t already have blinds or curtains in the room, invest in some, especially if you have any south or west-facing windows.");
         tempTips.add("Turn off all unnecessary heat-producing devices, appliances and lights" + System.getProperty("line.separator") + "Any device that is powered on is currently contributing to the heat in the room. Unplug or turn off everything you’re not using. Computers and televisions in particular generate a lot of heat.");
         tempTips.add("Pick up the clutter." + System.getProperty("line.separator") + "Piles of clothing and other kinds of clutter absorb heat and keep it trapped in the room. The less clutter you have in the room, the more available space there is for the heat to disperse and the faster it will cool down.");

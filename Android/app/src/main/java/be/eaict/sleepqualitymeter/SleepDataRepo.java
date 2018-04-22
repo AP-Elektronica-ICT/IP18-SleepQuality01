@@ -1,14 +1,6 @@
 package be.eaict.sleepqualitymeter;
 
-import android.icu.text.SymbolTable;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,12 +33,6 @@ public class SleepDataRepo {
     private List<Float> movementList = new ArrayList<>();
     public Float[] movementArray;
 
-    /*private int[] heartbeat;
-    private int[] humidity;
-    private int[] luminosity;
-    private int[] movement;
-    private int[] noise;
-    private int[] temperature;*/
 
     public interface OnGetDataListener {
         public void onSuccess(DataSnapshot dataSnapshot);
@@ -127,10 +113,6 @@ public class SleepDataRepo {
                     data = snapshot.getValue(Data.class);
                     dataList.add(data);
 
-                    /*for (DataSnapshot snapshot2 : dataSnapshot.getChildren()){
-                        data = snapshot2.getValue(Data.class);
-                        dataList.add(data);
-                    }*/
                 }
 
                 for (Data x : dataList){
