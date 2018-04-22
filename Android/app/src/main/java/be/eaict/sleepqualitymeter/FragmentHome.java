@@ -15,8 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +38,10 @@ public class FragmentHome extends Fragment {
 
 
     LogicandCalc calculator = new LogicandCalc();
+    List<Float> Movement;
+    LineChart chartMovement;
+    List<Float> Heartrates;
+    LineChart chartHeartrate;
     SleepLength sleepLength;
     User user;
     TextView txtTimeOfDay;
@@ -87,6 +94,41 @@ public class FragmentHome extends Fragment {
         ListView listview = (ListView) view.findViewById(R.id.fragHomeListView);
         CustomAdapter customAdapter = new FragmentHome.CustomAdapter();
         listview.setAdapter(customAdapter);
+
+        chartMovement = view.findViewById(R.id.movementChart);
+        Movement = calculator.getDataType("movement", Repository.get(0).Repo);
+
+        List<Entry> entries = new ArrayList<>();
+
+        for (int i = 0; i < Movement.size(); i++){
+            int time = i * 2;
+            entries.add(new Entry(time, Movement.get(i)));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Movement");
+
+        LineData lineData = new LineData(dataSet);
+
+
+        chartMovement.setData(lineData);
+        chartMovement.invalidate();
+
+        Heartrates = calculator.getDataType("heartbeat", Repository.get(0).Repo);
+        chartHeartrate = view.findViewById(R.id.heartrateChart);
+
+        entries = new ArrayList<>();
+
+        for (int i = 0; i < Heartrates.size(); i++){
+            int time = i * 2;
+            entries.add(new Entry(time, Heartrates.get(i)));
+        }
+
+        dataSet = new LineDataSet(entries, "Heartrate");
+
+        lineData = new LineData(dataSet);
+        chartHeartrate.setData(lineData);
+        chartHeartrate.invalidate();
+
         return view;
     }
 
