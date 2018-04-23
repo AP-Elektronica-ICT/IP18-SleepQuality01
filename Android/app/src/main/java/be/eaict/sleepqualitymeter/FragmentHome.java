@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.graphics.Color.rgb;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +44,7 @@ public class FragmentHome extends Fragment {
     List<DataRepo> Repository;
     private OnFragmentInteractionListener mListener;
     IssueChecker issueChecker;
+    CharStyler charStyler;
 
     public FragmentHome() {
         // Required empty public constructor
@@ -66,7 +69,7 @@ public class FragmentHome extends Fragment {
         if (getArguments() != null) {
         }
 
-
+        charStyler = new CharStyler();
 
     }
 
@@ -101,12 +104,14 @@ public class FragmentHome extends Fragment {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Movement");
+        charStyler.SetChartColor(dataSet);
 
         LineData lineData = new LineData(dataSet);
 
-
         chartMovement.setData(lineData);
         chartMovement.invalidate();
+
+         charStyler.SetChartLegendColor(chartMovement);
 
         Heartrates = calculator.getDataType("heartbeat", Repository.get(0).Repo);
         chartHeartrate = view.findViewById(R.id.heartrateChart);
@@ -119,10 +124,12 @@ public class FragmentHome extends Fragment {
         }
 
         dataSet = new LineDataSet(entries, "Heartrate");
+        charStyler.SetChartColor(dataSet);
 
         lineData = new LineData(dataSet);
         chartHeartrate.setData(lineData);
         chartHeartrate.invalidate();
+        charStyler.SetChartLegendColor(chartHeartrate);
 
         return view;
     }

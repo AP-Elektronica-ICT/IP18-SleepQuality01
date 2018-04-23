@@ -29,7 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#d6e7f6"
                 android:gravity="center"
                 android:text="TextView"
                 android:textSize="18sp"
@@ -40,15 +39,13 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#d6e7f6"
                 android:src="@android:drawable/ic_menu_rotate" />
         </LinearLayout>
 
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/recListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#d6e7f6">
+            android:layout_height="match_parent">
 
         </com.baoyz.swipemenulistview.SwipeMenuListView>
     </LinearLayout>

@@ -33,6 +33,7 @@ public class FragmentHeartRate extends Fragment {
     List<DataRepo> Repository = new ArrayList<>();
     List<Float> Heartrates;
     LineChart chart;
+    CharStyler charStyler;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,6 +61,8 @@ public class FragmentHeartRate extends Fragment {
         if (getArguments() != null) {
 
         }
+
+        charStyler = new CharStyler();
     }
 
     @Override
@@ -85,9 +88,11 @@ public class FragmentHeartRate extends Fragment {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Heartrate");
+        charStyler.SetChartColor(dataSet);
 
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
+        charStyler.SetChartLegendColor(chart);
         chart.invalidate();
 
         return view;
