@@ -73,10 +73,6 @@ public class IssueChecker {
                 heartRateQuality = "Heartbeat went over 110!";
                 Log.d("CHECKheartbeat", heartRateQuality);
             }
-            else {
-                heartRateQuality = "Good";
-                Log.d("CHECKheartbeat", heartRateQuality);
-            }
             luxvalue = luxvalue + repo.Repo.get(i).getLuminosity();
             humidityvalue =  humidityvalue + repo.Repo.get(i).getHumidity();
             noisevalue = noisevalue + repo.Repo.get(i).getNoise();
@@ -112,7 +108,7 @@ public class IssueChecker {
             if(tempvalues.get(i) >= 19 && temperatureHit == false) {
                 temperatureHit = true;
                 issuecounter++;
-                tempQuality = "It was too hot in your room";
+                tempQuality = "It was too warm in your room";
             }
             if(humidityvalues.get(i) >= 60 && humidityHit == false) {
                 humidityHit = true;
@@ -155,14 +151,6 @@ public class IssueChecker {
             issuestringlist.add(movementQuality);
             tips.add(new Tips(tipRepo.getMovementTips()));
         }
-        Log.d("REPO",Integer.toString(issuestringlist.size()));
-        Log.d("REPOT", Float.toString(maxtemp));
-        Log.d("Repotemp", Float.toString(maxhumidity));
-        Log.d("Repotemp", Float.toString(maxheartbeat));
-        Log.d("Repotemp", Float.toString(maxLum));
-        Log.d("Repotemp", Float.toString(maxheartbeat));
-
-
     }
     public int ColorPicker() {
         int color = 0;
@@ -201,24 +189,20 @@ public class IssueChecker {
             issuestringlist.add("You went to bed too late");
             issuecounter++;
             tips.add(new Tips(tipRepo.getSleepPatternTips()));
-            Log.d("Checker", "FUccct biological clock is behind now");
         } else if((SleepyTime - 45) > hour){
             issuestringlist.add("You went to bed too late");
             issuecounter++;
             tips.add(new Tips(tipRepo.getSleepPatternTips()));
-            Log.d("Checker", "FUccct biological clock is behind now");
         }
 
         if(SleepyTime < hour - 45 && hour >= 45){
             issuestringlist.add("You went to bed too early");
             issuecounter++;
             tips.add(new Tips(tipRepo.getSleepPatternTips()));
-            Log.d("Checker", "Sleeping early sounds like a good idea. But it is not.");
         } else if((SleepyTime + 45) < hour){
             issuestringlist.add("You went to bed too early");
             issuecounter++;
             tips.add(new Tips(tipRepo.getSleepPatternTips()));
-            Log.d("Checker", "Sleeping early sounds like a good idea. But it is not.");
         }
     }
 }

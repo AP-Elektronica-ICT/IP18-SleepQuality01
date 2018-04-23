@@ -72,7 +72,7 @@ public class FragmentDetails extends Fragment {
         SleepLength sleepLength = new SleepLength(repo.get(Date).Repo.size());
         LogicandCalc logicandCalc = new LogicandCalc();
         String date = repo.get(Date).Date.substring(0,10);
-        String time = repo.get(Date).Date.substring(12,16);
+        String time = repo.get(Date).Date.substring(11,16);
         header.setText("Date: " + date + System.getProperty("line.separator") + " Start time:  " + time);
         float tempTemp = 0, tempHum = 0, tempNoise = 0, tempBeat = 0, tempLum = 0;
         for(int i = 0; i < repo.get(Date).Repo.size(); i++) {
