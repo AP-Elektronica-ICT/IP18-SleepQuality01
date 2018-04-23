@@ -75,7 +75,7 @@ public class FragmentHeartRate extends Fragment {
 
         Repository = LandingPage.Repository;
         Date = getActivity().getIntent().getExtras().getInt("date");
-        hrtrate.setText(Repository.get(Date).Date);
+        hrtrate.setText("This screen shows your heartbeat over time.");
         calculator = new LogicandCalc();
 
         Heartrates = calculator.getDataType("heartbeat", Repository.get(Date).Repo);
