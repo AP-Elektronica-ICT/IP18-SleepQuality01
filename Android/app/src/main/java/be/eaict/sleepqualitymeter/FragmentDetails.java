@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,8 +23,10 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class FragmentDetails extends Fragment {
-    TextView temp;
     private OnFragmentInteractionListener mListener;
+    List<DataRepo> repo;
+    TextView header, txtMinBeat, txtMaxBeat, txtAvgBeat, txtAvgTemp, txtAvgHum, txtAvgLum, txtSleepTime;
+    float maxBeat = 0, minBeat = 999, avgBeat = 0, avgTemp = 0, avgHum = 0, avgLum = 0;
     public FragmentDetails() {
         // Required empty public constructor
     }
@@ -50,10 +56,42 @@ public class FragmentDetails extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_details, container, false);
+        header = view.findViewById(R.id.fragDtlHeader);
+        txtMaxBeat = view.findViewById(R.id.fragDtlMaxBeat);
+        txtMinBeat = view.findViewById(R.id.fragDtlMinBeat);
+        txtAvgBeat = view.findViewById(R.id.fragDtlAvgBeat);
+        txtAvgTemp = view.findViewById(R.id.fragDtlAvgTemp);
+        txtAvgHum = view.findViewById(R.id.fragDtlAvgHum);
+        txtAvgLum = view.findViewById(R.id.fragDtlAvgLight);
+        txtSleepTime = view.findViewById(R.id.fragDtlSleepTime);
         int Date = getActivity().getIntent().getExtras().getInt("date");
-
-        temp = view.findViewById(R.id.dtl_txt);
-        temp.setText(LandingPage.Repository.get(Date).Date + "Details");
+        repo = LandingPage.Repository;
+        SleepLength sleepLength = new SleepLength(repo.get(Date).Repo.size());
+        LogicandCalc logicandCalc = new LogicandCalc();
+        String date = repo.get(Date).Date.substring(0,10);
+        String time = repo.get(Date).Date.substring(12,16);
+        header.setText("Date: " + date + System.getProperty("line.separator") + " Start time:  " + time);
+        float tempTemp = 0, tempHum = 0, tempNoise = 0, tempBeat = 0, tempLum = 0;
+        for(int i = 0; i < repo.get(Date).Repo.size(); i++) {
+            if(repo.get(Date).Repo.get(i).getHeartbeat() > maxBeat) maxBeat = repo.get(Date).Repo.get(i).getHeartbeat();
+            if(repo.get(Date).Repo.get(i).getHeartbeat() < minBeat) minBeat = repo.get(Date).Repo.get(i).getHeartbeat();
+            tempTemp = tempTemp + repo.get(Date).Repo.get(i).getTemperature();
+            tempHum = tempHum + repo.get(Date).Repo.get(i).getHumidity();
+            tempNoise = tempNoise + repo.get(Date).Repo.get(i).getNoise();
+            tempLum = tempLum + repo.get(Date).Repo.get(i).getLuminosity();
+            tempBeat = tempBeat + repo.get(Date).Repo.get(i).getHeartbeat();
+        }
+        avgBeat = tempBeat / repo.get(Date).Repo.size();
+        avgHum = tempHum / repo.get(Date).Repo.size();
+        avgLum = tempLum / repo.get(Date).Repo.size();
+        avgTemp = tempTemp / repo.get(Date).Repo.size();
+        txtMaxBeat.setText(String.format("%.2f", maxBeat) + " bpm");
+        txtAvgBeat.setText(String.format("%.2f", avgBeat) + " bpm");
+        txtMinBeat.setText(String.format("%.2f", minBeat) + " bpm");
+        txtAvgLum.setText(String.format("%.2f", avgLum) + " lx");
+        txtAvgTemp.setText(String.format("%.2f", avgTemp) + " °C");
+        txtAvgHum.setText(String.format("%.2f", avgHum) + " %");
+        txtSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
         return view;
 
     }

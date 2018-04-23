@@ -208,7 +208,7 @@ public class FragmentRecords extends Fragment {
                     @Override
                     public void onClick(View view) {
                         new MaterialDialog.Builder(getContext())
-                                .title("Issues")
+                                .title("Issues - Click to learn more")
                                 .items(issueChecker.issuestringlist)
                                 .itemsCallback(new MaterialDialog.ListCallback() {
                                     @Override

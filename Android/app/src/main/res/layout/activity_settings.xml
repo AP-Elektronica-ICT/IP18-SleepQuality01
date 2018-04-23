@@ -155,7 +155,7 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Bed Time" />
+                        android:text="Change Bedtime" />
 
                     <TextView
                         android:id="@+id/setTxtTimePicker"
