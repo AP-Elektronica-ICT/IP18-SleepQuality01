@@ -179,13 +179,21 @@ public class IssueChecker {
 
     public void rhythm() {
         int SleepyTime = logicandCalc.timeStamptoInt(repo.Repo.get(0).getTimeStamp());
-        if(SleepyTime > hour + 45){
+        if(SleepyTime > hour + 45 && hour < 2315){
+            issuecounter++;
+            tips.add(new Tips(tipRepo.getSleepPatternTips()));
+            Log.d("Checker", "FUccct biological clock is behind now");
+        } else if((SleepyTime - 45) < hour){
             issuecounter++;
             tips.add(new Tips(tipRepo.getSleepPatternTips()));
             Log.d("Checker", "FUccct biological clock is behind now");
         }
 
-        if (SleepyTime < hour - 45){
+        if(SleepyTime < hour - 45 && hour >= 45){
+            issuecounter++;
+            tips.add(new Tips(tipRepo.getSleepPatternTips()));
+            Log.d("Checker", "Sleeping early sounds like a good idea. But it is not.");
+        } else if((SleepyTime + 45) < hour){
             issuecounter++;
             tips.add(new Tips(tipRepo.getSleepPatternTips()));
             Log.d("Checker", "Sleeping early sounds like a good idea. But it is not.");
