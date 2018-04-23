@@ -182,6 +182,7 @@ public class FragmentRecords extends Fragment {
             listSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
             issueChecker.sleepTimeChecker();
             issueChecker.heartRate();
+            issueChecker.rhythm();
             listSummary.setText(Integer.toString(issueChecker.issuecounter));
             listSummary.setTextColor(issueChecker.ColorPicker());
             Log.d("Sleep", issueChecker.sleepQuality);
