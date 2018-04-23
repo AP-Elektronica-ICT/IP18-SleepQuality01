@@ -35,6 +35,7 @@ import java.util.Calendar;
 
 public class settings extends AppCompatActivity {
     String firstName, lastName, password, newcountry, oldcountry, weight, email, userID;
+    int newbedtime, oldbedtime;
     Boolean switchTemperature, switchLight, switchMeasurement;
     Switch temperature, light, measurement;
     EditText editFirstName, editLastName, editPassword, editWeight;
@@ -111,6 +112,8 @@ public class settings extends AppCompatActivity {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                                 timeSelector.setText( selectedHour + ":" + selectedMinute);
+                                String temp = Integer.toString(selectedHour) + Integer.toString(selectedMinute);
+                                newbedtime = Integer.parseInt(temp);
                             }
                         }, hour, minute, true);//Yes 24 hour time
                         mTimePicker.setTitle("Select Time");
@@ -186,6 +189,7 @@ public class settings extends AppCompatActivity {
         final String newfirstName = editFirstName.getText().toString();
         final String newlastName = editLastName.getText().toString();
         String newweight = editWeight.getText().toString();
+
         SharedPreferences sp = getSharedPreferences("DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("light", switchLight);
@@ -223,6 +227,11 @@ public class settings extends AppCompatActivity {
             databaseReference.child(userID).child("country").setValue(newcountry);
             user.setCountry(newcountry);
         }
+        if (newbedtime != oldbedtime){
+            databaseReference.child(userID).child("bedtime").setValue(newbedtime);
+            user.setBedtime(newbedtime);
+        }
+
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT);
     }
@@ -237,6 +246,7 @@ public class settings extends AppCompatActivity {
         firstName = user.getFirstname();
         lastName = user.getLastname();
         userID = user.getId();
+        oldbedtime = user.getBedtime();
         editWeight.setText(weight);
         selectCountry.setText(oldcountry);
         editFirstName.setText(firstName);

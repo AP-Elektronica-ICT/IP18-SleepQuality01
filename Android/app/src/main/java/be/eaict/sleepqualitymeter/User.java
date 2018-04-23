@@ -12,10 +12,11 @@ public class User {
     private String country;
     private String weight;
     private String birthdate;
+    private int bedtime;
 
     public User(){}
 
-    public User(String id, String firstname, String lastname, String email, String country, String weight, String birthdate){
+    public User(String id, String firstname, String lastname, String email, String country, String weight, String birthdate, int bedtime){
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -23,43 +24,32 @@ public class User {
         this.country = country;
         this.weight = weight;
         this.birthdate = birthdate;
+        this.bedtime = bedtime;
     }
 
     public String getId() { return id; }
 
-    public String getFirstname() {
-        return firstname;
-    }
+    public String getFirstname() { return firstname; }
 
     public String getLastname() { return lastname; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public String getBirthdate() {
-        return birthdate;
-    }
+    public String getBirthdate() { return birthdate; }
 
-    public String getCountry() {
-        return country;
-    }
+    public String getCountry() { return country; }
 
     public String getWeight() { return weight; }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
+    public int getBedtime() { return bedtime; }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+    public void setWeight(String weight) { this.weight = weight; }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+    public void setCountry(String country) { this.country = country; }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+    public void setFirstname(String firstname) { this.firstname = firstname; }
+
+    public void setLastname(String lastname) { this.lastname = lastname; }
+
+    public void setBedtime(int bedtime) { this.bedtime = bedtime; }
 }
