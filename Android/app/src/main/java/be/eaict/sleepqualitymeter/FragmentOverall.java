@@ -7,11 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineDataSet;
 
+import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,6 +41,10 @@ public class FragmentOverall extends Fragment {
     private List<Float> HeartRateData;
     private List<Float> MovementData;
     private List<Integer> SleepLengthData;
+
+    private BarChart SleeplengthChart;
+    private BarChart HeartrateChart;
+    private BarChart MovementChart;
 
     private List<DataRepo> Repository = LandingPage.Repository;
 
@@ -66,17 +80,72 @@ public class FragmentOverall extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_fragment_overall, container, false);
         calculator = new LogicandCalc();
-        double averageSleep = 0;
+        float averageSleep = 0;
+
+        List<Integer> Sleeprepo = new ArrayList<>();
+        List<Float> averageHeartraterepo = new ArrayList<>();
+        List<Float> averageMovementrepo = new ArrayList<>();
+
+        HeartrateChart = view.findViewById(R.id.Heartchart);
+        MovementChart = view.findViewById(R.id.movementchart);
+        SleeplengthChart = view.findViewById(R.id.Lengthchart);
 
         if (Repository.size() < 7){
             for (int i = 0; i < Repository.size(); i++) {
+                float TotalMovement = 0;
+                float TotalHeartrate = 0;
                 averageSleep += Repository.get(i).Repo.size()*2;
+                int sleepLength = Repository.get(i).Repo.size()*2;
+                for (int j = 0; j < Repository.get(i).Repo.size(); j++) {
+                    TotalHeartrate += Repository.get(i).Repo.get(j).getHeartbeat();
+                    TotalMovement += Repository.get(i).Repo.get(j).getMovement();
+                }
+                averageHeartraterepo.add(TotalHeartrate/Repository.get(i).Repo.size());
+                averageMovementrepo.add(TotalMovement/Repository.get(i).Repo.size());
+                Sleeprepo.add(sleepLength);
             }
         } else{
             for (int i = 0; i < 7; i++) {
                 averageSleep += Repository.get(i).Repo.size()*2;
+                float TotalMovement = 0;
+                float TotalHeartrate = 0;
+                int sleepLength = Repository.get(i).Repo.size()*2;
+                for (int j = 0; j < Repository.get(i).Repo.size(); j++) {
+                    TotalHeartrate += Repository.get(i).Repo.get(j).getHeartbeat();
+                    TotalMovement += Repository.get(i).Repo.get(j).getMovement();
+                }
+                averageHeartraterepo.add(TotalHeartrate/Repository.get(i).Repo.size());
+                averageMovementrepo.add(TotalMovement/Repository.get(i).Repo.size());
+                Sleeprepo.add(sleepLength);
             }
+
         }
+
+        List<BarEntry> SleepEntries = new ArrayList<>();
+        List<BarEntry> MovementEntries = new ArrayList<>();
+        List<BarEntry> HeartEntries = new ArrayList<>();
+
+        for (int i = 0; i < Sleeprepo.size(); i++) {
+            SleepEntries.add(new BarEntry(i, Sleeprepo.get(i)));
+            MovementEntries.add(new BarEntry(i, averageMovementrepo.get(i)));
+            HeartEntries.add(new BarEntry(i, averageHeartraterepo.get(i)));
+        }
+
+        BarDataSet MovementSet = new BarDataSet(MovementEntries, "Movement");
+        BarDataSet SleepSet = new BarDataSet(SleepEntries, "Sleep");
+        BarDataSet HeartSet = new BarDataSet(HeartEntries, "Heartrate");
+
+        BarData MovementData = new BarData(MovementSet);
+        BarData SleepData = new BarData(SleepSet);
+        BarData HeartData = new BarData(HeartSet);
+
+        MovementChart.setData(MovementData);
+        SleeplengthChart.setData(SleepData);
+        HeartrateChart.setData(HeartData);
+
+        MovementChart.invalidate();
+        SleeplengthChart.invalidate();
+        HeartrateChart.invalidate();
 
         averageSleep = averageSleep/7;
         double averageHeartrate = calculator.getAverageOfWeek("heartbeat", Repository);
@@ -89,6 +158,8 @@ public class FragmentOverall extends Fragment {
         HeartRateTxt.setText("Your average heartrate is " + averageHeartrate);
         MovementTxt.setText("Your average movement is " + averageMovement);
         AverageSleepTxt.setText("Your average sleeplength is " + averageSleep);
+
+
 
         return view;
     }
