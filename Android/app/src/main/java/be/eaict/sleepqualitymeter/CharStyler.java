@@ -2,7 +2,9 @@ package be.eaict.sleepqualitymeter;
 
 import android.graphics.Color;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import static android.graphics.Color.rgb;
@@ -19,6 +21,10 @@ public class CharStyler {
         lineDataSet.setDrawCircles(false);
     }
 
+    public void SetBarChartColor(BarDataSet barDataSet){
+        barDataSet.setColor(accentcolor);
+    }
+
     public void SetChartLegendColor(LineChart lineChart){
         lineChart.getXAxis().setTextColor(textcolor);
         lineChart.getLegend().setTextColor(textcolor);
@@ -27,5 +33,15 @@ public class CharStyler {
         lineChart.setDrawGridBackground(true);
         lineChart.setGridBackgroundColor(background);
         lineChart.getDescription().setEnabled(false);
+    }
+
+    public void SetBarChartLegendColor(BarChart barChart){
+        barChart.getXAxis().setTextColor(textcolor);
+        barChart.getLegend().setTextColor(textcolor);
+        barChart.getAxisLeft().setTextColor(textcolor);
+        barChart.getAxisRight().setTextColor(textcolor);
+        barChart.setDrawGridBackground(true);
+        barChart.setGridBackgroundColor(background);
+        barChart.getDescription().setEnabled(false);
     }
 }

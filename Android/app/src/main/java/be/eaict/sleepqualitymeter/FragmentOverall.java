@@ -50,6 +50,8 @@ public class FragmentOverall extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    CharStyler charStyler;
+
     public FragmentOverall() {
         // Required empty public constructor
     }
@@ -72,6 +74,8 @@ public class FragmentOverall extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        charStyler = new CharStyler();
     }
 
     @Override
@@ -135,6 +139,10 @@ public class FragmentOverall extends Fragment {
         BarDataSet SleepSet = new BarDataSet(SleepEntries, "Sleep");
         BarDataSet HeartSet = new BarDataSet(HeartEntries, "Heartrate");
 
+        charStyler.SetBarChartColor(MovementSet);
+        charStyler.SetBarChartColor(SleepSet);
+        charStyler.SetBarChartColor(HeartSet);
+
         BarData MovementData = new BarData(MovementSet);
         BarData SleepData = new BarData(SleepSet);
         BarData HeartData = new BarData(HeartSet);
@@ -142,6 +150,10 @@ public class FragmentOverall extends Fragment {
         MovementChart.setData(MovementData);
         SleeplengthChart.setData(SleepData);
         HeartrateChart.setData(HeartData);
+
+        charStyler.SetBarChartLegendColor(MovementChart);
+        charStyler.SetBarChartLegendColor(SleeplengthChart);
+        charStyler.SetBarChartLegendColor(HeartrateChart);
 
         MovementChart.invalidate();
         SleeplengthChart.invalidate();
