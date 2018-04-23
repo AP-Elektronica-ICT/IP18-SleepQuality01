@@ -253,6 +253,7 @@ public class settings extends AppCompatActivity {
         editLastName.setText(lastName);
         measurement.setChecked(switchMeasurement);
         light.setChecked(switchLight);
+        timeSelector.setText("00:00");
         temperature.setChecked(switchTemperature);
         String rawdata_weight = user.getWeight();
         //Convert KG to pound

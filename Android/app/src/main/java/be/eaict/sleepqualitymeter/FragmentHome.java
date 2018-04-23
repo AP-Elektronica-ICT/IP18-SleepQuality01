@@ -80,11 +80,12 @@ public class FragmentHome extends Fragment {
         user = LandingPage.DefUser;
         txtTimeOfDay.setText(timeOfDay());
         TextView sleepTime = view.findViewById(R.id.sleepTime);
-        sleepLength = new SleepLength(Repository.get(Repository.size() - 1).Repo.size());
-        issueChecker = new IssueChecker(Repository.get(Repository.size() - 1));
+        if(Repository != null) {
+        sleepLength = new SleepLength(Repository.get(0).Repo.size());
+        issueChecker = new IssueChecker(Repository.get(0));
         issueChecker.sleepTimeChecker();
         issueChecker.heartRate();
-        sleepTime.setText(calculator.SleepLengthString(sleepLength));
+        sleepTime.setText(calculator.SleepLengthString(sleepLength)); }
         ListView listview = view.findViewById(R.id.fragHomeListView);
         CustomAdapter customAdapter = new FragmentHome.CustomAdapter();
         listview.setAdapter(customAdapter);

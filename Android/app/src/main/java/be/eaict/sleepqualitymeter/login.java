@@ -25,7 +25,7 @@ public class login extends AppCompatActivity {
     CheckBox chbRemember;
     EditText editemail;
     EditText editpassword;
-
+    Button btnLogin;
     //FireBase
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -40,7 +40,7 @@ public class login extends AppCompatActivity {
         TextView txtpassword = findViewById(R.id.lgnTxtPassw);
         editemail = findViewById(R.id.lgnEditUsername);
         editpassword = findViewById(R.id.lgnEditPassword);
-        final Button btnLogin = findViewById(R.id.lgnBtnLogin);
+        btnLogin = findViewById(R.id.lgnBtnLogin);
         final Button btnRegister = findViewById(R.id.lgnBtnRegister);
         chbRemember = findViewById(R.id.lgnChbRemember);
 
@@ -65,7 +65,6 @@ public class login extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnRegister.setEnabled(false);
                 Intent intent = new Intent(getBaseContext(), register.class);
                 startActivity(intent);
             }
@@ -141,6 +140,7 @@ public class login extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    btnLogin.setEnabled(true);
                 }
             }
         });
