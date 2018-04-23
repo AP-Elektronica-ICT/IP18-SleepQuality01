@@ -50,6 +50,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
     DatabaseReference userDB;
     String userid;
     ImageView imgCountry;
+    int bedtime = 2500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +125,8 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         timeSelector.setText( selectedHour + ":" + selectedMinute);
+                        String temp = Integer.toString(selectedHour) + Integer.toString(selectedMinute);
+                        bedtime = Integer.parseInt(temp);
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -207,6 +210,12 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
             return;
         }
 
+        if(bedtime == 2500){
+            timeSelector.setError("Please choose a bedtime");
+            timeSelector.requestFocus();
+            return;
+        }
+
         if(weight.equals(0)){
             editWeight.setError("Weight is required");
             editWeight.requestFocus();
@@ -234,7 +243,7 @@ public class register extends AppCompatActivity implements DatePickerDialog.OnDa
                     editor.apply();
 
                     userid = userDB.push().getKey();
-                    User user = new User(userid, editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString().toLowerCase(), country, weight.toString(), birthdate);
+                    User user = new User(userid, editFirstName.getText().toString(), editLastName.getText().toString(), editEmail.getText().toString().toLowerCase(), country, weight.toString(), birthdate, bedtime);
 
                     userDB.child(userid).setValue(user);
 

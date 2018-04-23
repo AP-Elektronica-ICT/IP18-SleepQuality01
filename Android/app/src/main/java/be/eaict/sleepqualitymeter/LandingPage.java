@@ -38,6 +38,7 @@ public class LandingPage extends AppCompatActivity {
 
     public static List<DataRepo> Repository;
     private String email, userid, country, rawdata_weight, firstName, lastName, birthdate;
+    int bedtime;
     static User DefUser;
 
     @Override
@@ -119,7 +120,8 @@ public class LandingPage extends AppCompatActivity {
                         country = user.getCountry();
                         rawdata_weight = user.getWeight();
                         birthdate = user.getBirthdate();
-                        DefUser = new User(userid, firstName, lastName, email, country, rawdata_weight, birthdate);
+                        bedtime = user.getBedtime();
+                        DefUser = new User(userid, firstName, lastName, email, country, rawdata_weight, birthdate, bedtime);
                     }
                 }
 
