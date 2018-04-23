@@ -202,7 +202,7 @@ public class FragmentRecords extends Fragment {
                 }
             });
             if(issueChecker.issuecounter != 0) {
-                listSummary.setText(Integer.toString(issueChecker.issuecounter));
+                listSummary.setText(Integer.toString(issueChecker.issuecounter) + " Issues");
                 listSummary.setTextColor(issueChecker.ColorPicker());
                 listSummary.setOnClickListener(new View.OnClickListener() {
                     @Override

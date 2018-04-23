@@ -2,12 +2,14 @@ package be.eaict.sleepqualitymeter;
 
 import android.util.Log;
 import android.graphics.Color;
+
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IssueChecker {
     DataRepo repo;
-    String sleepQuality, heartRateQuality, luxQuality, tempQuality, noiseQuality, humidityQuality;
+    String sleepQuality, heartRateQuality, luxQuality, tempQuality, noiseQuality, humidityQuality, movementQuality;
     float maxheartbeat = 0, maxtemp = 0, maxhumidity = 0, maxLum = 0, maxNoise = 0;
     List<String> issuestringlist = new ArrayList<>();
     List<Tips> tips = new ArrayList<>();
@@ -47,13 +49,14 @@ public class IssueChecker {
         List<Float> humidityvalues = new ArrayList<>();
         List<Float> noisevalues = new ArrayList<>();
         List<Float> tempvalues = new ArrayList<>();
-
-        float luxvalue = 0, humidityvalue = 0, noisevalue = 0, tempvalue = 0;
+        List<Float> movementvalues = new ArrayList<>();
+        float luxvalue = 0, humidityvalue = 0, noisevalue = 0, tempvalue = 0, movementvalue = 0;
         Boolean heartRateHit = false;
         Boolean temperatureHit = false;
         Boolean humidityHit = false;
         Boolean noiseHit = false;
         Boolean luxHit = false;
+        Boolean movementHit = false;
         int timer = 0;
         for(int i = 0; i < repo.Repo.size(); i++) {
             if(repo.Repo.get(i).getHeartbeat() > maxheartbeat) maxheartbeat = repo.Repo.get(i).getHeartbeat();
@@ -75,12 +78,15 @@ public class IssueChecker {
             humidityvalue =  humidityvalue + repo.Repo.get(i).getHumidity();
             noisevalue = noisevalue + repo.Repo.get(i).getNoise();
             tempvalue = tempvalue + repo.Repo.get(i).getTemperature();
+            movementvalue = movementvalue + repo.Repo.get(i).getMovement();
             timer++;
             if(timer == 3) {
                 luxvalues.add(luxvalue / 3);
                 humidityvalues.add(humidityvalue / 3);
                 noisevalues.add(noisevalue / 3);
                 tempvalues.add(tempvalue / 3);
+                movementvalues.add(movementvalue / 3);
+                movementvalue = 0;
                 luxvalue = 0;
                 humidityvalue = 0;
                 noisevalue = 0;
@@ -110,6 +116,11 @@ public class IssueChecker {
                 issuecounter++;
                 humidityQuality = "It was too humid in your room";
             }
+            if(movementvalues.get(i) >= 5 && movementHit == false) {
+                movementHit = true;
+                issuecounter++;
+                movementQuality = "You moved too much during your sleep";
+            }
         }
 
         if(heartRateHit == true){
@@ -136,6 +147,10 @@ public class IssueChecker {
             issuestringlist.add(humidityQuality);
             tipRepo.maxHumidity = maxhumidity;
             tips.add(new Tips(tipRepo.getHumidityTips()));
+        }
+        if(movementHit == true) {
+            issuestringlist.add(movementQuality);
+            tips.add(new Tips(tipRepo.getMovementTips()));
         }
         Log.d("REPO",Integer.toString(issuestringlist.size()));
         Log.d("REPOT", Float.toString(maxtemp));

@@ -99,11 +99,8 @@ public class FragmentHome extends Fragment {
             int time = i * 2;
             entries.add(new Entry(time, Movement.get(i)));
         }
-
         LineDataSet dataSet = new LineDataSet(entries, "Movement");
-
         LineData lineData = new LineData(dataSet);
-
 
         chartMovement.setData(lineData);
         chartMovement.invalidate();
