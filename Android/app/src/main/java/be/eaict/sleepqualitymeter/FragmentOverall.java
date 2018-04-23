@@ -155,9 +155,13 @@ public class FragmentOverall extends Fragment {
         TextView MovementTxt = view.findViewById(R.id.averageMovement);
         TextView AverageSleepTxt = view.findViewById(R.id.averageSleepLength);
 
-        HeartRateTxt.setText("Your average heartrate is " + averageHeartrate);
-        MovementTxt.setText("Your average movement is " + averageMovement);
-        AverageSleepTxt.setText("Your average sleeplength is " + averageSleep);
+        int averageheart = (int) averageHeartrate;
+        int averagemovement = (int) averageMovement;
+        int averagesleep = (int) averageSleep;
+
+        HeartRateTxt.setText("Your average heartrate is " + averageheart + " bpm.");
+        MovementTxt.setText("Your average movement is " + averagemovement);
+        AverageSleepTxt.setText("Your average sleeplength is " + averagesleep + " mins.");
 
 
 

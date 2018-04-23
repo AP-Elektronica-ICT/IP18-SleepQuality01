@@ -134,6 +134,6 @@ public class LogicandCalc {
                 }
             }
         }
-        return Total/7;
+        return Total/amount;
     }
 }

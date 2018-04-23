@@ -32,6 +32,7 @@ public class FragmentMovement extends Fragment {
     LogicandCalc Calculator = new LogicandCalc();
     LineChart chart;
     private OnFragmentInteractionListener mListener;
+    CharStyler charStyler;
 
     public FragmentMovement() {
         // Required empty public constructor
@@ -55,6 +56,7 @@ public class FragmentMovement extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+        charStyler = new CharStyler();
     }
 
     @Override
@@ -75,9 +77,11 @@ public class FragmentMovement extends Fragment {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Movement");
+        charStyler.SetChartColor(dataSet);
 
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
+        charStyler.SetChartLegendColor(chart);
         chart.invalidate();
 
         return view;

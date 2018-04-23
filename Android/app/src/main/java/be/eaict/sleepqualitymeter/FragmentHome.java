@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.graphics.Color.rgb;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +44,7 @@ public class FragmentHome extends Fragment {
     List<DataRepo> Repository;
     private OnFragmentInteractionListener mListener;
     IssueChecker issueChecker;
+    CharStyler charStyler;
 
     public FragmentHome() {
         // Required empty public constructor
@@ -66,7 +69,7 @@ public class FragmentHome extends Fragment {
         if (getArguments() != null) {
         }
 
-
+        charStyler = new CharStyler();
 
     }
 
@@ -100,10 +103,13 @@ public class FragmentHome extends Fragment {
             entries.add(new Entry(time, Movement.get(i)));
         }
         LineDataSet dataSet = new LineDataSet(entries, "Movement");
+        charStyler.SetChartColor(dataSet);
         LineData lineData = new LineData(dataSet);
 
         chartMovement.setData(lineData);
         chartMovement.invalidate();
+
+         charStyler.SetChartLegendColor(chartMovement);
 
         Heartrates = calculator.getDataType("heartbeat", Repository.get(0).Repo);
         chartHeartrate = view.findViewById(R.id.heartrateChart);
@@ -116,10 +122,12 @@ public class FragmentHome extends Fragment {
         }
 
         dataSet = new LineDataSet(entries, "Heartrate");
+        charStyler.SetChartColor(dataSet);
 
         lineData = new LineData(dataSet);
         chartHeartrate.setData(lineData);
         chartHeartrate.invalidate();
+        charStyler.SetChartLegendColor(chartHeartrate);
 
         return view;
     }
@@ -169,14 +177,14 @@ public class FragmentHome extends Fragment {
         if(timeOfDay >= 6 && timeOfDay < 12){
             msg = "Hope you had a good sleep, " + user.getFirstname() + " " + user.getLastname();
         }else if(timeOfDay >= 12 && timeOfDay < 16){
-            msg = "Good Afternoon " + user.getFirstname() + " " + user.getLastname();
+            msg = "Good Afternoon, " + user.getFirstname() + " " + user.getLastname();
         }else if(timeOfDay >= 16 && timeOfDay < 21){
-           msg = "Good Evening " + user.getFirstname() + " " + user.getLastname();
+           msg = "Good Evening, " + user.getFirstname() + " " + user.getLastname();
         }else if(timeOfDay >= 21 && timeOfDay < 24){
             msg = "Bedtime, " + user.getFirstname() + " " + user.getLastname() + "?";
         }
         else if(timeOfDay >= 0 && timeOfDay < 6) {
-            msg = "Good Night " + user.getFirstname() + " " + user.getLastname();
+            msg = "Good Night, " + user.getFirstname() + " " + user.getLastname();
         }
         return msg;
     }

@@ -27,6 +27,7 @@ public class FragmentDetails extends Fragment {
     List<DataRepo> repo;
     TextView header, txtMinBeat, txtMaxBeat, txtAvgBeat, txtAvgTemp, txtAvgHum, txtAvgLum, txtSleepTime;
     float maxBeat = 0, minBeat = 999, avgBeat = 0, avgTemp = 0, avgHum = 0, avgLum = 0;
+    CharStyler charStyler;
     public FragmentDetails() {
         // Required empty public constructor
     }
@@ -49,6 +50,8 @@ public class FragmentDetails extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        charStyler = new CharStyler();
     }
 
     @Override

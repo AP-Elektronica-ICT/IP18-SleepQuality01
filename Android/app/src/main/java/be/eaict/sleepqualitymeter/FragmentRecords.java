@@ -177,11 +177,12 @@ public class FragmentRecords extends Fragment {
             listSleepTime = view.findViewById(R.id.recListTime);
             TextView listSummary = view.findViewById(R.id.recListSummary);
             String date = Repository.get(i).Date.substring(0,10);
-            String time = Repository.get(i).Date.substring(12,16);
+            String time = Repository.get(i).Date.substring(11,16);
             listDate.setText(date + System.getProperty("line.separator") + time);
             listSleepTime.setText(logicandCalc.SleepLengthString(sleepLength));
             issueChecker.sleepTimeChecker();
             issueChecker.heartRate();
+            issueChecker.rhythm();
             listSummary.setText(Integer.toString(issueChecker.issuecounter));
             listSummary.setTextColor(issueChecker.ColorPicker());
             Log.d("Sleep", issueChecker.sleepQuality);

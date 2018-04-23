@@ -37,6 +37,8 @@ public class FragmentRoom extends Fragment {
     LineChart humiditychart;
     LineChart temperaturechart;
     LogicandCalc calculator;
+    CharStyler charStyler;
+
     private OnFragmentInteractionListener mListener;
 
     public FragmentRoom() {
@@ -61,6 +63,7 @@ public class FragmentRoom extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+        charStyler = new CharStyler();
     }
 
     @Override
@@ -98,21 +101,29 @@ public class FragmentRoom extends Fragment {
         LineDataSet dataSetHumidity = new LineDataSet(entriesHumidity, "Humidity");
         LineDataSet dataSetTemperature = new LineDataSet(entriesTemperature, "Temperature");
 
+        charStyler.SetChartColor(dataSetNoise);
+        charStyler.SetChartColor(dataSetLuminosity);
+        charStyler.SetChartColor(dataSetHumidity);
+        charStyler.SetChartColor(dataSetTemperature);
 
         LineData lineDataNoise = new LineData(dataSetNoise);
         noisechart.setData(lineDataNoise);
+        charStyler.SetChartLegendColor(noisechart);
         noisechart.invalidate();
 
         LineData lineDataLuminosity = new LineData(dataSetLuminosity);
         luminositychart.setData(lineDataLuminosity);
+        charStyler.SetChartLegendColor(luminositychart);
         luminositychart.invalidate();
 
         LineData lineDataHumidity = new LineData(dataSetHumidity);
         humiditychart.setData(lineDataHumidity);
+        charStyler.SetChartLegendColor(humiditychart);
         humiditychart.invalidate();
 
         LineData lineDataTemperature = new LineData(dataSetTemperature);
         temperaturechart.setData(lineDataTemperature);
+        charStyler.SetChartLegendColor(temperaturechart);
         temperaturechart.invalidate();
 
         return view;
