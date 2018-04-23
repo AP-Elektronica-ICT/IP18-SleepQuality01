@@ -12,7 +12,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d6e7f6"
                 android:orientation="vertical"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="8dp">
@@ -313,7 +312,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:background="#8ac8df"
                         android:text="Save" />
 
                     <Button
@@ -323,7 +321,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="#8ac8df"
                         android:text="Discard" />
                 </LinearLayout>
 

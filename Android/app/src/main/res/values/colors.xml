@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="accent_material_dark_1">#36837c</color>
-    <color name="accent_material_dark">#ced0d5</color>
+    <color name="accent_material_dark">#ba5005</color>
     <color name="accent_material_dark_2">#c4cbe5</color>
+    <color name="colorNavBar">#ba5005</color>
+    <color name="graphbackgroundcolor">#e8e8e8</color>
+    <color name="background_material_dark">#595959</color>
+    <color name="background_material_dark_1">#5b5b5b</color>
 </resources>

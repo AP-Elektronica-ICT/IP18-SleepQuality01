@@ -1,5 +1,6 @@
 package be.eaict.sleepqualitymeter;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;

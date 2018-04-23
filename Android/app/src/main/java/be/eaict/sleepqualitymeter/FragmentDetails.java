@@ -21,6 +21,8 @@ import android.widget.TextView;
 public class FragmentDetails extends Fragment {
     TextView temp;
     private OnFragmentInteractionListener mListener;
+    CharStyler charStyler;
+
     public FragmentDetails() {
         // Required empty public constructor
     }
@@ -43,6 +45,8 @@ public class FragmentDetails extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        charStyler = new CharStyler();
     }
 
     @Override
