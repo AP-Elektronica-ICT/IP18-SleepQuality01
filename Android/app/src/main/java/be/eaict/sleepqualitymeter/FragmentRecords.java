@@ -86,9 +86,7 @@ public class FragmentRecords extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), LandingPage.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                Refresh();
             }
         });
         customAdapter = new CustomAdapter();
@@ -126,6 +124,8 @@ public class FragmentRecords extends Fragment {
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Data").child("-L75G-qGHaNEBznfXHVs").child(Repository.get(pos).Date);
                                 Repository.remove(pos);
                                 ref.removeValue();
+
+                                Refresh();
                             }
                         });
 
@@ -291,6 +291,12 @@ public class FragmentRecords extends Fragment {
                 listener.onFailed(databaseError);
             }
         });
+    }
+
+    public void Refresh(){
+        Intent intent = new Intent(getContext(), LandingPage.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     public interface OnGetDataListener {
